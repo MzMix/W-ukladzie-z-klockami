@@ -9,17 +9,14 @@ function preload() {
 function insertData() {
 	let title = data.title;
 	let name = data.name;
-	let fot = data.footer;
 	let ver = data.version;
 	let date = data.date;
 
-	let footer = fot.replace("#wersja", ver)
-	footer = fot.replace("#data", date)
+	let footer = `Wersja: ${ver} z dnia: ${date}`
 
 	select('.header').html(title);
 	select('.name').html(name);
 	select('.footer').html(footer);
-
 }
 
 function errorMsg() {
