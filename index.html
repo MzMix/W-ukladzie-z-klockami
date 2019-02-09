@@ -11,84 +11,15 @@
 
 	<link rel="stylesheet" href="main.css">
 
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-
-
-	<!--[if lt IE 9]>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-	<![endif]-->
 
 </head>
 
 <body>
+	<div class="header">Klockiem w matematykę!</div>
+	<div class="name">W układzie z klockami...</div>
 
-	<main>
-
-		<div class="header">Klockiem w matematykę!</div>
-		<div class="name">W układzie z klockami...</div>
-
-		<article>
-
-			<div class="container">
-
-				<div class="aside">
-
-					<div class="kit"></div>
-
-					<div class="menu">
-
-						<div class="view">BRAK <br /> KOLORU</div>
-
-						<div class="white o_menu" onclick="pick(10)">GUMKA</div>
-
-						<div class="reset o_menu" onclick="print()">reset</div>
-										
-						<div class="o_menu" id="info">Wersja: 9.6 z dnia: 19.01.2019</div>
-					</div>
-
-				</div>
-
-				<div class="board"></div>
-
-				<div class="menu">
-
-					<div class="mirror">
-
-						<p>Rysowanie symetryczne:</p>
-
-						<div class="o_menu" onclick="symetria = true; axis='x'; c_axis('x');">względem osi Y</div>
-
-						<div class="o_menu" onclick="symetria = true; axis='y'; c_axis('y');">względem osi X</div>
-
-						<div class="o_menu" onclick="symetria = false;c_axis('c');">RESET OSI</div>
-
-						<div class="o_menu" id="answer">BRAK WYBRANEJ OSI</div>
-
-						<p>Plansza:</p>
-
-						<div class="o_menu" onclick="colorIndex()">Opis pól</div>
-						
-						<div class="o_menu" onclick="show_axis()">pokaż osie</div>
-
-						<div class="o_menu" onclick="number()">numeruj</div>
-
-						<div class="o_menu" onclick="ad()">adresuj</div>
-
-					</div>
-
-
-				</div>
-
-			</div>
-
-		</article>
-
-
-
-	</main>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="main.js"></script>
+	<script src="sketch.js"></script>
 
 </body>
 
