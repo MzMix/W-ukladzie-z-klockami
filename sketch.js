@@ -8,7 +8,7 @@ class Segment {
     display() {
         push();
         translate(this.pos.x, this.pos.y);
-        fill('#efefef');
+        fill('#C0C0C0');
         stroke('blue');
         rect(0, 0, this.dim.w, this.dim.h)
 
@@ -26,10 +26,9 @@ class Segment {
 }
 
 const projectData = {
-    cWidth: 401,
-    cHeight: 401,
-    size: 40,
-    segN: 10
+    size: 55,
+    segN: 10,
+    colors: ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange']
 }
 
 function createBoard() {
@@ -59,10 +58,31 @@ function createBoard() {
 
 }
 
+function createPalette() {
+
+    projectData['palette'] = []
+
+    for (let col of projectData.colors) {
+
+        let div = createDiv();
+        div.addClass('paletteBtn');
+        div.style('background-color', col);
+        select(".palette").child(div);
+        projectData.palette.push(div);
+    }
+
+}
+
+function createOptions() {
+    projectData['axis'] = true;
+}
+
 function setup() {
-    let c = createCanvas(projectData.cWidth, projectData.cHeight);
+    let c = createCanvas(projectData.size * projectData.segN + 1, projectData.size * projectData.segN + 1);
     select(".box").child(c);
+    createPalette();
     createBoard();
+    createOptions();
     noLoop();
 }
 
@@ -73,6 +93,14 @@ function draw() {
         for (let s of projectData.segments) {
             s.display();
         }
+    }
+
+    if (projectData.axis) {
+        stroke('red');
+        strokeWeight(3);
+        strokeCap(SQUARE);
+        line(0, height / 2, width, height / 2);
+        line(width / 2, 0, width / 2, height);
     }
 
 }
