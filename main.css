@@ -20,6 +20,12 @@ body {
                                 supported by Chrome and Opera */
 }
 
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
 .header {
 	width: 100%;
 	background-color: #2F2FA2;
@@ -64,6 +70,28 @@ body {
 	min-width: 400px;
 	min-height: 400px;
 	text-align: center;
+	display: inline-block;
+}
+
+.indexUP,
+.indexBottom {
+	width: 100%;
+}
+
+.indexLEFT,
+.indexRIGHT {
+	height: 100%;
+	max-width: 55px;
+	display: inline-block;
+	/* float: left; */
+}
+
+canvas {
+	display: inline-block;
+	/* float: left; */
+}
+
+.indexDiv {
 	display: inline-block;
 }
 
