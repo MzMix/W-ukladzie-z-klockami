@@ -20,12 +20,6 @@ body {
                                 supported by Chrome and Opera */
 }
 
-* {
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
-
 .header {
 	width: 100%;
 	background-color: #2F2FA2;
@@ -43,7 +37,7 @@ body {
 
 .palette {
 	max-width: 150px;
-	max-height: 350px;
+	max-height: 390px;
 	display: inline-block;
 	vertical-align: top;
 	background-color: rgba(246, 76, 113, 0.589);
@@ -58,7 +52,10 @@ body {
 	padding: 5px;
 	margin: 5px;
 	border: 1px solid #2F2FA2;
-	border-radius: 10%;
+	border-radius: 100%;
+	color: white;
+	text-align: center;
+	padding-top: 14px;
 }
 
 .paletteBtn:hover {
@@ -73,34 +70,12 @@ body {
 	display: inline-block;
 }
 
-.indexUP,
-.indexBottom {
-	width: 100%;
-}
-
-.indexLEFT,
-.indexRIGHT {
-	height: 100%;
-	max-width: 55px;
-	display: inline-block;
-	/* float: left; */
-}
-
-canvas {
-	display: inline-block;
-	/* float: left; */
-}
-
-.indexDiv {
-	display: inline-block;
-}
-
 .options {
-	width: 200px;
-	min-height: 50px;
+	width: 150px;
+	height: 350px;
 	display: inline-block;
 	vertical-align: top;
-	background-color: aqua;
+	background-color: aliceblue;
 }
 
 .name {

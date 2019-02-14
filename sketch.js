@@ -1,16 +1,40 @@
 class Segment {
-    constructor(pos, kartPos, dim) {
+    constructor(pos, dim, iJ, kartPos, index) {
         this.pos = pos;
-        this.kartPosim = kartPos;
         this.dim = dim;
+        this.kartPosim = kartPos;
+        this.index = index;
+        this.iJ = iJ;
+        this.fill = color('#C0C0C0');
+        this.stroke = color(255, 255, 255, 125);
     }
 
     display() {
         push();
         translate(this.pos.x, this.pos.y);
-        fill('#C0C0C0');
-        stroke('blue');
-        rect(0, 0, this.dim.w, this.dim.h)
+        fill(this.fill);
+        stroke(this.stroke);
+
+        let r = 2;
+        if (this.index) r = 10;
+
+        rect(0, 0, this.dim.w, this.dim.h, r)
+
+        if (this.index) {
+
+            let txt = this.iJ.i
+
+            if (this.iJ.i == 0 || this.iJ.i == 11) {
+                txt = projectData.litery[this.iJ.j - 1];
+            }
+
+            textSize(15);
+            fill(255);
+            stroke(255);
+            textAlign(CENTER, CENTER)
+            strokeWeight(0);
+            text(txt, 2, 2, this.dim.w, this.dim.h);
+        }
 
         pop();
     }
@@ -27,13 +51,6 @@ class Segment {
 
 class Gui {
 
-    constructor() {
-        projectData['indexes'] = [];
-        let w = projectData.size * projectData.segN + 1 + 2 * projectData.size + 50;
-        select('.box').style('width', `${w}px`);
-
-    }
-
     createOptions() {
         projectData['axis'] = true;
 
@@ -47,9 +64,13 @@ class Gui {
         for (let col of projectData.colors) {
 
             let div = createDiv();
+
+            if (col == '#C0C0C0') {
+                div.html('G');
+            }
             div.addClass('paletteBtn');
             div.style('background-color', col);
-            div.attribute("onclick", "pick(this)");
+            div.attribute("onclick", `pick('${col}')`);
             select(".palette").child(div);
             projectData.palette.push(div);
         }
@@ -57,26 +78,10 @@ class Gui {
         return this;
     }
 
-    generateindexes(val) {
-        for (let i = 0; i < projectData.segN; i++) {
-            let div = createDiv();
-            div.addClass('indexDiv');
-            div.style('background-color', projectData.colors[i]);
-            div.style('width', `${projectData.size}px`);
-            div.style('height', `${projectData.size}px`);
-            select(".index" + val).child(div);
-            projectData.indexes.push(div);
-        }
-    }
-
     createBox() {
-        // this.generateindexes('UP');
-        this.generateindexes('LEFT');
-        projectData['canva'] = createCanvas(projectData.size * projectData.segN + 1, projectData.size * projectData.segN + 1);
-        select(".canvasBox").child(projectData.canva);
-        this.generateindexes('RIGHT');
-        // this.generateindexes('BOTTOM');
-
+        let s = projectData.size * (projectData.segN + 2) + 11 * projectData.spacer + 1;
+        projectData['canva'] = createCanvas(s, s);
+        select(".box").child(projectData.canva);
 
         return this;
     }
@@ -84,17 +89,15 @@ class Gui {
     createBoard() {
         projectData['segments'] = [];
 
-        for (let j = projectData.segN / -2; j < projectData.segN / 2; j++) {
-            for (let i = projectData.segN / -2; i < projectData.segN / 2; i++) {
+        let jTrack = projectData.segN / -2;
+        let iTrack = projectData.segN / -2;
+
+        for (let j = 0; j < projectData.segN + 2; j++) {
+            for (let i = 0; i < projectData.segN + 2; i++) {
 
                 let pos = {
-                    x: (j + projectData.segN / 2) * projectData.size,
-                    y: (i + projectData.segN / 2) * projectData.size
-                }
-
-                let kartPos = {
-                    x: j,
-                    y: i
+                    x: j * projectData.size + projectData.spacer * j,
+                    y: i * projectData.size + projectData.spacer * i
                 }
 
                 let dim = {
@@ -102,7 +105,30 @@ class Gui {
                     h: projectData.size
                 }
 
-                projectData.segments.push(new Segment(pos, kartPos, dim));
+                let iJ = {
+                    i: i,
+                    j: j
+                }
+
+                if (((j == 0 || j == projectData.segN + 1) && i > 0 && i < projectData.segN + 1) ||
+                    ((i == 0 || i == projectData.segN + 1) && j > 0 && j < projectData.segN + 1)) {
+                    let s = new Segment(pos, dim, iJ, undefined, true);
+                    s.fill = '#F64C72';
+                    s.stroke = 'pink';
+                    projectData.segments.push(s);
+                } else if (j != 0 && j != projectData.segN + 1) {
+
+                    let kartPos = {
+                        x: jTrack,
+                        y: iTrack
+                    }
+
+                    projectData.segments.push(new Segment(pos, dim, iJ, kartPos, false));
+
+                    jTrack++;
+                    iTrack++;
+                }
+
             }
         }
 
@@ -112,24 +138,27 @@ class Gui {
 }
 
 const projectData = {
-    size: 55,
+    size: 40,
     segN: 10,
-    colors: ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange']
+    colors: ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'],
+    litery: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+    spacer: 7,
+    picekedColor: '#C0C0C0'
 }
 
-function pick(element) {
-    print(element);
+function pick(color) {
+    projectData.picekedColor = color;
 }
 
 function setup() {
     projectData['gui'] = new Gui();
     projectData.gui.createPalette().createBox().createBoard().createOptions();
 
-    noLoop();
+    // noLoop();
 }
 
 function draw() {
-    background(255);
+    background(color('#553D67'));
 
     if (projectData.segments) {
         for (let s of projectData.segments) {
@@ -138,10 +167,21 @@ function draw() {
     }
 
     if (projectData.axis) {
-        stroke('red');
+        push();
+        translate(-1 / 2, -1 / 2);
+        stroke('yellow');
         strokeWeight(3);
-        strokeCap(SQUARE);
         line(0, height / 2, width, height / 2);
         line(width / 2, 0, width / 2, height);
+        pop();
+    }
+}
+
+function mouseClicked() {
+    for (s of projectData.segments) {
+        if (s.checkPointing() && !s.index) {
+            s.fill = projectData.picekedColor;
+            redraw();
+        }
     }
 }
