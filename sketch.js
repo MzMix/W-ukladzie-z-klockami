@@ -2,7 +2,7 @@ class Segment {
     constructor(pos, dim, iJ, kartPos, index) {
         this.pos = pos;
         this.dim = dim;
-        this.kartPosim = kartPos;
+        this.kartPos = kartPos;
         this.index = index;
         this.iJ = iJ;
         this.fill = color('#C0C0C0');
@@ -52,7 +52,13 @@ class Segment {
 class Gui {
 
     createOptions() {
-        projectData['axis'] = true;
+        projectData['axis'] = false;
+        projectData['controls'] = [];
+
+        let axCheck = createCheckbox('Osie', false);
+        axCheck.changed(this.axFlip);
+        select('.options').child(axCheck);
+        projectData.controls.push(axCheck);
 
         return this;
     }
@@ -124,15 +130,17 @@ class Gui {
                     }
 
                     projectData.segments.push(new Segment(pos, dim, iJ, kartPos, false));
-
-                    jTrack++;
-                    iTrack++;
                 }
-
+                iTrack++;
             }
+            jTrack++;
         }
 
         return this;
+    }
+
+    axFlip() {
+        projectData.axis = this.checked();
     }
 
 }
@@ -153,8 +161,6 @@ function pick(color) {
 function setup() {
     projectData['gui'] = new Gui();
     projectData.gui.createPalette().createBox().createBoard().createOptions();
-
-    // noLoop();
 }
 
 function draw() {
@@ -181,7 +187,7 @@ function mouseClicked() {
     for (s of projectData.segments) {
         if (s.checkPointing() && !s.index) {
             s.fill = projectData.picekedColor;
-            redraw();
+            print(s.kartPos);
         }
     }
 }

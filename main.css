@@ -35,11 +35,14 @@ body {
 	text-align: center;
 }
 
-.palette {
+.palette,
+.options {
 	max-width: 150px;
 	max-height: 390px;
+	margin: 0px 15px;
 	display: inline-block;
 	vertical-align: top;
+	box-sizing: border-box;
 	background-color: rgba(246, 76, 113, 0.589);
 	border-radius: 20%;
 }
@@ -75,7 +78,8 @@ body {
 	height: 350px;
 	display: inline-block;
 	vertical-align: top;
-	background-color: aliceblue;
+	padding: 15px;
+	color: white;
 }
 
 .name {
