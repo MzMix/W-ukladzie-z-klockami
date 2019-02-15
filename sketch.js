@@ -157,7 +157,7 @@ class Gui {
     }
 
     createBox() {
-        let s = projectData.size * (projectData.segN + 2) + 11 * projectData.spacer + 1;
+        let s = projectData.size * (projectData.segN + 2) + 11 * projectData.spacer + 2;
         projectData['canva'] = createCanvas(s, s);
         select(".box").child(projectData.canva);
 
@@ -166,9 +166,6 @@ class Gui {
 
     createBoard() {
         projectData['segments'] = [];
-
-        // let jTrack = projectData.segN / -2;
-        // let iTrack = projectData.segN / -2;
 
         for (let j = 0; j < projectData.segN + 2; j++) {
             for (let i = 0; i < projectData.segN + 2; i++) {
@@ -201,11 +198,8 @@ class Gui {
                     projectData.segments.push(s);
                 } else if (j != 0 && j != projectData.segN + 1) {
                     projectData.segments.push(new Segment(pos, dim, iJ, kartPos, false));
-                    // iTrack++;
                 }
-                // iTrack++;
             }
-            // jTrack++;
         }
 
         return this;
@@ -232,6 +226,24 @@ class Gui {
             }
         }
     }
+
+    // colorindex() {
+    //     let ind = 0;
+    //     for (let j = 0; j < projectData.segN + 2; j++) {
+    //         for (let i = 0; i < projectData.segN + 2; i++) {
+    //             if (projectData.segments[ind].index) {
+
+    //                 if ((j == 0 || j == projectData.segN + 1) && i > 0 && i < projectData.segN + 1) {
+    //                     projectData.segments[ind].fill = projectData.colors[j];
+    //                 }
+    //                 if ((i == 0 || i == projectData.segN + 1) && j > 0 && j < projectData.segN + 1) {
+    //                     projectData.segments[ind].fill = projectData.colors[i];
+    //                 }
+    //             }
+    //             ind++;
+    //         }
+    //     }
+    // }
 
 }
 
