@@ -37,7 +37,7 @@ body {
 
 .palette,
 .options {
-	max-width: 150px;
+	max-width: 170px;
 	max-height: 390px;
 	margin: 0px 15px;
 	display: inline-block;
@@ -66,15 +66,23 @@ body {
 	opacity: 0.9;
 }
 
+.spacer {
+	padding: 10px;
+	margin: 10px 0;
+	border-top: 1px dashed #efefef;
+	border-bottom: 1px dashed #efefef;
+}
+
 .box {
 	min-width: 400px;
 	min-height: 400px;
+	margin: 5px;
 	text-align: center;
 	display: inline-block;
 }
 
 .options {
-	width: 150px;
+	min-width: 50px;
 	height: 350px;
 	display: inline-block;
 	vertical-align: top;
