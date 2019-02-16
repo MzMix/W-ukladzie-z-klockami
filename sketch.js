@@ -96,6 +96,21 @@ class Segment {
 
 class Gui {
 
+    createModal() {
+        let modal = createDiv();
+        select('body').child(modal);
+        modal.addClass('modal');
+        modal.id('modal1');
+
+        modal.html('<div class="modal-content"><span class="close" id="closeBtn">&times;</span><h1>Opcje:</h1></div>');
+
+        select('#closeBtn').mouseClicked(() => {
+            select('#modal1').style('display', "none");
+        });
+
+        return this;
+    }
+
     generateOption(destination, dataStorage, spacerName, inputType, inputName, fxn, atr) {
         let spacer, input;
 
@@ -106,7 +121,7 @@ class Gui {
         if (spacerName) {
             spacer = createDiv(spacerName);
             spacer.addClass('spacer');
-            select(`.${destination}`).child(spacer);
+            select(destination).child(spacer);
         }
 
         if (inputType == 'checkbox') {
@@ -126,16 +141,40 @@ class Gui {
         }
 
         projectData[dataStorage].push(input);
-        select(`.${destination}`).child(input);
+        select(destination).child(input);
+    }
+
+    createModalSection(name) {
+        let section = createDiv();
+        section.addClass('modalContentSection');
+        section.id(name);
+        select(".modal-content").child(section);
+
+        return `#${name}`;
     }
 
     createOptions() {
-        this.generateOption("o1", "axles", "Osie układu:", 'checkbox', "Osie", this.axFlip);
-        this.generateOption("o1", 'symCh', "Symetria:", 'checkbox', "Symetria - oś X", this.symetry, 'projectData.symX *= -1');
-        this.generateOption("o1", "symCh", undefined, 'checkbox', "Symetria - oś Y", this.symetry, 'projectData.symY *= -1');
-        this.generateOption("o2", "resetBtn", "Reset planszy:", 'button', "Reset", this.reset);
+        this.generateOption(".o1", "axles", "Osie układu:", 'checkbox', "Osie", this.axFlip);
+        this.generateOption(".o1", 'symCh', "Symetria:", 'checkbox', "Symetria - oś X", this.symetry, 'projectData.symX *= -1');
+        this.generateOption(".o1", "symCh", undefined, 'checkbox', "Symetria - oś Y", this.symetry, 'projectData.symY *= -1');
+        this.generateOption(".o1", "dropBtn", "Opcje:", 'button', "Pokaż opcje", function () {
+            select('#modal1').style('display', 'block');
+        });
+
+        this.generateOption(this.createModalSection('reset'), "resetBtn", "Reset planszy:", 'button', "Reset", this.reset);
+        this.generateOption(this.createModalSection('saveImg'), "saveImgBtn", "Zapis planszy do zdjęcia:", 'button', "Zapisz", this.saveImg);
 
         return this;
+    }
+
+    saveImg() {
+
+        if (projectData.saveImgCounter > 0) {
+            saveCanvas(`mata${projectData.saveImgCounter}`, 'png');
+        } else {
+            saveCanvas(`mata`, 'png');
+        }
+
     }
 
     createPalette() {
@@ -160,7 +199,7 @@ class Gui {
     }
 
     createBox() {
-        let s = projectData.size * (projectData.segN + 2) + 11 * projectData.spacer + 2;
+        let s = projectData.size * (projectData.segN + 2) + 11 * projectData.spacer + 6;
         projectData['canva'] = createCanvas(s, s);
         select(".box").child(projectData.canva);
 
@@ -174,8 +213,8 @@ class Gui {
             for (let i = 0; i < projectData.segN + 2; i++) {
 
                 let pos = {
-                    x: j * projectData.size + projectData.spacer * j,
-                    y: i * projectData.size + projectData.spacer * i
+                    x: j * projectData.size + projectData.spacer * j + 2,
+                    y: i * projectData.size + projectData.spacer * i + 2
                 }
 
                 let dim = {
@@ -261,7 +300,8 @@ const projectData = {
     symetry: false,
     symCh: [],
     symX: 1,
-    symY: 1
+    symY: 1,
+    saveImgCounter: 0
 }
 
 function pick(color) {
@@ -270,7 +310,7 @@ function pick(color) {
 
 function setup() {
     projectData['gui'] = new Gui();
-    projectData.gui.createPalette().createBox().createBoard().createOptions();
+    projectData.gui.createPalette().createBox().createBoard().createModal().createOptions();
 }
 
 function draw() {
