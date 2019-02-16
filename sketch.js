@@ -34,6 +34,13 @@ class Segment {
             textAlign(CENTER, CENTER)
             strokeWeight(0);
             text(txt, 2, 2, this.dim.w, this.dim.h);
+        } else {
+            textSize(15);
+            fill(0);
+            stroke(255);
+            textAlign(CENTER, CENTER)
+            strokeWeight(0);
+            text(this.iJ.i * this.iJ.j, 2, 2, this.dim.w, this.dim.h);
         }
 
         pop();
@@ -61,7 +68,6 @@ class Segment {
                         //Symetria X:
                         if (sx == projectData.symY * (this.kartPos.x) && sy == projectData.symX * (this.kartPos.y - 1)) {
                             s.fill = projectData.picekedColor;
-                            print('x');
                             break;
                         }
                     }
@@ -70,7 +76,6 @@ class Segment {
                         // Symetria Y:
                         if (sx == projectData.symY * (this.kartPos.x + 1) && sy == projectData.symX * (this.kartPos.y)) {
                             s.fill = projectData.picekedColor;
-                            print('y');
                             break;
                         }
                     }
@@ -79,7 +84,6 @@ class Segment {
                         // Symetria WŚ:
                         if (sx == projectData.symY * (this.kartPos.x + 1) && sy == projectData.symX * (this.kartPos.y - 1)) {
                             s.fill = projectData.picekedColor;
-                            print('xy');
                             break;
                         }
                     }
@@ -92,45 +96,44 @@ class Segment {
 
 class Gui {
 
+    generateOption(destination, dataStorage, spacerName, inputType, inputName, fxn, atr) {
+        let spacer, input;
+
+        if (!projectData.hasOwnProperty(dataStorage)) {
+            projectData[`${dataStorage}`] = [];
+        }
+
+        if (spacerName) {
+            spacer = createDiv(spacerName);
+            spacer.addClass('spacer');
+            select(`.${destination}`).child(spacer);
+        }
+
+        if (inputType == 'checkbox') {
+
+            input = createCheckbox(inputName, false);
+            if (fxn) {
+                input.changed(fxn);
+            }
+
+            if (atr) {
+                input.attribute('onchange', atr)
+            }
+
+        } else {
+            input = createButton(inputName);
+            input.mouseClicked(fxn);
+        }
+
+        projectData[dataStorage].push(input);
+        select(`.${destination}`).child(input);
+    }
+
     createOptions() {
-        projectData['axis'] = false;
-        projectData['symCh'] = [];
-        let spacer;
-        //////////////////////////////////////////////
-        spacer = createDiv("Osie układu:");
-        spacer.addClass('spacer');
-        select('.options').child(spacer);
-
-        projectData['axCheck'] = createCheckbox('Osie', false);
-        projectData.axCheck.changed(this.axFlip);
-        select('.options').child(projectData.axCheck);
-        //////////////////////////////////////////////
-        spacer = createDiv("Symetria:");
-        spacer.addClass('spacer');
-        select('.options').child(spacer);
-
-        let symX = createCheckbox('Symetria - oś X', false);
-        symX.attribute('onchange', 'projectData.symX *= -1');
-        symX.changed(this.symetry);
-        select('.options').child(symX);
-        projectData.symCh.push(symX);
-
-        let symY = createCheckbox('Symetria - oś Y', false);
-        symY.attribute('onchange', 'projectData.symY *= -1');
-        symY.changed(this.symetry);
-        select('.options').child(symY);
-        projectData.symCh.push(symY);
-
-        //////////////////////////////////////////////
-        spacer = createDiv("Reset planszy:");
-        spacer.addClass('spacer');
-        select('.options').child(spacer);
-
-        projectData['resetBtn'] = createButton('Reset');
-        projectData.resetBtn.mouseClicked(this.reset);
-        select('.options').child(projectData.resetBtn);
-
-
+        this.generateOption("o1", "axles", "Osie układu:", 'checkbox', "Osie", this.axFlip);
+        this.generateOption("o1", 'symCh', "Symetria:", 'checkbox', "Symetria - oś X", this.symetry, 'projectData.symX *= -1');
+        this.generateOption("o1", "symCh", undefined, 'checkbox', "Symetria - oś Y", this.symetry, 'projectData.symY *= -1');
+        this.generateOption("o2", "resetBtn", "Reset planszy:", 'button', "Reset", this.reset);
 
         return this;
     }
@@ -254,7 +257,9 @@ const projectData = {
     litery: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
     spacer: 7,
     picekedColor: '#C0C0C0',
+    axis: false,
     symetry: false,
+    symCh: [],
     symX: 1,
     symY: 1
 }
