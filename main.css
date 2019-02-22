@@ -82,8 +82,8 @@ body {
 }
 
 .options {
-	min-width: 50px;
-	height: 350px;
+	min-width: 150px;
+	height: 420px;
 	display: inline-block;
 	vertical-align: top;
 	padding: 15px;
@@ -157,4 +157,16 @@ body {
 	text-align: center;
 	background-color: rgba(246, 76, 113, 0.589);
 	margin: 5px;
+}
+
+.modalContentSection .spacer {
+	border-top: none !important;
+}
+
+input {
+	background: #ececec;
+}
+
+label {
+	cursor: pointer;
 }
