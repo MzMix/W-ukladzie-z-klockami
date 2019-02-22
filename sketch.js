@@ -31,11 +31,16 @@ class Segment {
         rect(0, 0, this.dim.w, this.dim.h, r)
 
         if (this.index) {
+            let txt;
 
-            let txt = this.iJ.i
+            if (!Global.mult) {
+                txt = Global.litery[this.iJ.i - 1]
+            } else {
+                txt = this.iJ.i;
+            }
 
             if (this.iJ.i == 0 || this.iJ.i == 11) {
-                txt = Global.litery[this.iJ.j - 1];
+                txt = this.iJ.j;
             }
 
             textSize(15);
@@ -234,13 +239,13 @@ class Gui {
 
     createBoard() {
         Global['segments'] = [];
-
+        let total = 1;
         for (let j = 0; j < Global.segN + 2; j++) {
             for (let i = 0; i < Global.segN + 2; i++) {
 
                 let pos = {
-                    x: j * Global.size + Global.spacer * j + 2,
-                    y: i * Global.size + Global.spacer * i + 2
+                    x: i * Global.size + Global.spacer * i + 2,
+                    y: j * Global.size + Global.spacer * j + 2
                 }
 
                 let dim = {
@@ -265,8 +270,9 @@ class Gui {
                     s.stroke = 'pink';
                     Global.segments.push(s);
                 } else if (j != 0 && j != Global.segN + 1) {
-                    let s = new Segment(pos, dim, iJ, kartPos, false);
+                    let s = new Segment(pos, dim, iJ, kartPos, false, total);
                     Global.segments.push(s);
+                    total++;
                 }
             }
         }
@@ -334,22 +340,27 @@ class Gui {
         switch (type) {
             case 'Numeracja':
                 eql = 's.number';
+                Global.mult = false;
                 break;
 
             case 'Adresowanie':
                 eql = 'Global.litery[s.iJ.j - 1] + s.iJ.i';
+                Global.mult = false;
                 break;
 
             case 'Tabliczka mnożenia':
-                eql = 's.iJ.i * s.iJ.j';
+                eql = 's.iJ.i * s.iJ.j'
+                Global.mult = true;
                 break;
 
-            case 'Brak':
+            case 'Brak opisów':
                 eql = 'undefined';
+                Global.mult = false;
                 break;
 
             default:
                 eql = 's.number';
+                Global.mult = false;
                 break;
         }
 
@@ -360,18 +371,6 @@ class Gui {
         }
     }
 
-    addNumber() {
-        let total = 1;
-        for (let s of Global.segments) {
-            if (!s.index) {
-                s.number = total;
-                s.txt = total;
-                total++;
-            }
-        }
-
-        return this;
-    }
 }
 
 const Global = {
@@ -387,7 +386,8 @@ const Global = {
     symX: 1,
     symY: 1,
     indexColored: 0,
-    modalOpened: false
+    modalOpened: false,
+    mult: false
 }
 
 function pick(color) {
@@ -397,7 +397,7 @@ function pick(color) {
 function setup() {
     cursor('pointer');
     Global['gui'] = new Gui();
-    Global.gui.createPalette().createBox().createBoard().addNumber().createModal().createOptions();
+    Global.gui.createPalette().createBox().createBoard().createModal().createOptions();
 }
 
 function draw() {
