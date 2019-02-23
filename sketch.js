@@ -197,7 +197,7 @@ class Gui {
 
         this.generateOption(this.createModalSection('list'), "textFill", "Zmiana opisu pól", 'list', "Zmiana opisu", this.changeTxt, undefined, ['Numeracja', 'Adresowanie', 'Tabliczka mnożenia', 'Brak opisów']);
         this.generateOption(this.createModalSection('reset'), "resetBtn", "Reset planszy:", 'button', "Reset", this.reset);
-        this.generateOption(this.createModalSection('saveImg'), "saveImgBtn", "Zapis planszy do zdjęcia:", 'button', "Zapisz", this.saveImg);
+        this.generateOption(this.createModalSection('saveImg'), "saveImgBtn", "Zapis planszy do pliku png:", 'button', "Zapisz", this.saveImg);
 
         return this;
     }
@@ -311,7 +311,6 @@ class Gui {
 
                     if (s.fill == '#F64C72' && s.stroke == 'pink') {
                         s.fill = Global.colors[abs(s.iJ.i - 1)];
-                        s.stroke = color(0, 0, 0, 0);
                         s.textColor = color(0, 0, 0, 0);
                     } else {
                         s.fill = '#F64C72'
@@ -344,7 +343,7 @@ class Gui {
                 break;
 
             case 'Adresowanie':
-                eql = 'Global.litery[s.iJ.j - 1] + s.iJ.i';
+                eql = 'Global.litery[s.iJ.i - 1] + s.iJ.j';
                 Global.mult = false;
                 break;
 
