@@ -21,6 +21,5 @@ function insertData() {
 }
 
 function errorMsg() {
-	console.clear();
 	console.log("Brak pliku info.json!");
 }

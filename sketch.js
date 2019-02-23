@@ -187,8 +187,8 @@ class Gui {
 
     createOptions() {
         this.generateOption(".o1", "axles", "Osie układu:", 'checkbox', "Osie", this.axFlip);
-        this.generateOption(".o1", 'symCh', "Symetria:", 'checkbox', "Symetria - oś X", this.symetry, 'Global.symX *= -1');
-        this.generateOption(".o1", "symCh", undefined, 'checkbox', "Symetria - oś Y", this.symetry, 'Global.symY *= -1');
+        this.generateOption(".o1", 'symCh', "Symetria:", 'checkbox', "Symetria - oś X", this.symetry, 'Global.symY *= -1');
+        this.generateOption(".o1", "symCh", undefined, 'checkbox', "Symetria - oś Y", this.symetry, 'Global.symX *= -1');
         this.generateOption(".o1", "colorIndex", "Zmiana opisu pól", 'button', "Zmiana opisu", this.colorindex);
         this.generateOption(".o1", "dropBtn", "Opcje:", 'button', "Pokaż opcje", function () {
             select('#modal1').style('display', 'block');
