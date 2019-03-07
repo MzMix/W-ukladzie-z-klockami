@@ -6,12 +6,15 @@ Number.prototype.between = function (a, b) {
 };
 
 class Segment {
-    constructor(pos, dim, iJ, kartPos, index, number) {
-        this.pos = pos;
-        this.dim = dim;
+    constructor(iJ, kartPos, number) {
+        this.dim = Global.size;
         this.kartPos = kartPos;
-        this.index = index;
         this.iJ = iJ;
+        this.pos = {
+            x: this.iJ.i * Global.size + Global.spacer * this.iJ.i + 2,
+            y: this.iJ.j * Global.size + Global.spacer * this.iJ.j + 2
+        };
+
         this.fill = color('#C0C0C0');
         this.stroke = color(255, 255, 255, 125);
         this.textColor = color(255, 255, 255);
@@ -22,59 +25,32 @@ class Segment {
     display() {
         push();
         translate(this.pos.x, this.pos.y);
-        fill(this.fill);
         stroke(this.stroke);
+        fill(this.fill);
 
         let r = 2;
-        if (this.index) r = 10;
 
-        rect(0, 0, this.dim.w, this.dim.h, r)
+        square(0, 0, Global.size, r)
 
-        if (this.index) {
-            let txt;
-
-            if (!Global.mult) {
-                txt = Global.litery[this.iJ.i - 1]
-            } else {
-                txt = this.iJ.i;
-            }
-
-            if (this.iJ.i == 0 || this.iJ.i == 11) {
-                txt = this.iJ.j;
-            }
-
-            textSize(15);
-            fill(this.textColor);
-            stroke(this.textColor);
-            textAlign(CENTER, CENTER)
-            strokeWeight(0);
-            text(txt, 2, 2, this.dim.w, this.dim.h);
-
-        } else {
-            textSize(15);
-            fill(0);
-            stroke(255);
-            textAlign(CENTER, CENTER)
-            strokeWeight(0);
-            text(this.txt, 2, 2, this.dim.w, this.dim.h);
-        }
+        textSize(15);
+        fill(0);
+        stroke(255);
+        textAlign(CENTER, CENTER)
+        strokeWeight(0);
+        text(this.txt, 2, 2, Global.size, Global.size);
 
         pop();
     }
 
     checkPointing() {
-        if (mouseX > this.pos.x && mouseX < this.pos.x + this.dim.w &&
-            mouseY > this.pos.y && mouseY < this.pos.y + this.dim.w) {
-            return true;
-        } else {
-            return false;
-        }
+        return mouseX.between(this.pos.x, this.pos.x + this.dim) &&
+            mouseY.between(this.pos.y, this.pos.y + this.dim);
     }
 
     setColor() {
         this.fill = Global.picekedColor;
 
-        if (!this.index && Global.symetry) {
+        if (Global.symetry) {
             for (let s of Global.segments) {
                 if (s.kartPos) {
                     let sx = s.kartPos.x;
@@ -108,6 +84,47 @@ class Segment {
             }
         }
     }
+}
+
+class Index extends Segment {
+    constructor(iJ) {
+        super(iJ, undefined, undefined);
+        this.fill = '#F64C72';
+        this.stroke = 'pink';
+    }
+
+    display() {
+        push();
+        translate(this.iJ.i * Global.size + Global.spacer * this.iJ.i + 2, this.iJ.j * Global.size + Global.spacer * this.iJ.j + 2);
+        fill(this.fill);
+        stroke(this.stroke);
+
+        let r = 10;
+
+        rect(0, 0, Global.size, Global.size, r)
+
+        let txt;
+
+        if (!Global.mult) {
+            txt = Global.litery[this.iJ.i - 1]
+        } else {
+            txt = this.iJ.i;
+        }
+
+        if (this.iJ.i == 0 || this.iJ.i == 11) {
+            txt = this.iJ.j;
+        }
+
+        textSize(15);
+        fill(this.textColor);
+        stroke(this.textColor);
+        textAlign(CENTER, CENTER)
+        strokeWeight(0);
+        text(txt, 2, 2, Global.size, Global.size);
+
+        pop();
+    }
+
 }
 
 class Gui {
@@ -244,16 +261,6 @@ class Gui {
         for (let j = 0; j < Global.segN + 2; j++) {
             for (let i = 0; i < Global.segN + 2; i++) {
 
-                let pos = {
-                    x: i * Global.size + Global.spacer * i + 2,
-                    y: j * Global.size + Global.spacer * j + 2
-                }
-
-                let dim = {
-                    w: Global.size,
-                    h: Global.size
-                }
-
                 let iJ = {
                     i: i,
                     j: j
@@ -266,12 +273,12 @@ class Gui {
 
                 if (((j == 0 || j == Global.segN + 1) && i > 0 && i < Global.segN + 1) ||
                     ((i == 0 || i == Global.segN + 1) && j > 0 && j < Global.segN + 1)) {
-                    let s = new Segment(pos, dim, iJ, undefined, true);
-                    s.fill = '#F64C72';
-                    s.stroke = 'pink';
+                    //Index
+                    let s = new Index(iJ);
                     Global.segments.push(s);
                 } else if (j != 0 && j != Global.segN + 1) {
-                    let s = new Segment(pos, dim, iJ, kartPos, false, total);
+                    //Segment
+                    let s = new Segment(iJ, kartPos, total);
                     Global.segments.push(s);
                     total++;
                 }
@@ -295,23 +302,24 @@ class Gui {
 
     reset() {
         for (let s of Global.segments) {
-            if (!s.index) {
-                s.fill = Global.colors[Global.colors.length - 1];
-            } else {
+            if (s instanceof Index) {
                 s.fill = '#F64C72'
                 s.stroke = 'pink';
                 s.textColor = color(255, 255, 255);
+            } else {
+                s.fill = Global.colors[Global.colors.length - 1];
             }
         }
     }
 
     colorindex() {
         for (let s of Global.segments) {
-            if (s.index) {
+            if (s instanceof Index) {
                 if (s.iJ.i.between(0, 11)) {
 
                     if (s.fill == '#F64C72' && s.stroke == 'pink') {
                         s.fill = Global.colors[abs(s.iJ.i - 1)];
+                        s.stroke = color(0, 0, 0, 0);
                         s.textColor = color(0, 0, 0, 0);
                     } else {
                         s.fill = '#F64C72'
@@ -329,6 +337,8 @@ class Gui {
                         s.textColor = color(255, 255, 255);
                     }
                 }
+
+
             }
         }
     }
@@ -444,7 +454,7 @@ function draw() {
 function mouseClicked() {
     if (!Global.modalOpened) {
         for (s of Global.segments) {
-            if (s.checkPointing() && !s.index) {
+            if (s instanceof Segment && s.checkPointing()) {
                 s.setColor();
             }
         }
