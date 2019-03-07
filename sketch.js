@@ -196,6 +196,7 @@ class Gui {
         });
 
         this.generateOption(this.createModalSection('list'), "textFill", "Zmiana opisu pól", 'list', "Zmiana opisu", this.changeTxt, undefined, ['Numeracja', 'Adresowanie', 'Tabliczka mnożenia', 'Brak opisów']);
+        this.generateOption(this.createModalSection('set'), "setSwitch", "Zmiana zestawu", 'list', "Zmiana zestawu", this.changeSet, undefined, ['MoreToMath', 'Zestaw Kreatywny']);
         this.generateOption(this.createModalSection('reset'), "resetBtn", "Reset planszy:", 'button', "Reset", this.reset);
         this.generateOption(this.createModalSection('saveImg'), "saveImgBtn", "Zapis planszy do pliku png:", 'button', "Zapisz", this.saveImg);
 
@@ -204,7 +205,7 @@ class Gui {
 
     saveImg() {
         let data = new Date();
-        saveCanvas(`mata${data.getMinutes()}-${data.getSeconds()}`, 'png');
+        saveCanvas(`mata-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png');
     }
 
     createPalette() {
@@ -370,12 +371,33 @@ class Gui {
         }
     }
 
+    changeSet() {
+        let type = this.value();
+
+        if (type == "MoreToMath") {
+            Global.colors = Global.mtmColors;
+        } else if (type == "Zestaw Kreatywny") {
+            Global.colors = Global.crColors;
+        }
+
+        let btns = selectAll('.paletteBtn');
+        let i = 0;
+        for (let b of btns) {
+            b.style('background-color', Global.colors[i]);
+            b.attribute("onclick", `pick('${Global.colors[i]}')`);
+            i++;
+        }
+
+    }
+
 }
 
 const Global = {
     size: 40,
     segN: 10,
     colors: ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'],
+    mtmColors: ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'],
+    crColors: ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#C0C0C0'],
     litery: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
     spacer: 7,
     picekedColor: '#C0C0C0',
