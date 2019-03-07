@@ -15,7 +15,7 @@ class Segment {
             y: this.iJ.j * Global.size + Global.spacer * this.iJ.j + 2
         };
 
-        this.fill = color('#C0C0C0');
+        this.fill = '#C0C0C0';
         this.stroke = color(255, 255, 255, 125);
         this.textColor = color(255, 255, 255);
         this.number = number;

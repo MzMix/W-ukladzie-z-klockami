@@ -1,9 +1,12 @@
 let data;
 
 function preload() {
-	print('Start');
-
 	data = loadJSON("info.json", insertData, errorMsg);
+
+	let params = getURLParams();
+	if (Object.keys(params).length > 0) {
+		// print(params)
+	}
 }
 
 function insertData() {
