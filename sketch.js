@@ -205,7 +205,7 @@ class Gui {
 
     saveImg() {
         let data = new Date();
-        saveCanvas(`mata${data.getMinutes()}-${data.getSeconds()}`, 'png');
+        saveCanvas(`mata-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png');
     }
 
     createPalette() {
