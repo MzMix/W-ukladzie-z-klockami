@@ -213,7 +213,7 @@ class Gui {
         });
 
         this.generateOption(this.createModalSection('list'), "textFill", "Zmiana opisu pól", 'list', "Zmiana opisu", this.changeTxt, undefined, ['Numeracja', 'Adresowanie', 'Tabliczka mnożenia', 'Brak opisów']);
-        this.generateOption(this.createModalSection('set'), "setSwitch", "Zmiana zestawu", 'list', "Zmiana zestawu", this.changeSet, undefined, ['MoreToMath', 'Zestaw Kreatywny']);
+        this.generateOption(this.createModalSection('set'), "setSwitch", "Zmiana zestawu", 'list', "Zmiana zestawu", this.changeSet, undefined, ['Zestaw 1', 'Zestaw 2']);
         this.generateOption(this.createModalSection('reset'), "resetBtn", "Reset planszy:", 'button', "Reset", this.reset);
         this.generateOption(this.createModalSection('saveImg'), "saveImgBtn", "Zapis planszy do pliku png:", 'button', "Zapisz", this.saveImg);
         this.generateOption(this.createModalSection('saveUrl'), "saveUrlBtn", "Generowanie linku z zapisem planszy:", 'button', "Generuj", createUrl);
@@ -385,9 +385,9 @@ class Gui {
     changeSet() {
         let type = this.value();
 
-        if (type == "MoreToMath") {
+        if (type == "Zestaw 1") {
             Global.colors = Global.mtmColors;
-        } else if (type == "Zestaw Kreatywny") {
+        } else if (type == "Zestaw 2") {
             Global.colors = Global.crColors;
         }
 
