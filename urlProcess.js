@@ -4,15 +4,19 @@ function createUrl() {
 
     for (let s of Global.segments) {
         if (s instanceof Index == false) {
-            msg += `${Global.colors.indexOf(s.fill)}*`;
+
+            let val = Global.urlCodes[Global.colors.indexOf(s.fill)];
+
+            msg += `${val}`;
         }
     }
 
-    msg = msg.slice(0, msg.length - 1);
-    msg = `localhost:5500/?save=${msg}`;
+    // msg = `localhost:5500/?save=${msg}`;
     // msg = `https://mzmix.github.io/projects/wuzk/?save=${msg}`;
+    msg = `${document.location.origin}/?save=${msg}`;
 
     copyUrl(msg);
+    print(msg);
 }
 
 

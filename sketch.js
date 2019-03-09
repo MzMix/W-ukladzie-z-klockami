@@ -405,12 +405,14 @@ class Gui {
         if (Global.seed) {
 
             let txt = Global.seed;
-            let done = txt.split('*', txt.length);
             let counter = 0;
 
             for (let s of Global.segments) {
                 if (s instanceof Index == false) {
-                    s.fill = Global.colors[done[counter]];
+
+                    let char = txt.charAt(counter);
+
+                    s.fill = Global.colors[Global.urlCodes.indexOf(char)];
                     counter++;
                 }
             }
@@ -427,6 +429,8 @@ const Global = {
     colors: ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'],
     mtmColors: ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'],
     crColors: ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#C0C0C0'],
+    urlCodes: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'],
+    urlSpacer: '*',
     litery: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
     spacer: 7,
     picekedColor: '#C0C0C0',
