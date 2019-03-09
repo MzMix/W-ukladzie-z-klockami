@@ -4,8 +4,9 @@ function preload() {
 	data = loadJSON("info.json", insertData, errorMsg);
 
 	let params = getURLParams();
-	if (Object.keys(params).length > 0) {
-		// print(params)
+	if (Object.keys(params).length > 0 && params.save) {
+		// print(params.save);
+		Global['seed'] = params.save
 	}
 }
 

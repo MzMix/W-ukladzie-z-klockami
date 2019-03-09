@@ -216,6 +216,7 @@ class Gui {
         this.generateOption(this.createModalSection('set'), "setSwitch", "Zmiana zestawu", 'list', "Zmiana zestawu", this.changeSet, undefined, ['MoreToMath', 'Zestaw Kreatywny']);
         this.generateOption(this.createModalSection('reset'), "resetBtn", "Reset planszy:", 'button', "Reset", this.reset);
         this.generateOption(this.createModalSection('saveImg'), "saveImgBtn", "Zapis planszy do pliku png:", 'button', "Zapisz", this.saveImg);
+        this.generateOption(this.createModalSection('saveUrl'), "saveUrlBtn", "Generowanie linku z zapisem planszy:", 'button', "Generuj", createUrl);
 
         return this;
     }
@@ -400,6 +401,24 @@ class Gui {
 
     }
 
+    loadBoard() {
+        if (Global.seed) {
+
+            let txt = Global.seed;
+            let done = txt.split('*', txt.length);
+            let counter = 0;
+
+            for (let s of Global.segments) {
+                if (s instanceof Index == false) {
+                    s.fill = Global.colors[done[counter]];
+                    counter++;
+                }
+            }
+        }
+
+        return this;
+    }
+
 }
 
 const Global = {
@@ -428,7 +447,7 @@ function pick(color) {
 function setup() {
     cursor('pointer');
     Global['gui'] = new Gui();
-    Global.gui.createPalette().createBox().createBoard().createModal().createOptions();
+    Global.gui.createPalette().createBox().createBoard().createModal().createOptions().loadBoard();
 }
 
 function draw() {
