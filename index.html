@@ -2,33 +2,130 @@
 <html lang="pl">
 
 <head>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-	<meta charset="utf-8">
-	<title>W układzie z klockami...</title>
-	<meta name="author" content="Mikołaj Zuziak">
-	<meta http-equiv="X-Ua-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<link rel="stylesheet" href="main.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
-
-	<script src="main.js" defer></script>
-	<script src="urlProcess.js" defer></script>
-	<script src="sketch.js" defer></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta charset="utf-8" />
+	<meta author="Mikołaj Zuziak">
+	<title>Klockiem w matematykę!</title>
 
 </head>
 
 <body>
-	<div class="header"></div>
-	<div class="name"></div>
 
-	<div class="container">
-		<div class="palette"></div>
-		<div class="box"></div>
-		<div class="options o1"></div>
+	<div class="content">
+		<div class="container-fluid">
+			<!-- Title -->
+			<div class="row titleRow">
+				<div class="col-12 title noPadding">
+					<h1 class="display-3">Klockiem w matematykę!</h1>
+				</div>
+			</div>
+			<!--row Title-->
+
+			<!-- Header -->
+			<div class="row headerRow">
+				<div class="col-12 header noPadding">
+					<h4>W układzie z klockami...</h4>
+				</div>
+			</div>
+			<!--row Header-->
+
+			<!-- Sidebar open btn -->
+			<div id="content">
+				<nav class="navbar navbar-expand-lg navbar-light">
+					<div class="container-fluid">
+						<button type="button" id="sidebarCollapse" class="btn btn-info green ">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+					</div>
+				</nav>
+			</div>
+			<!-- Sidebar open btn end -->
+
+			<div class="row">
+				<div class="col-10 offset-1 canvasDiv top-buffer">
+					Test
+				</div>
+			</div>
+
+			<!-- Footer -->
+			<div class="row fixed-bottom">
+				<div class="col-sm-12 footer">
+					<h5>Klockiem w matematykę! 2018 - 2019 | W układzie z klockami... | Wersja: 1.0 z dnia: 07.06.2019
+					</h5>
+				</div>
+			</div>
+			<!-- Footer end -->
+
+		</div>
+		<!--container end-->
+
 	</div>
+	<!-- Content end -->
 
-	<div class="footer"></div>
+	<!-- Wrapper -->
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<nav id="sidebar" class="active">
+			<div class="sidebar-header">
+				<h3>Ustawienia aplikacji</h3>
+			</div>
+
+			<div class="sidebar-content">
+				<button type="button" class="close" aria-label="Close" onclick="$('#sidebar').toggleClass('active');">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+		</nav>
+		<!-- Sidebar end -->
+
+	</div>
+	<!-- Wrapper end -->
+
+	<!-- Bootstrap Js:  -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+	</script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+	</script>
+
+	<script>
+		//Obsługa sidebara
+		function changePosition() {
+			let pos = $('.titleRow').height() + $('.headerRow').height();
+			$("#sidebar").css({
+				top: pos,
+				position: 'fixed'
+			});
+		}
+
+		$(document).ready(() => {
+			changePosition();
+
+			$('#sidebarCollapse').on('click', () => {
+				changePosition();
+				$('#sidebar').toggleClass('active');
+			});
+		});
+
+		$(window).on('resize', () => {
+			// console.log('RESIZE!');
+			changePosition();
+		});
+	</script>
+
+	<!-- Custom Js: -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
+	<script src="sketch.js"></script>
 
 </body>
 

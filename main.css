@@ -1,10 +1,13 @@
-html,
+/* Background pattern from Toptal Subtle Patterns */
+/* https://www.toptal.com/designers/subtlepatterns/faq/ */
+
 body {
-	margin: 0;
-	padding: 0;
-	background-color: #553D67;
+	padding: 0 !important;
+	padding-bottom: 120px;
+	/* background-image: url("./diamond_upholstery/diamond_upholstery.png"); */
+	background-image: url("./diamond_upholstery/diamond_upholstery_@2X.png");
+	overflow-y: hidden;
 	font-family: 'Helvetica';
-	overflow: hidden;
 	-webkit-touch-callout: none;
 	/* iOS Safari */
 	-webkit-user-select: none;
@@ -20,152 +23,88 @@ body {
                                 supported by Chrome and Opera */
 }
 
+.title {
+	background-color: #b5e7a0;
+	text-align: center;
+	color: #fff;
+}
+
 .header {
-	width: 100%;
-	background-color: #2F2FA2;
-	padding: 10px;
-	color: white;
-	font-size: 32px;
+	background-color: #86af49;
 	text-align: center;
+	color: #fff;
 }
 
-.container {
-	width: 100%;
-	padding-top: 25px;
-	text-align: center;
-}
-
-.palette,
-.options {
-	max-width: 170px;
-	max-height: 390px;
-	margin: 0px 15px;
-	display: inline-block;
-	vertical-align: top;
-	box-sizing: border-box;
-	background-color: rgba(246, 76, 113, 0.589);
-	border-radius: 20%;
-}
-
-.paletteBtn {
-	width: 50px;
-	height: 50px;
-	box-sizing: border-box;
-	display: inline-block;
-	padding: 5px;
-	margin: 5px;
-	border-radius: 100%;
-	color: black;
-	text-align: center;
-	padding-top: 14px;
-}
-
-.paletteBtn:hover {
-	cursor: pointer;
-	opacity: 0.9;
-}
-
-.spacer {
-	padding: 10px;
-	margin: 10px 0;
-	border-top: 1px dashed #efefef;
-	border-bottom: 1px dashed #efefef;
-}
-
-.box {
-	min-width: 400px;
-	min-height: 400px;
-	margin: 5px;
-	text-align: center;
-	display: inline-block;
-}
-
-.options {
-	min-width: 150px;
-	height: 420px;
-	display: inline-block;
-	vertical-align: top;
-	padding: 15px;
-	color: white;
-}
-
-.name {
-	width: 100%;
-	background-color: #F64C72;
-	padding: 10px;
-	color: white;
-	font-size: 24px;
-	text-align: center;
-}
 
 .footer {
-	width: 100%;
-	background-color: #2F2FA2;
-	padding-bottom: 20px;
-	padding-top: 10px;
-	color: white;
-	font-size: 16px;
-	text-align: center;
-	position: fixed;
-	bottom: 0;
-}
-
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	padding-top: 100px;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgb(0, 0, 0);
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
-/* Modal Content */
-.modal-content {
-	background-color: rgba(246, 76, 113);
-	margin: auto;
-	padding: 20px;
-	border-radius: 10px;
-	color: white;
-	width: 75%;
+	background-color: #d5e1df;
 	text-align: center;
 }
 
-/* The Close Button */
-.close {
+.top-buffer {
+	margin-top: 25px;
+}
+
+.noPadding {
+	padding: 0;
+}
+
+.canvasDiv {
+	height: 70vh !important;
+	border: 1px solid red;
+	background-color: #86af49 !important;
+	text-align: center !important;
+}
+
+.wrapper {
+	display: flex;
+	align-items: stretch;
+}
+
+#sidebar {
+	min-width: 200px;
+	max-width: 200px;
+	min-height: 100vh;
+
+	background: #b5e7a0;
 	color: #fff;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
+	transition: all 0.3s;
+
+	position: fixed;
+	top: 0;
+	z-index: 100;
+
 }
 
-.close:hover,
-.close:focus {
-	color: rgb(145, 0, 0);
-	text-decoration: none;
-	cursor: pointer;
+#sidebar.active {
+	margin-left: -215px;
 }
 
-.modalContentSection {
-	width: 20%;
-	display: inline-block;
-	text-align: center;
-	background-color: rgba(246, 76, 113, 0.589);
-	margin: 5px;
+@media (max-width: 768px) {
+	#sidebar {
+		margin-left: -210px;
+	}
+
+	#sidebar.active {
+		margin-left: 0;
+	}
 }
 
-.modalContentSection .spacer {
-	border-top: none !important;
+#sidebar .sidebar-header {
+	padding: 20px;
+	background: #86af49;
 }
 
-input {
-	background: #ececec;
+#sidebar .sidebar-content {
+	padding: 20px;
+	font-size: 1.5em;
 }
 
-label {
-	cursor: pointer;
+.green {
+	background-color: #b5e7a0 !important;
 }
+
+/* #e3eaa7 */
+/* #d5e1df */
+/* #b5e7a0 */
+/* #86af49 */
