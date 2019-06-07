@@ -42,7 +42,7 @@ body {
 }
 
 .top-buffer {
-	margin-top: 25px;
+	margin-top: 20px;
 }
 
 .noPadding {
@@ -50,10 +50,42 @@ body {
 }
 
 .canvasDiv {
-	height: 70vh !important;
-	border: 1px solid red;
-	background-color: #86af49 !important;
+	/* border: 1px solid red; */
+	min-height: 70vh !important;
 	text-align: center !important;
+}
+
+.colorSchemeContainer {
+	/* background-color: #b5e7a0; */
+	/* border: 1px solid red; */
+	border-radius: 25px;
+	max-height: 60vh;
+	text-align: center;
+	padding: 5%;
+}
+
+.paletteBtn {
+	width: 50px;
+	height: 50px;
+	box-sizing: border-box;
+	display: inline-block;
+	margin: 5px;
+	box-shadow: 3px 3px grey;
+}
+
+.paletteBtn:hover {
+	cursor: pointer;
+	opacity: 0.9;
+}
+
+canvas {
+	vertical-align: middle !important;
+}
+
+.navBtnDiv {
+	z-index: 10;
+	position: fixed;
+	top: 0;
 }
 
 .wrapper {
@@ -62,27 +94,25 @@ body {
 }
 
 #sidebar {
-	min-width: 200px;
-	max-width: 200px;
+	min-width: 220px;
+	max-width: 220px;
 	min-height: 100vh;
 
-	background: #b5e7a0;
 	color: #fff;
 	transition: all 0.3s;
 
 	position: fixed;
 	top: 0;
 	z-index: 100;
-
 }
 
 #sidebar.active {
-	margin-left: -215px;
+	margin-left: -220px;
 }
 
 @media (max-width: 768px) {
 	#sidebar {
-		margin-left: -210px;
+		margin-left: -220px;
 	}
 
 	#sidebar.active {
@@ -92,12 +122,26 @@ body {
 
 #sidebar .sidebar-header {
 	padding: 20px;
-	background: #86af49;
+	background: #d5e1dfe0;
 }
 
 #sidebar .sidebar-content {
 	padding: 20px;
 	font-size: 1.5em;
+	text-align: justify;
+}
+
+#sidebar .close {
+	font-size: 3.4em !important;
+	color: red;
+	text-align: right;
+	vertical-align: text-top;
+	margin-left: 3px !important;
+}
+
+#sidebar .sidebar-footer {
+	width: inherit;
+	text-align: center;
 }
 
 .green {
