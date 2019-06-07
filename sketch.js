@@ -19,7 +19,7 @@ class Segment {
         this.stroke = color(255, 255, 255, 125);
         this.textColor = color(255, 255, 255);
         this.number = number;
-        this.txt = this.number;
+        this.txt = '';
     }
 
     display() {
@@ -212,11 +212,12 @@ class Gui {
             Global.modalOpened = true;
         });
 
-        this.generateOption(this.createModalSection('list'), "textFill", "Zmiana opisu pól", 'list', "Zmiana opisu", this.changeTxt, undefined, ['Numeracja', 'Adresowanie', 'Tabliczka mnożenia', 'Brak opisów']);
+        // this.generateOption(this.createModalSection('fullScreen'), "fullScreenBtn", "Przełączanie pełnego ekranu:", 'button', "Pełny ekran", this.hideElements);
+        this.generateOption(this.createModalSection('list'), "textFill", "Zmiana opisu pól", 'list', "Zmiana opisu", this.changeTxt, undefined, ['Brak opisów', 'Numeracja', 'Adresowanie', 'Tabliczka mnożenia', ]);
         this.generateOption(this.createModalSection('set'), "setSwitch", "Zmiana zestawu", 'list', "Zmiana zestawu", this.changeSet, undefined, ['Zestaw 1', 'Zestaw 2']);
         this.generateOption(this.createModalSection('reset'), "resetBtn", "Reset planszy:", 'button', "Reset", this.reset);
-        this.generateOption(this.createModalSection('saveImg'), "saveImgBtn", "Zapis planszy do pliku png:", 'button', "Zapisz", this.saveImg);
-        this.generateOption(this.createModalSection('saveUrl'), "saveUrlBtn", "Generowanie linku z zapisem planszy:", 'button', "Generuj", createUrl);
+        this.generateOption(this.createModalSection('saveImg'), "saveImgBtn", "Zapis planszy do pliku:", 'button', "Zapisz", this.saveImg);
+        //this.generateOption(this.createModalSection('saveUrl'), "saveUrlBtn", "Generowanie linku z zapisem planszy:", 'button', "Generuj", createUrl);
 
         return this;
     }
@@ -233,10 +234,6 @@ class Gui {
         for (let col of Global.colors) {
 
             let div = createDiv();
-
-            if (col == '#C0C0C0') {
-                div.html('G');
-            }
 
             div.addClass('paletteBtn');
             div.style('background-color', col);
@@ -399,6 +396,28 @@ class Gui {
             i++;
         }
 
+        for (let s of Global.segments) {
+            if (s instanceof Index) {
+                if (s.iJ.i.between(0, 11)) {
+
+                    if (!(s.fill == '#F64C72' && s.stroke == 'pink')) {
+                        s.fill = Global.colors[abs(s.iJ.i - 1)];
+                        s.stroke = color(0, 0, 0, 0);
+                        s.textColor = color(0, 0, 0, 0);
+                    }
+
+                } else if (s.iJ.j.between(0, 11)) {
+                    if (!(s.fill == '#F64C72' && s.stroke == 'pink')) {
+                        s.fill = Global.colors[abs(s.iJ.j - 1)];
+                        s.stroke = color(0, 0, 0, 0);
+                        s.textColor = color(0, 0, 0, 0);
+                    }
+                }
+
+
+            }
+        }
+
     }
 
     loadBoard() {
@@ -421,6 +440,20 @@ class Gui {
         return this;
     }
 
+    hideElements() {
+        let elements = selectAll('.hide');
+
+        for (let e of elements) {
+            if (Global.infoHide) {
+                e.show();
+            } else {
+                e.hide();
+            }
+        }
+
+        Global.infoHide = !Global.infoHide;
+    }
+
 }
 
 const Global = {
@@ -441,7 +474,8 @@ const Global = {
     symY: 1,
     indexColored: 0,
     modalOpened: false,
-    mult: false
+    mult: false,
+    infoHide: false
 }
 
 function pick(color) {
