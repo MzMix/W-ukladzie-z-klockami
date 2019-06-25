@@ -15,6 +15,7 @@ function draw() {
 }
 
 //Optymalizacja
-function mouseIsPressed() {
+function mouseClicked() {
+    userInterface.checkBoardClicks();
     redraw();
 }

@@ -67,6 +67,15 @@ class UserInterface {
 
     pickColor(color) {
         this.pickedColor = color;
+        print(this.pickedColor);
+    }
+
+    checkBoardClicks() {
+        for (let segment of this.board) {
+            if (!(segment instanceof Index)) {
+                if (segment.mousePointing()) segment.colorSegment();
+            }
+        }
     }
 
 }
@@ -122,9 +131,16 @@ class Segment {
     }
 
     mousePointing() {
-        return mouseX.between(this.pos.x, this.pos.x + this.dim) &&
-            mouseY.between(this.pos.y, this.pos.y + this.dim);
+        return mouseX.between(this.pos.x, this.pos.x + settings.squareSize) &&
+            mouseY.between(this.pos.y, this.pos.y + settings.squareSize);
     }
+
+    colorSegment() {
+        if (userInterface.pickedColor) {
+            this.fill = userInterface.pickedColor;
+        }
+    }
+
 }
 
 class Index extends Segment {
