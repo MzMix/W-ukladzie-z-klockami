@@ -9,9 +9,8 @@ function preload() {
 
 function setup() {
     userInterface.createInterface();
-    // userInterface.createInterface();
-    // userInterface.generateBoard();
-    // userInterface.generateColorContrainer();
+    userInterface.generateBoard();
+    userInterface.generateColorContrainer();
 
     noLoop();
 }
@@ -19,14 +18,14 @@ function setup() {
 function draw() {
     clear();
 
-    // for (let segment of userInterface.board) {
-    // segment.display();
-    // }
+    for (let segment of userInterface.board) {
+        segment.display();
+    }
 }
 
 //Optymalizacja
 function mouseClicked() {
-    // userInterface.checkBoardClicks();
+    userInterface.checkBoardClicks();
     redraw();
 }
 
