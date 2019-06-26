@@ -37,7 +37,7 @@ body {
 
 
 .footer {
-	background-color: #d5e1df;
+	background-color: #b4e9e0;
 	text-align: center;
 }
 
@@ -104,9 +104,10 @@ canvas {
 	position: fixed;
 	top: 0;
 	z-index: 100;
+	background-color: #d5e1dfef;
 }
 
-#sidebar.active {
+#sidebar.disabled {
 	margin-left: -220px;
 }
 
@@ -115,14 +116,14 @@ canvas {
 		margin-left: -220px;
 	}
 
-	#sidebar.active {
+	#sidebar.disabled {
 		margin-left: 0;
 	}
 }
 
 #sidebar .sidebar-header {
 	padding: 20px;
-	background: #d5e1dfe0;
+	background-color: #97d1c7c7;
 }
 
 #sidebar .sidebar-content {
