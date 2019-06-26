@@ -67,7 +67,7 @@ class UserInterface {
 
     pickColor(color) {
         this.pickedColor = color;
-        print(this.pickedColor);
+        // print(this.pickedColor);
     }
 
     checkBoardClicks() {
