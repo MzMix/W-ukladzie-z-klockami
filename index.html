@@ -76,9 +76,9 @@
 	<!-- Wrapper -->
 	<div class="wrapper">
 		<!-- Sidebar -->
-		<div id="sidebar">
+		<div id="sidebar" class="disabled">
 			<div class="sidebar-header"> <button type="button" class="close" aria-label="Close"
-					onclick="$('#sidebar').toggleClass('active');">
+					onclick="$('#sidebar').toggleClass('disabled');">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
@@ -123,7 +123,7 @@
 
 				$('#sidebarCollapse').on('click', () => {
 					changePosition();
-					$('#sidebar').toggleClass('active');
+					$('#sidebar').toggleClass('disabled');
 				});
 			});
 
