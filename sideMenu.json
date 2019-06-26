@@ -1,0 +1,41 @@
+{
+    "header": [{
+        "content": "Ustawienia aplikacji"
+    }],
+    "sideMenuContent": [{
+            "name": "Plansza",
+            "content": [{
+                    "name": "Opcja1",
+                    "fxn": "foo()"
+                },
+                {
+                    "name": "Opcja2",
+                    "fxn": "foo()"
+                },
+                {
+                    "name": "Opcja3",
+                    "fxn": "foo()"
+                }
+            ]
+        },
+        {
+            "name": "Rysowanie",
+            "content": [{
+                    "name": "Opcja1",
+                    "fxn": "foo()"
+                },
+                {
+                    "name": "Opcja2",
+                    "fxn": "foo()"
+                },
+                {
+                    "name": "Opcja3",
+                    "fxn": "foo()"
+                }
+            ]
+        }
+    ],
+    "footer": [{
+        "content": "<https://mzmix.github.io/>(Strona Główna)"
+    }]
+}
