@@ -1,5 +1,14 @@
 new p5;
 
+function preload() {
+    settings.menuJsonPattern = loadJSON("./sideMenu.json", () => {
+        console.log("Plik JSON załadowany pomyślnie!");
+    }, () => {
+        alert("Wystąpił bład! Nastąpi przekierowanie do strony głównej!");
+        window.location.href = "https://mzmix.github.io/";
+    }, "json")
+}
+
 Number.prototype.between = function (a, b) {
     let minVal = min([a, b]);
     let maxVal = max([a, b]);
@@ -16,22 +25,34 @@ class UserInterface {
         // /\((.*?)\)/g
         const data = settings.menuJsonPattern;
 
-        let header = (`<h3>${data.header[0].content}</h3>`);
+        let header;
+        if (data.header[0].class) {
+            header = (`<h3 class="${data.header[0].class}">${data.header[0].content}</h3>`);
+        } else {
+            header = (`<h3>${data.header[0].content}</h3>`);
+        }
+
 
         let content = ` <!-- Opcje: --> <ul class="list-unstyled components">`;
 
         let part = "";
         let counter = 1;
         for (let submenu of data.sideMenuContent) {
-            part = `<li>
-            <a href="#submenu${counter}" data-toggle="collapse" aria-expanded="false"
-               class="dropdown-toggle">${submenu.name}</a></li><ul class="collapse list-unstyled" id="submenu${counter}">`;
+
+            if (submenu.class) {
+                part = `<li class="${submenu.class}">
+                <a href="#submenu${counter}" data-toggle="collapse" aria-expanded="false"
+                   class="dropdown-toggle">${submenu.name}</a></li><ul class="collapse list-unstyled" id="submenu${counter}">`;
+            } else {
+                part = `<li>
+                <a href="#submenu${counter}" data-toggle="collapse" aria-expanded="false"
+                   class="dropdown-toggle">${submenu.name}</a></li><ul class="collapse list-unstyled" id="submenu${counter}">`;
+            }
 
             for (let opt of submenu.content) {
-
-                part += `<li><a href="#" onclick="${opt.fxn}">${opt.name}</a></li>`;
-
+                part += `<li class="${opt.class}"><a href="#" onclick="${opt.fxn}">${opt.name}</a></li>`;
             }
+            counter++;
 
             part += `</ul></li>`;
 
@@ -40,7 +61,12 @@ class UserInterface {
 
         content += `</ul> <!-- Opcje END -->`;
 
-        let footer = `<a href="${data.footer[0].content.match(/\<(.*?)\>/)[1]}"><h3>${data.footer[0].content.match(/\((.*?)\)/)[1]}</h3> </a>`;
+        let footer;
+        if (data.footer[0].class) {
+            footer = `<a href="${data.footer[0].content.match(/\<(.*?)\>/)[1]}"><h3 class="${data.footer[0].class}">${data.footer[0].content.match(/\((.*?)\)/)[1]}</h3> </a>`;
+        } else {
+            footer = `<a href="${data.footer[0].content.match(/\<(.*?)\>/)[1]}"><h3>${data.footer[0].content.match(/\((.*?)\)/)[1]}</h3> </a>`;
+        }
 
         select('.sidebar-header').html(header, true);
         select('.sidebar-content').html(content, true);

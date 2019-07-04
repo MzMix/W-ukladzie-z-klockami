@@ -5,8 +5,7 @@
     "sideMenuContent": [{
             "name": "Plansza",
             "content": [{
-                    "name": "Opcja1",
-                    "fxn": "foo()"
+                    "name": "Opcja1"
                 },
                 {
                     "name": "Opcja2",
@@ -36,6 +35,7 @@
         }
     ],
     "footer": [{
-        "content": "<https://mzmix.github.io/>(Strona Główna)"
+        "content": "<https://mzmix.github.io/>(Strona Główna)",
+        "class": "test"
     }]
 }
