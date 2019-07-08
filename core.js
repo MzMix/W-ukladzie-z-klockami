@@ -1,4 +1,7 @@
 new p5;
+import {
+    PresetSettings as settings
+} from './settings.js';
 
 function preload() {
     settings.menuJsonPattern = loadJSON("./sideMenu.json", () => {
@@ -9,14 +12,7 @@ function preload() {
     }, "json")
 }
 
-Number.prototype.between = function (a, b) {
-    let minVal = min([a, b]);
-    let maxVal = max([a, b]);
-
-    return this > minVal && this < maxVal;
-};
-
-class UserInterface {
+export class UserInterface {
 
     createInterface() {
         let size = settings.squareSize * (settings.squaresBySide + 2) + 11 * settings.squareSpacer + 6;
@@ -140,24 +136,7 @@ class UserInterface {
 
 }
 
-class PresetSettings {
-    constructor() {
-        this.squareSize = 40;
-        this.squareSpacer = 7;
-        this.squaresBySide = 10
-
-        this.squareFill = '#C0C0C0';
-        this.squareStroke = color(255, 255, 255, 125);
-        this.squareTextColor = color(255, 255, 255);
-
-        this.indexFill = '#F64C72';
-        this.indexStroke = 'pink';
-
-        this.basicColorScheme = ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'];
-    }
-}
-
-class Segment {
+export class Segment {
     constructor(iteratorIndex, posKart, num) {
         this.iteratorIndex = iteratorIndex;
         this.posKart = posKart;
@@ -203,7 +182,7 @@ class Segment {
 
 }
 
-class Index extends Segment {
+export class Index extends Segment {
     constructor(iteratorIndex) {
         super(iteratorIndex, null, null);
         this.stroke = settings.indexStroke;
@@ -219,5 +198,5 @@ class Index extends Segment {
     }
 }
 
-const userInterface = new UserInterface();
-const settings = new PresetSettings();
+export const userInterface = new UserInterface();
+export const settings = new PresetSettings();
