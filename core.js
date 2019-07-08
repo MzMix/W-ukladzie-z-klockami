@@ -1,7 +1,4 @@
 new p5;
-import {
-    PresetSettings as settings
-} from './settings.js';
 
 function preload() {
     settings.menuJsonPattern = loadJSON("./sideMenu.json", () => {
@@ -12,7 +9,14 @@ function preload() {
     }, "json")
 }
 
-export class UserInterface {
+Number.prototype.between = function (a, b) {
+    let minVal = min([a, b]);
+    let maxVal = max([a, b]);
+
+    return this > minVal && this < maxVal;
+};
+
+class UserInterface {
 
     createInterface() {
         let size = settings.squareSize * (settings.squaresBySide + 2) + 11 * settings.squareSpacer + 6;
@@ -136,7 +140,7 @@ export class UserInterface {
 
 }
 
-export class Segment {
+class Segment {
     constructor(iteratorIndex, posKart, num) {
         this.iteratorIndex = iteratorIndex;
         this.posKart = posKart;
@@ -182,7 +186,7 @@ export class Segment {
 
 }
 
-export class Index extends Segment {
+class Index extends Segment {
     constructor(iteratorIndex) {
         super(iteratorIndex, null, null);
         this.stroke = settings.indexStroke;
@@ -198,5 +202,4 @@ export class Index extends Segment {
     }
 }
 
-export const userInterface = new UserInterface();
-export const settings = new PresetSettings();
+const userInterface = new UserInterface();

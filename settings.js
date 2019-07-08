@@ -1,4 +1,4 @@
-export default class PresetSettings {
+class PresetSettings {
     constructor() {
         this.squareSize = 40;
         this.squareSpacer = 7;
@@ -14,3 +14,5 @@ export default class PresetSettings {
         this.basicColorScheme = ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'];
     }
 }
+
+const settings = new PresetSettings();
