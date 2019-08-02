@@ -1,41 +1,17 @@
 {
     "header": [{
+        "type": "menuHeader",
         "content": "Ustawienia aplikacji"
     }],
     "sideMenuContent": [{
-            "name": "Plansza",
-            "content": [{
-                    "name": "Opcja1"
-                },
-                {
-                    "name": "Opcja2",
-                    "fxn": "foo()"
-                },
-                {
-                    "name": "Opcja3",
-                    "fxn": "foo()"
-                }
-            ]
-        },
-        {
-            "name": "Rysowanie",
-            "content": [{
-                    "name": "Opcja1",
-                    "fxn": "foo()"
-                },
-                {
-                    "name": "Opcja2",
-                    "fxn": "foo()"
-                },
-                {
-                    "name": "Opcja3",
-                    "fxn": "foo()"
-                }
-            ]
+        "type": "menuContent",
+        "content": {
+            "Plansza": [],
+            "Rysowanie": []
         }
-    ],
+    }],
     "footer": [{
-        "content": "<https://mzmix.github.io/>(Strona Główna)",
-        "class": "test"
+        "type": "menuFooter",
+        "content": "<https://mzmix.github.io/>(Strona Główna)"
     }]
 }

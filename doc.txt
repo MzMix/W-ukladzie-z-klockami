@@ -1,0 +1,10 @@
+sideMenu.json:
+
+- każda sekcja menu (header, content, footer) musi mieć typw (menuHeader, menuContent, menuFooter)
+-typ MUSI być podany na pierwszym miejscu w sekcji, np.:
+    "header": [{
+            "type": "menuHeader",
+            "content": "Ustawienia aplikacji"
+        }]
+-linki mogą być umieszczone tylko w sekcji contennt
+-linki muszą być zapisane z uzyciem <> dla linku, () dla tekstu, np.: <https://mzmix.github.io/>(Strona Główna)

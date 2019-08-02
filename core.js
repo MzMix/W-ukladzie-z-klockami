@@ -29,54 +29,76 @@ class UserInterface {
     }
 
     generateSideMenu() {
-        const data = settings.menuJsonPattern;
+        try {
+            const data = settings.menuJsonPattern;
 
-        let header;
-        if (data.header[0].class) {
-            header = (`<h3 class="${data.header[0].class}">${data.header[0].content}</h3>`);
-        } else {
-            header = (`<h3>${data.header[0].content}</h3>`);
+            //Obiekt przechowujący elementy menu
+            const SideMenu = {};
+            Object.keys(data).forEach((key) => {
+                SideMenu[key] = '';
+            });
+
+            Object.keys(SideMenu).forEach((element) => {
+                let el, sectionContent;
+
+                print(data[element][0]);
+
+                switch (data[element][0].type) {
+                    case "menuHeader":
+                        sectionContent = data[element][0].content;
+
+                        if (/\<(.*?)\>/.test(sectionContent) && /\((.*?)\)/.test(sectionContent)) {
+                            sectionContent = createA(content.match(/\<(.*?)\>/)[1], content.match(/\((.*?)\)/)[1]);
+                        } else {
+                            sectionContent = createSpan(sectionContent);
+                        }
+
+                        el = createElement('h3');
+                        el.child(sectionContent)
+
+                        if (data[element][0].class) el.addClass(data[element][0].class)
+                        el.parent(select('.sidebar-header'));
+
+                        break;
+
+                    case "menuContent":
+
+                        sectionContent = data[element][0].content;
+                        // print()
+                        // print(Object.keys(sectionContent)[0])
+
+
+
+
+
+                        break;
+
+                    case "menuFooter":
+                        sectionContent = data[element][0].content;
+
+                        if (/\<(.*?)\>/.test(sectionContent) && /\((.*?)\)/.test(sectionContent)) {
+                            sectionContent = createA(sectionContent.match(/\<(.*?)\>/)[1], sectionContent.match(/\((.*?)\)/)[1]);
+                        } else {
+                            sectionContent = createSpan(sectionContent);
+                        }
+
+                        el = createElement('h3');
+                        el.child(sectionContent)
+
+                        if (data[element][0].class) el.addClass(data[element][0].class)
+                        el.parent(select('.sidebar-footer'));
+                        break;
+
+                    default:
+                        throw new Error("Bład w składni pliku sideMenu.json");
+                }
+
+            });
+
+        } catch (e) {
+            console.error(e);
         }
 
-
-        let content = ` <!-- Opcje: --> <ul class="list-unstyled components">`;
-
-        let part = "";
-        let counter = 1;
-        for (let submenu of data.sideMenuContent) {
-
-            if (submenu.class) {
-                part = `<li class="${submenu.class}">
-            <a href="#submenu${counter}" data-toggle="collapse" aria-expanded="false"
-               class="dropdown-toggle">${submenu.name}</a></li><ul class="collapse list-unstyled" id="submenu${counter}">`;
-            } else {
-                part = `<li>
-            <a href="#submenu${counter}" data-toggle="collapse" aria-expanded="false"
-               class="dropdown-toggle">${submenu.name}</a></li><ul class="collapse list-unstyled" id="submenu${counter}">`;
-            }
-
-            for (let opt of submenu.content) {
-                part += `<li class="${opt.class}"><a href="#" onclick="${opt.fxn}">${opt.name}</a></li>`;
-            }
-            counter++;
-
-            part += `</ul></li>`;
-
-            content += part;
-        }
-
-        content += `</ul> <!-- Opcje END -->`;
-
-        let footer;
-        if (data.footer[0].class) {
-            footer = `<a href="${data.footer[0].content.match(/\<(.*?)\>/)[1]}"><h3 class="${data.footer[0].class}">${data.footer[0].content.match(/\((.*?)\)/)[1]}</h3> </a>`;
-        } else {
-            footer = `<a href="${data.footer[0].content.match(/\<(.*?)\>/)[1]}"><h3>${data.footer[0].content.match(/\((.*?)\)/)[1]}</h3> </a>`;
-        }
-
-        select('.sidebar-header').html(header, true);
-        select('.sidebar-content').html(content, true);
-        select('.sidebar-footer').html(footer, true);
     }
 
     generateBoard() {
