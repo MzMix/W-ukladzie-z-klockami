@@ -16,7 +16,22 @@ Number.prototype.between = function (a, b) {
     return this > minVal && this < maxVal;
 };
 
+function merge2Objects(obj1, obj2) {
+    return {
+        ...obj1,
+        ...obj2
+    };
+}
+
+class Action {}
+
+const action = new Action();
+
 class UserInterface {
+
+    constructor() {
+        this.executeQueue = {};
+    }
 
     createInterface() {
         let sizeW = settings.squareSize * (settings.squaresBySideW + 2) + 11 * settings.squareSpacer + 6;
@@ -41,7 +56,7 @@ class UserInterface {
             Object.keys(SideMenu).forEach((element) => {
                 let el, sectionContent;
 
-                print(data[element][0]);
+                // print(data[element][0]);
 
                 switch (data[element][0].type) {
                     case "menuHeader":
@@ -62,13 +77,42 @@ class UserInterface {
                         break;
 
                     case "menuContent":
-
                         sectionContent = data[element][0].content;
-                        // print()
-                        // print(Object.keys(sectionContent)[0])
+
+                        for (const [name, action] of Object.entries(sectionContent)) {
+                            let title = action[0];
+                            let fxn = action[1];
+
+                            let a = createA(`#submenu${name}`, `${name}`);
+
+                            a.addClass("dropdown-toggle");
+                            a.attribute("data-toggle", "collapse");
+                            a.attribute("aria-expanded", "false");
+
+                            a.parent(select(".sidebar-content"));
+
+                            let ul = createElement("ul");
+                            ul.addClass("collapse");
+                            ul.addClass("list-unstyled");
+                            ul.id(`submenu${name}`);
 
 
+                            if (title.length != fxn.length) {
+                                throw "JSON Syntax error! See documentation for help."
+                            }
 
+                            for (let i = 0; i < title.length; i++) {
+                                let e = createElement("li");
+
+                                let anch = createA("#", title[i]);
+                                anch.attribute("onclick", fxn[i]);
+                                anch.parent(e);
+
+                                e.parent(ul);
+                            }
+
+                            ul.parent(select(".sidebar-content"));
+                        }
 
 
                         break;
@@ -136,6 +180,7 @@ class UserInterface {
     }
 
     checkBoardClicks() {
+        print(2)
         for (let segment of this.board) {
             if (!(segment instanceof Index)) {
                 if (segment.mousePointing()) segment.colorSegment();
@@ -149,6 +194,10 @@ class UserInterface {
         for (let segment of userInterface.board) {
             segment.display();
         }
+
+        // for (const fxn in this.executeQueue) {
+        //     this.executeQueue[fxn]();
+        // }
     }
 
 }

@@ -18,6 +18,13 @@ class PresetSettings {
 
         this.basicColorScheme = ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'];
     }
+
+    //Refactor?
+    addValues(valueObj) {
+        for (const el in valueObj) {
+            this[el] = valueObj[el];
+        }
+    }
 }
 
 const settings = new PresetSettings();

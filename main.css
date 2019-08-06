@@ -1,6 +1,10 @@
 /* Background pattern from Toptal Subtle Patterns */
 /* https://www.toptal.com/designers/subtlepatterns/faq/ */
 
+:root {
+	--sidebarWidth: 250px;
+}
+
 body {
 	padding: 0 !important;
 	padding-bottom: 120px;
@@ -93,9 +97,11 @@ canvas {
 	align-items: stretch;
 }
 
+
+
 #sidebar {
-	min-width: 220px;
-	max-width: 220px;
+	min-width: var(--sidebarWidth);
+	max-width: var(--sidebarWidth);
 	min-height: 100vh;
 
 	color: #fff;
@@ -108,7 +114,7 @@ canvas {
 }
 
 #sidebar.disabled {
-	margin-left: -220px;
+	margin-left: calc(var(--sidebarWidth)* -1);
 }
 
 @media (max-width: 768px) {

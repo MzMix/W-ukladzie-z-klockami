@@ -6,8 +6,14 @@
     "sideMenuContent": [{
         "type": "menuContent",
         "content": {
-            "Plansza": [],
-            "Rysowanie": []
+            "Plansza": [
+                ["Pokaż osie", "Zmaina opisu pól"],
+                ["action.togAxis()", "print('generator menu')"]
+            ],
+            "Rysowanie": [
+                ["Symetria - oś X", "Symetria - oś Y", "Zawartość pól"],
+                ["action.symX()", "action.symY()", "print('generator menu')"]
+            ]
         }
     }],
     "footer": [{
