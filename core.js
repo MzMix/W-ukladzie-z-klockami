@@ -31,7 +31,9 @@ function merge2Objects(obj1, obj2) {
     };
 }
 
-class Action {}
+class Action {
+    showModal() {}
+}
 
 const action = new Action();
 
@@ -195,11 +197,12 @@ class UserInterface {
     }
 
     checkBoardClicks() {
-        for (let segment of this.board) {
-            if (!(segment instanceof Index)) {
-                if (segment.mousePointing()) segment.colorSegment();
+        if (select('.modal-title').style("display") != "none")
+            for (let segment of this.board) {
+                if (!(segment instanceof Index)) {
+                    if (segment.mousePointing()) segment.colorSegment();
+                }
             }
-        }
     }
 
     refreshBoard() {

@@ -57,6 +57,38 @@ function addMethodsToObjects() {
     Segment.prototype.colorSegment = function () {
         if (userInterface.pickedColor) {
             this.fill = userInterface.pickedColor;
+
+            if (settings.currentAxis != "none") {
+                for (let s of userInterface.board) {
+                    if (!(s instanceof Index) && s.posKart) {
+                        let sx = s.posKart.x;
+                        let sy = s.posKart.y;
+
+                        if (settings.currentAxis == "X") {
+                            // Symetria Y:
+                            if (sx == -1 * (this.posKart.x + 1) && sy == this.posKart.y) {
+                                s.fill = userInterface.pickedColor;
+                                break;
+                            }
+                        } else if (settings.currentAxis == "Y") {
+                            //Symetria X:
+                            if (sx == 1 * (this.posKart.x) && sy == -1 * (this.posKart.y - 1)) {
+                                s.fill = userInterface.pickedColor;
+                                break;
+                            }
+                        } else if (settings.currentAxis == "CENTER") {
+                            print(1);
+                            // Symetria Center:
+                            if (sx == -1 * (this.posKart.x + 1) && sy == -1 * (this.posKart.y - 1)) {
+                                s.fill = userInterface.pickedColor;
+                                break;
+                            }
+                        }
+
+                    }
+
+                }
+            }
         }
     }
 
@@ -104,14 +136,6 @@ function addMethodsToObjects() {
         // this.hideTxt();
     }
 
-    action.symX = function () {
-
-    }
-
-    action.symY = function () {
-
-    }
-
     action.togAxis = function () {
         axis.visible = !axis.visible;
     }
@@ -153,6 +177,28 @@ function addMethodsToObjects() {
                 el.addClass("custom-select switchSegmentContent");
 
                 el.changed(this.changeSegContent);
+
+                select(".modal-body").html("");
+                select(".modal-body").child(el);
+
+                break;
+
+
+            case 'symetryDrawing':
+
+                select(".modal-title").html("Ustawienia symetrii");
+
+                el = createSelect();
+                el.option("Brak");
+                el.option("Oś X");
+                el.option("Oś Y");
+                el.option("Względem środka układu");
+
+                if (settings.currentSymetryType) el.value(settings.currentSymetryType);
+
+                el.addClass("custom-select switchSymetryType");
+
+                el.changed(this.switchSymetryType);
 
                 select(".modal-body").html("");
                 select(".modal-body").child(el);
@@ -226,6 +272,17 @@ function addMethodsToObjects() {
 
                 break;
 
+            case "Brak":
+                for (let s of userInterface.board) {
+                    if (s instanceof Index) {
+
+                        s.retriveBasicValues();
+                        s.changeColor();
+                        s.changeContent("");
+                    }
+                }
+                break;
+
             default:
                 break;
         }
@@ -271,10 +328,39 @@ function addMethodsToObjects() {
         }
     }
 
+    action.switchSymetryType = function () {
+        settings["currentSymetryType"] = select(".switchSymetryType").value()
+
+
+        switch (settings.currentSymetryType) {
+
+            case "Oś X":
+                settings.currentAxis = "X";
+                break;
+
+            case "Oś Y":
+                settings.currentAxis = "Y";
+                break;
+
+            case "Względem środka układu":
+                settings.currentAxis = "CENTER";
+                break;
+
+            case "Brak":
+                settings.currentAxis = "none";
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
     settings.addValues({
         axisWidth: 5,
         axisHeight: 10,
-        axisColor: 'red'
+        axisColor: 'red',
+        currentAxis: 'none'
     })
 
     userInterface.executeQueue = {

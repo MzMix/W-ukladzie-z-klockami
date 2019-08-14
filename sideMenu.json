@@ -11,8 +11,8 @@
                 ["action.togAxis()", "action.showModal('changeSet')", "action.resetBoard()"]
             ],
             "Rysowanie": [
-                ["Symetria - oś X", "Symetria - oś Y", "Zmaina zawartości pól"],
-                ["action.symX()", "action.symY()", "action.showModal('changeSegmentContent')"]
+                ["Ustawienia symetrii", "Zmaina zawartości pól"],
+                ["action.showModal('symetryDrawing')", "action.showModal('changeSegmentContent')"]
             ],
             "Udostępnianie": [
                 ["Zapis planszy do pliku"],
