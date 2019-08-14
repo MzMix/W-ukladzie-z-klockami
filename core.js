@@ -16,6 +16,14 @@ Number.prototype.between = function (a, b) {
     return this > minVal && this < maxVal;
 };
 
+function getLettersFromAlphabet() {
+    const letters = (() => {
+        return [...Array(26)].map((val, i) => String.fromCharCode(i + 65));
+    })();
+
+    return letters;
+}
+
 function merge2Objects(obj1, obj2) {
     return {
         ...obj1,
@@ -108,6 +116,13 @@ class UserInterface {
                                 anch.attribute("onclick", fxn[i]);
                                 anch.parent(e);
 
+                                e.addClass("menuOption");
+
+                                if (fxn[i].includes("action.showModal(")) {
+                                    anch.attribute("data-toggle", "modal")
+                                    anch.attribute("data-target", "#modal")
+                                }
+
                                 e.parent(ul);
                             }
 
@@ -180,7 +195,6 @@ class UserInterface {
     }
 
     checkBoardClicks() {
-        print(2)
         for (let segment of this.board) {
             if (!(segment instanceof Index)) {
                 if (segment.mousePointing()) segment.colorSegment();
@@ -195,9 +209,9 @@ class UserInterface {
             segment.display();
         }
 
-        // for (const fxn in this.executeQueue) {
-        //     this.executeQueue[fxn]();
-        // }
+        for (const fxn in this.executeQueue) {
+            this.executeQueue[fxn]();
+        }
     }
 
 }
@@ -216,6 +230,7 @@ class Segment {
         this.stroke = settings.squareStroke;
         this.fill = settings.squareFill;
         this.round = settings.squareCurvature;
+        this.textColor = settings.squareTextColor;
     }
 
     display() {
@@ -228,11 +243,12 @@ class Segment {
 
         if (this.txt) {
             textSize(15);
-            fill(settings.squareTextColor);
+            fill(this.textColor);
             textAlign(CENTER, CENTER)
             strokeWeight(0);
             text(this.txt, 2, 2, settings.squareSize, settings.squareSize);
         }
+
         pop();
     }
 

@@ -3,6 +3,7 @@
 
 :root {
 	--sidebarWidth: 250px;
+	--sidebarFontSize: 1.5em;
 }
 
 body {
@@ -46,7 +47,7 @@ body {
 }
 
 .top-buffer {
-	margin-top: 20px;
+	margin-top: 20px !important;
 }
 
 .noPadding {
@@ -56,7 +57,6 @@ body {
 .canvasDiv {
 	/* border: 1px solid red; */
 	min-height: 70vh !important;
-	text-align: center !important;
 }
 
 .colorSchemeContainer {
@@ -100,17 +100,19 @@ canvas {
 
 
 #sidebar {
-	min-width: var(--sidebarWidth);
-	max-width: var(--sidebarWidth);
-	min-height: 100vh;
+	width: var(--sidebarWidth);
+	height: 80%;
 
 	color: #fff;
-	transition: all 0.3s;
+	transition: all 0.4s;
 
 	position: fixed;
 	top: 0;
 	z-index: 100;
 	background-color: #d5e1dfef;
+
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 #sidebar.disabled {
@@ -134,7 +136,7 @@ canvas {
 
 #sidebar .sidebar-content {
 	padding: 20px;
-	font-size: 1.5em;
+	font-size: var(--sidebarFontSize);
 	text-align: justify;
 }
 
@@ -151,8 +153,35 @@ canvas {
 	text-align: center;
 }
 
+.menuOption {
+	padding: 1px 0 1px 10px;
+	font-size: calc(var(--sidebarFontSize)* 0.6) !important;
+}
+
+.menuOption a {
+	color: rgba(0, 0, 0, 0.651);
+}
+
 .green {
 	background-color: #b5e7a0 !important;
+}
+
+#sidebar ::-webkit-scrollbar-track {
+	background-color: #F5F5F5;
+}
+
+#sidebar::-webkit-scrollbar {
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+	background-color: #b5e7a0;
+	border: 2px solid #b5e7a070;
+}
+
+.invisible {
+	display: none !important;
 }
 
 /* #e3eaa7 */

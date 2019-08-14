@@ -31,11 +31,12 @@ class Axis {
 const axis = new Axis();
 
 function addMethodsToObjects() {
+
     userInterface.generateColorContrainer = function () {
         this.palette = [];
         this.pickedColor = '';
 
-        for (let col of settings.basicColorScheme) {
+        for (let col of settings.basicFillColorScheme) {
 
             let div = createDiv();
 
@@ -54,10 +55,53 @@ function addMethodsToObjects() {
     }
 
     Segment.prototype.colorSegment = function () {
-        print(userInterface.pickedColor)
         if (userInterface.pickedColor) {
             this.fill = userInterface.pickedColor;
         }
+    }
+
+    Segment.prototype.hideTxt = function () {
+
+        if (this.textColor === this.basicTxtColor) {
+            this.textColor = color(0, 0);
+        } else {
+            this.textColor = this.basicTxtColor;
+        }
+    }
+
+    Segment.prototype.basicTxtColor = settings.squareTextColor;
+    Index.prototype.basicTxtColor = settings.squareTextColor;
+
+    Segment.prototype.changeContent = function (val) {
+        if (val) {
+            this.txt = val;
+        } else {
+            this.txt = this.basicContent;
+        }
+    }
+
+    Segment.prototype.basicContent = "";
+    Index.prototype.basicContent = Index["iteratorIndex.x"]
+
+    Segment.prototype.changeColor = function (val) {
+        if (val) {
+            this.fill = val;
+            this.stroke = "transparent"
+        } else {
+            this.fill = this.basicFillColor;
+            this.stroke = this.basicStrokeColor
+        }
+    }
+
+    Segment.prototype.basicFillColor = settings.squareFill;
+    Index.prototype.basicFillColor = settings.indexFill;
+
+    Segment.prototype.basicStrokeColor = settings.squareStroke;
+    Index.prototype.basicStrokeColor = settings.indexStroke;
+
+    Segment.prototype.retriveBasicValues = function () {
+        this.changeContent();
+        // this.hideTxt();
     }
 
     action.symX = function () {
@@ -70,14 +114,162 @@ function addMethodsToObjects() {
 
     action.togAxis = function () {
         axis.visible = !axis.visible;
-        print("Axis switch!")
     }
 
-    action.changeSegContent = function (type) {
+    action.showModal = function (value) {
+        let el;
 
+        switch (value) {
+            case "changeSet":
+                select(".modal-title").html("Zmiana opisu pól");
+
+                el = createSelect();
+                el.option("Numeracja");
+                el.option("Adresowanie");
+                el.option("Kolory");
+                el.option("Brak");
+
+                if (settings.currentIndexType) el.value(settings.currentIndexType);
+
+                el.addClass("custom-select switchIndexType");
+
+                el.changed(this.switchIndexType);
+
+                select(".modal-body").html("");
+                select(".modal-body").child(el);
+                break;
+
+            case 'changeSegmentContent':
+
+                select(".modal-title").html("Zmiana zawartości pól");
+
+                el = createSelect();
+                el.option("Brak");
+                el.option("Numeracja");
+                el.option("Adresowanie");
+
+                if (settings.currentSegmentContent) el.value(settings.currentSegmentContent);
+
+                el.addClass("custom-select switchSegmentContent");
+
+                el.changed(this.changeSegContent);
+
+                select(".modal-body").html("");
+                select(".modal-body").child(el);
+
+                break;
+
+            default:
+                break;
+        }
     }
 
-    // settings.basicColorScheme = ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'];
+    action.switchIndexType = function () {
+        settings["currentIndexType"] = select(".switchIndexType").value()
+
+        switch (settings.currentIndexType) {
+            case "Numeracja":
+
+                for (let s of userInterface.board) {
+                    if (s instanceof Index) {
+
+                        s.retriveBasicValues();
+                        s.changeColor();
+
+                        if (s.iteratorIndex.x.between(0, 11)) {
+                            s.changeContent(s.iteratorIndex.x)
+
+                        } else if (s.iteratorIndex.y.between(0, 11)) {
+                            s.changeContent(s.iteratorIndex.y)
+                        }
+                    }
+                }
+
+                break;
+
+            case "Adresowanie":
+
+                const letters = getLettersFromAlphabet();
+
+                for (let s of userInterface.board) {
+                    if (s instanceof Index) {
+
+                        s.retriveBasicValues();
+                        s.changeColor();
+
+                        if (s.iteratorIndex.x.between(0, 11)) {
+                            s.changeContent(letters[s.iteratorIndex.x - 1])
+
+                        } else if (s.iteratorIndex.y.between(0, 11)) {
+                            s.changeContent(s.iteratorIndex.y)
+                        }
+                    }
+                }
+
+                break;
+
+            case "Kolory":
+
+                for (let s of userInterface.board) {
+                    if (s instanceof Index) {
+
+                        s.retriveBasicValues();
+                        s.changeColor();
+
+                        if (s.iteratorIndex.x.between(0, 11)) {
+                            s.changeColor(settings.basicFillColorScheme[abs(s.iteratorIndex.x - 1)]);
+                        } else if (s.iteratorIndex.y.between(0, 11)) {
+                            s.changeColor(settings.basicFillColorScheme[abs(s.iteratorIndex.y - 1)]);
+                        }
+                    }
+                }
+
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    action.changeSegContent = function () {
+        settings["currentSegmentContent"] = select(".switchSegmentContent").value()
+
+        print(settings.currentSegmentContent)
+
+        switch (settings.currentSegmentContent) {
+
+            case "Brak":
+                for (let s of userInterface.board) {
+                    if (!(s instanceof Index)) {
+                        s.retriveBasicValues()
+                    }
+                }
+                break;
+
+            case "Numeracja":
+                for (let s of userInterface.board) {
+                    if (!(s instanceof Index)) {
+                        s.retriveBasicValues()
+                        s.changeContent(s.num)
+                    }
+                }
+                break;
+
+            case "Adresowanie":
+                const letters = getLettersFromAlphabet();
+
+                for (let s of userInterface.board) {
+                    if (!(s instanceof Index)) {
+                        s.retriveBasicValues()
+                        s.changeContent(`${letters[s.iteratorIndex.x - 1]}${s.iteratorIndex.y}`)
+                    }
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
 
     settings.addValues({
         axisWidth: 5,
@@ -90,6 +282,53 @@ function addMethodsToObjects() {
             axis.update()
         }
     }
+
+    action.saveImg = function () {
+        let data = new Date();
+        saveCanvas(`plansza-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png');
+    }
+
+    action.hideColorPalette = function () {
+
+        let colPal = select(".colorSchemeContainer")
+        let canvas = select(".canvasDiv")
+
+        if (colPal.style('display') === "none") {
+            colPal.removeClass("invisible");
+            canvas.style("margin", "0");
+        } else {
+            colPal.addClass("invisible");
+            canvas.style("margin", "0 auto 0 auto");
+        }
+
+
+    }
+
+    action.resetBoard = function () {
+        for (let s of userInterface.board) {
+            if (!(s instanceof Index)) {
+                s.retriveBasicValues()
+                s.changeColor();
+            }
+        }
+    }
+
+    // action.hidePageParts = function () {
+    //     let elements = selectAll(".turnOff");
+
+    //     if (elements[0].hasClass(".invisible")) {
+    //         for (let el of elements) {
+    //             el.removeClass("invisible")
+    //         }
+    //     } else {
+    //         for (let el of elements) {
+    //             el.addClass("invisible")
+    //         }
+    //     }
+
+    // }
+
+    settings.basicFillColorScheme = ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'];
 
 }
 
@@ -104,7 +343,7 @@ function setup() {
 }
 
 function draw() {
-    // userInterface.refreshBoard();
+    userInterface.refreshBoard();
     for (let segment of userInterface.board) {
         segment.display();
     }
