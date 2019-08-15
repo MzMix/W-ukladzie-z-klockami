@@ -35,6 +35,7 @@ function addMethodsToObjects() {
     userInterface.generateColorContrainer = function () {
         this.palette = [];
         this.pickedColor = '';
+        select(".colorSchemeContainer").html("")
 
         for (let col of settings.colorSchemes[settings.activeColorScheme]) {
 
@@ -207,6 +208,8 @@ function addMethodsToObjects() {
 
             case 'changeColorSet':
 
+                this.refreshColorSets();
+
                 select(".modal-title").html("Zestawy kolorów");
 
                 el = createSelect();
@@ -222,19 +225,49 @@ function addMethodsToObjects() {
 
                 el.changed(this.switchColorScheme);
 
-                let btn = createButton("Dodaj nowy zestaw");
-                btn.addClass("btn btn-outline-primary btn-block");
-                btn.style("margin-top", "20px");
-                btn.mouseClicked("action.customColorSet")
+                // let btn = createButton("Dodaj nowy zestaw");
+                // btn.addClass("btn btn-outline-primary btn-block");
+                // btn.style("margin-top", "20px");
+                // btn.mousePressed(action.newSet)
 
                 select(".modal-body").html("");
                 select(".modal-body").child(el);
-                select(".modal-body").child(btn);
+                // select(".modal-body").child(btn);
 
+                break;
+
+            case "addColorScheme":
+                select(".modal-title").html("Dodaj nowy zestaw");
+
+                for (let col of settings.colorSchemes[settings.activeColorScheme]) {
+                    let el = createDiv();
+                    el.addClass("paletteBtn");
+                    el.style("background-color", col);
+                    el.size(1.2 * settings.squareSize, 1.2 * settings.squareSize);
+                    el.mousePressed(action.newColor(settings.colorSchemes[settings.activeColorScheme].indexOf(col)));
+                    select(".modal-body").child(el);
+                }
+
+                select(".modal-body").html("");
                 break;
 
             default:
                 break;
+        }
+    }
+
+    action.newColor = function () {
+
+    }
+
+    action.newSet = function () {
+        action.showModal('addColorScheme')
+    }
+
+    action.refreshColorSets = function () {
+        settings.colorsSchemesInList = [];
+        for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
+            settings.colorsSchemesInList.push(`Zestaw ${i+1}`);
         }
     }
 
@@ -387,11 +420,17 @@ function addMethodsToObjects() {
     action.switchColorScheme = function () {
         settings["currentColorScheme"] = select(".switchColorScheme").value();
 
+        if (settings.currentColorScheme == "Domyślny") {
+            settings.activeColorScheme = 0;
+            userInterface.generateColorContrainer()
+        } else {
+            let pos = settings.colorsSchemesInList.indexOf(settings.currentColorScheme);
+            pos++;
 
-    }
+            settings.activeColorScheme = pos;
+            userInterface.generateColorContrainer()
+        }
 
-    action.customColorSet = function () {
-        print(1);
     }
 
     settings.addValues({
