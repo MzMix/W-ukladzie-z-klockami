@@ -36,7 +36,7 @@ function addMethodsToObjects() {
         this.palette = [];
         this.pickedColor = '';
 
-        for (let col of settings.basicFillColorScheme) {
+        for (let col of settings.colorSchemes[settings.activeColorScheme]) {
 
             let div = createDiv();
 
@@ -205,6 +205,34 @@ function addMethodsToObjects() {
 
                 break;
 
+            case 'changeColorSet':
+
+                select(".modal-title").html("Zestawy kolorów");
+
+                el = createSelect();
+                el.option("Domyślny");
+
+                for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
+                    el.option(`Zestaw ${i+1}`);
+                }
+
+                if (settings.currentColorScheme) el.value(settings.currentColorScheme);
+
+                el.addClass("custom-select switchColorScheme");
+
+                el.changed(this.switchColorScheme);
+
+                let btn = createButton("Dodaj nowy zestaw");
+                btn.addClass("btn btn-outline-primary btn-block");
+                btn.style("margin-top", "20px");
+                btn.mouseClicked("action.customColorSet")
+
+                select(".modal-body").html("");
+                select(".modal-body").child(el);
+                select(".modal-body").child(btn);
+
+                break;
+
             default:
                 break;
         }
@@ -263,9 +291,9 @@ function addMethodsToObjects() {
                         s.changeColor();
 
                         if (s.iteratorIndex.x.between(0, 11)) {
-                            s.changeColor(settings.basicFillColorScheme[abs(s.iteratorIndex.x - 1)]);
+                            s.changeColor(settings.colorSchemes[settings.activeColorScheme][abs(s.iteratorIndex.x - 1)]);
                         } else if (s.iteratorIndex.y.between(0, 11)) {
-                            s.changeColor(settings.basicFillColorScheme[abs(s.iteratorIndex.y - 1)]);
+                            s.changeColor(settings.colorSchemes[settings.activeColorScheme][abs(s.iteratorIndex.y - 1)]);
                         }
                     }
                 }
@@ -356,11 +384,22 @@ function addMethodsToObjects() {
 
     }
 
+    action.switchColorScheme = function () {
+        settings["currentColorScheme"] = select(".switchColorScheme").value();
+
+
+    }
+
+    action.customColorSet = function () {
+        print(1);
+    }
+
     settings.addValues({
         axisWidth: 5,
         axisHeight: 10,
         axisColor: 'red',
-        currentAxis: 'none'
+        currentAxis: 'none',
+        activeColorScheme: 0
     })
 
     userInterface.executeQueue = {
@@ -414,7 +453,10 @@ function addMethodsToObjects() {
 
     // }
 
-    settings.basicFillColorScheme = ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'];
+    settings.colorSchemes = [
+        ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'],
+        ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#C0C0C0']
+    ];
 
 }
 

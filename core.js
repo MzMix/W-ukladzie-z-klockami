@@ -41,6 +41,7 @@ class UserInterface {
 
     constructor() {
         this.executeQueue = {};
+        this.modalOpened = false;
     }
 
     createInterface() {
@@ -197,7 +198,7 @@ class UserInterface {
     }
 
     checkBoardClicks() {
-        if (select('.modal-title').style("display") != "none")
+        if (!this.modalOpened)
             for (let segment of this.board) {
                 if (!(segment instanceof Index)) {
                     if (segment.mousePointing()) segment.colorSegment();
@@ -276,3 +277,11 @@ class Index extends Segment {
         super.display();
     }
 }
+
+$('modal').on('show.bs.modal', function () {
+    userInterface.modalOpened = true;
+})
+
+$('#modal').on('hidden.bs.modal', function () {
+    userInterface.modalOpened = false;
+})

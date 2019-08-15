@@ -19,8 +19,8 @@
                 ["action.saveImg()"]
             ],
             "Dostosowywanie": [
-                ["Ukryj paletę barw"],
-                ["action.hideColorPalette()"]
+                ["Zestawy kolorów", "Ukryj paletę barw"],
+                ["action.showModal('changeColorSet')", "action.hideColorPalette()"]
             ]
         }
     }],
