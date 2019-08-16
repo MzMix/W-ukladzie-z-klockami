@@ -97,8 +97,6 @@ canvas {
 	align-items: stretch;
 }
 
-
-
 #sidebar {
 	width: var(--sidebarWidth);
 	height: 80%;
