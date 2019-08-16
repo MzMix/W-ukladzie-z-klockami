@@ -9,7 +9,6 @@ class Axis {
 
     update() {
         if (this.visible) this.draw();
-        // print(this.visible)
     }
 
     draw() {
@@ -475,6 +474,7 @@ function addMethodsToObjects() {
                 s.changeColor();
             }
         }
+        axis.visible = false;
     }
 
     // action.hidePageParts = function () {
