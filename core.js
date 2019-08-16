@@ -1,5 +1,14 @@
 new p5;
 
+function preload() {
+    settings.menuJsonPattern = loadJSON("./sideMenu.json", () => {
+        console.log("Plik JSON załadowany pomyślnie!");
+    }, () => {
+        alert("Wystąpił bład! Nastąpi przekierowanie do strony głównej!");
+        window.location.href = "https://mzmix.github.io/";
+    }, "json")
+}
+
 Number.prototype.between = function (a, b) {
     let minVal = min([a, b]);
     let maxVal = max([a, b]);
@@ -7,44 +16,150 @@ Number.prototype.between = function (a, b) {
     return this > minVal && this < maxVal;
 };
 
+function getLettersFromAlphabet() {
+    const letters = (() => {
+        return [...Array(26)].map((val, i) => String.fromCharCode(i + 65));
+    })();
+
+    return letters;
+}
+
+function merge2Objects(obj1, obj2) {
+    return {
+        ...obj1,
+        ...obj2
+    };
+}
+
+class Action {
+    showModal() {}
+}
+
+const action = new Action();
+
 class UserInterface {
 
+    constructor() {
+        this.executeQueue = {};
+        this.modalOpened = false;
+    }
+
     createInterface() {
-        let size = settings.squareSize * (settings.squaresBySide + 2) + 11 * settings.squareSpacer + 6;
-        this.canvas = createCanvas(size, size).parent(select('.canvasDiv'));
+        let sizeW = settings.squareSize * (settings.squaresBySideW + 2) + 11 * settings.squareSpacer + 6;
+        let sizeH = settings.squareSize * (settings.squaresBySideH + 2) + 11 * settings.squareSpacer + 6;
+        this.canvas = createCanvas(sizeW, sizeH).parent(select('.canvasDiv'));
 
-        // /\((.*?)\)/g
-        const data = settings.menuJsonPattern;
+        this.generateSideMenu();
 
-        let header = (`<h3>${data.header[0].content}</h3>`);
+        return this;
+    }
 
-        let content = ` <!-- Opcje: --> <ul class="list-unstyled components">`;
+    generateSideMenu() {
+        try {
+            const data = settings.menuJsonPattern;
 
-        let part = "";
-        let counter = 1;
-        for (let submenu of data.sideMenuContent) {
-            part = `<li>
-            <a href="#submenu${counter}" data-toggle="collapse" aria-expanded="false"
-               class="dropdown-toggle">${submenu.name}</a></li><ul class="collapse list-unstyled" id="submenu${counter}">`;
+            //Obiekt przechowujący elementy menu
+            const SideMenu = {};
+            Object.keys(data).forEach((key) => {
+                SideMenu[key] = '';
+            });
 
-            for (let opt of submenu.content) {
+            Object.keys(SideMenu).forEach((element) => {
+                let el, sectionContent;
 
-                part += `<li><a href="#" onclick="${opt.fxn}">${opt.name}</a></li>`;
+                // print(data[element][0]);
 
-            }
+                switch (data[element][0].type) {
+                    case "menuHeader":
+                        sectionContent = data[element][0].content;
 
-            part += `</ul></li>`;
+                        if (/\<(.*?)\>/.test(sectionContent) && /\((.*?)\)/.test(sectionContent)) {
+                            sectionContent = createA(content.match(/\<(.*?)\>/)[1], content.match(/\((.*?)\)/)[1]);
+                        } else {
+                            sectionContent = createSpan(sectionContent);
+                        }
 
-            content += part;
+                        el = createElement('h3');
+                        el.child(sectionContent)
+
+                        if (data[element][0].class) el.addClass(data[element][0].class)
+                        el.parent(select('.sidebar-header'));
+
+                        break;
+
+                    case "menuContent":
+                        sectionContent = data[element][0].content;
+
+                        for (const [name, action] of Object.entries(sectionContent)) {
+                            let title = action[0];
+                            let fxn = action[1];
+
+                            let a = createA(`#submenu${name}`, `${name}`);
+
+                            a.addClass("dropdown-toggle");
+                            a.attribute("data-toggle", "collapse");
+                            a.attribute("aria-expanded", "false");
+
+                            a.parent(select(".sidebar-content"));
+
+                            let ul = createElement("ul");
+                            ul.addClass("collapse");
+                            ul.addClass("list-unstyled");
+                            ul.id(`submenu${name}`);
+
+
+                            if (title.length != fxn.length) {
+                                throw "JSON Syntax error! See documentation for help."
+                            }
+
+                            for (let i = 0; i < title.length; i++) {
+                                let e = createElement("li");
+
+                                let anch = createA("#", title[i]);
+                                anch.attribute("onclick", fxn[i]);
+                                anch.parent(e);
+
+                                e.addClass("menuOption");
+
+                                if (fxn[i].includes("action.showModal(")) {
+                                    anch.attribute("data-toggle", "modal")
+                                    anch.attribute("data-target", "#modal")
+                                }
+
+                                e.parent(ul);
+                            }
+
+                            ul.parent(select(".sidebar-content"));
+                        }
+
+
+                        break;
+
+                    case "menuFooter":
+                        sectionContent = data[element][0].content;
+
+                        if (/\<(.*?)\>/.test(sectionContent) && /\((.*?)\)/.test(sectionContent)) {
+                            sectionContent = createA(sectionContent.match(/\<(.*?)\>/)[1], sectionContent.match(/\((.*?)\)/)[1]);
+                        } else {
+                            sectionContent = createSpan(sectionContent);
+                        }
+
+                        el = createElement('h3');
+                        el.child(sectionContent)
+
+                        if (data[element][0].class) el.addClass(data[element][0].class)
+                        el.parent(select('.sidebar-footer'));
+                        break;
+
+                    default:
+                        throw new Error("Bład w składni pliku sideMenu.json");
+                }
+
+            });
+
+        } catch (e) {
+            console.error(e);
         }
-
-        content += `</ul> <!-- Opcje END -->`;
-
-        let footer = `<a href="${data.footer[0].content.match(/\<(.*?)\>/)[1]}"><h3>${data.footer[0].content.match(/\((.*?)\)/)[1]}</h3> </a>`;
-
-        select('.sidebar-header').html(header, true);
-        select('.sidebar-content').html(content, true);
-        select('.sidebar-footer').html(footer, true);
 
     }
 
@@ -53,8 +168,8 @@ class UserInterface {
         this.board = [];
         let total = 1;
 
-        for (let y = 0; y < settings.squaresBySide + 2; y++) {
-            for (let x = 0; x < settings.squaresBySide + 2; x++) {
+        for (let y = 0; y < settings.squaresBySideH + 2; y++) {
+            for (let x = 0; x < settings.squaresBySideW + 2; x++) {
 
                 let iteratorIndex = {
                     x: x,
@@ -62,15 +177,15 @@ class UserInterface {
                 }
 
                 let posKart = {
-                    x: y - (settings.squaresBySide + 2) / 2,
-                    y: -x + (settings.squaresBySide + 2) / 2
+                    x: y - (settings.squaresBySideH + 2) / 2,
+                    y: -x + (settings.squaresBySideW + 2) / 2
                 }
 
-                if (((y == 0 || y == settings.squaresBySide + 1) && x > 0 && x < settings.squaresBySide + 1) ||
-                    ((x == 0 || x == settings.squaresBySide + 1) && y > 0 && y < settings.squaresBySide + 1)) {
+                if (((y == 0 || y == settings.squaresBySideH + 1) && x > 0 && x < settings.squaresBySideW + 1) ||
+                    ((x == 0 || x == settings.squaresBySideW + 1) && y > 0 && y < settings.squaresBySideH + 1)) {
                     //Index
                     this.board.push(new Index(iteratorIndex, posKart, total));
-                } else if (y != 0 && y != settings.squaresBySide + 1) {
+                } else if (y != 0 && y != settings.squaresBySideH + 1) {
                     this.board.push(new Segment(iteratorIndex, posKart, total));
                     total++;
                 }
@@ -79,57 +194,33 @@ class UserInterface {
 
             }
         }
-    }
-
-    generateColorContrainer() {
-
-        this.palette = [];
-
-        for (let col of settings.basicColorScheme) {
-
-            let div = createDiv();
-
-            div.addClass('paletteBtn');
-            div.style('background-color', col);
-            div.size(1.2 * settings.squareSize, 1.2 * settings.squareSize);
-            div.attribute("onclick", `userInterface.pickColor('${col}')`);
-            select(".colorSchemeContainer").child(div);
-            this.palette.push(div);
-        }
-
-    }
-
-    pickColor(color) {
-        this.pickedColor = color;
-        // print(this.pickedColor);
+        return this;
     }
 
     checkBoardClicks() {
-        for (let segment of this.board) {
-            if (!(segment instanceof Index)) {
-                if (segment.mousePointing()) segment.colorSegment();
+        if (!this.modalOpened)
+            for (let segment of this.board) {
+                if (!(segment instanceof Index)) {
+                    if (segment.mousePointing()) segment.colorSegment();
+                }
             }
+    }
+
+    refreshBoard() {
+        clear();
+
+        for (let segment of userInterface.board) {
+            segment.display();
+        }
+
+        for (const fxn in this.executeQueue) {
+            this.executeQueue[fxn]();
         }
     }
 
 }
 
-class PresetSettings {
-    constructor() {
-        this.squareSize = 40;
-        this.squareSpacer = 7;
-        this.squaresBySide = 10
-
-        this.squareFill = '#C0C0C0';
-        this.squareStroke = color(255, 255, 255, 125);
-        this.squareTextColor = color(255, 255, 255);
-
-        this.indexFill = '#F64C72';
-        this.indexStroke = 'pink';
-
-        this.basicColorScheme = ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'];
-    }
-}
+const userInterface = new UserInterface();
 
 class Segment {
     constructor(iteratorIndex, posKart, num) {
@@ -142,8 +233,8 @@ class Segment {
         );
         this.stroke = settings.squareStroke;
         this.fill = settings.squareFill;
-        this.round = 2;
-        this.txt = '';
+        this.round = settings.squareCurvature;
+        this.textColor = settings.squareTextColor;
     }
 
     display() {
@@ -154,12 +245,13 @@ class Segment {
 
         rect(0, 0, settings.squareSize, settings.squareSize, this.round)
 
-        textSize(15);
-        fill(settings.squareTextColor);
-        // stroke(settings.squareTextColor);
-        textAlign(CENTER, CENTER)
-        strokeWeight(0);
-        text(this.txt, 2, 2, settings.squareSize, settings.squareSize);
+        if (this.txt) {
+            textSize(15);
+            fill(this.textColor);
+            textAlign(CENTER, CENTER)
+            strokeWeight(0);
+            text(this.txt, 2, 2, settings.squareSize, settings.squareSize);
+        }
 
         pop();
     }
@@ -168,13 +260,6 @@ class Segment {
         return mouseX.between(this.pos.x, this.pos.x + settings.squareSize) &&
             mouseY.between(this.pos.y, this.pos.y + settings.squareSize);
     }
-
-    colorSegment() {
-        if (userInterface.pickedColor) {
-            this.fill = userInterface.pickedColor;
-        }
-    }
-
 }
 
 class Index extends Segment {
@@ -182,7 +267,7 @@ class Index extends Segment {
         super(iteratorIndex, null, null);
         this.stroke = settings.indexStroke;
         this.fill = settings.indexFill;
-        this.round = 10;
+        this.round = settings.indexCurvature;
 
         this.txt = this.iteratorIndex.x;
         if (this.iteratorIndex.x == 0 || this.iteratorIndex.x == 11) this.txt = this.iteratorIndex.y;
@@ -193,5 +278,10 @@ class Index extends Segment {
     }
 }
 
-const userInterface = new UserInterface();
-const settings = new PresetSettings();
+$('modal').on('show.bs.modal', function () {
+    userInterface.modalOpened = true;
+})
+
+$('#modal').on('hidden.bs.modal', function () {
+    userInterface.modalOpened = false;
+})

@@ -13,7 +13,7 @@
 
 	<script>
 		// window.onbeforeunload = function () {
-		// 	return 'Are you sure you want to leave?';
+		// 	return 'Are you sure you want to leave?' ;
 		// };
 	</script>
 
@@ -26,7 +26,7 @@
 	<div class="content">
 		<div class="container-fluid">
 			<!-- Title -->
-			<div class="row titleRow">
+			<div class="row titleRow turnOff">
 				<div class="col-12 title noPadding">
 					<h1 class="display-3">Klockiem w matematykę!</h1>
 				</div>
@@ -34,7 +34,7 @@
 			<!--row Title-->
 
 			<!-- Header -->
-			<div class="row headerRow">
+			<div class="row headerRow turnOff">
 				<div class="col-12 header noPadding">
 					<h4>W układzie z klockami</h4>
 				</div>
@@ -59,9 +59,9 @@
 			</div>
 
 			<!-- Footer -->
-			<div class="row fixed-bottom">
+			<div class="row fixed-bottom turnOff">
 				<div class="col-sm-12 footer">
-					<h5>Klockiem w matematykę! 2018 - 2019 | W układzie z klockami | Wersja: 1.0 z dnia: 25.06.2019
+					<h5>Klockiem w matematykę! 2018 - 2019 | W układzie z klockami | Wersja: 1.0 z dnia: 13.08.2019
 					</h5>
 				</div>
 			</div>
@@ -83,13 +83,44 @@
 				</button>
 			</div>
 
-			<div class="sidebar-content"></div>
+			<div class="sidebar-content">
+				<!-- <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Plansza</a>
+				<ul class="collapse list-unstyled" id="submenu1">
+					<li class="test1"><a href="#">#1</a></li>
+					<li class="test1"><a href="#">#1</a></li>
+					<li class="test1"><a href="#">#1</a></li>
+					<li class="test1"><a href="#">#1</a></li>
+					<li class="test1"><a href="#">#1</a></li>
+				</ul> -->
+			</div>
 
 			<div class="sidebar-footer"></div>
 
 			<!-- Sidebar end -->
 
 		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modalLabel"></h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body"></div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
+						<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button> -->
+						<!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Zastosój</button> -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal end -->
+
 		<!-- Wrapper end -->
 
 		<!-- Bootstrap Js:  -->
@@ -137,6 +168,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.js"></script>
 		<script src="core.js"></script>
+		<script src="settings.js"></script>
 		<script src="sketch.js"></script>
 
 </body>
