@@ -250,9 +250,70 @@ function addMethodsToObjects() {
                 select(".modal-body").html("");
                 break;
 
+            case "DisplayColorDesc":
+                select(".modal-title").html("Zakodowany rysunek:");
+
+                let btn = createButton('Zapis do pliku');
+                btn.addClass("btn btn-success");
+                btn.style("order", "2");
+                btn.attribute("onclick", "action.saveColorDsc()");
+
+                select(".modalCloseBtn").style("order", "1")
+
+                select(".modal-footer").style("display", "flex");
+                select(".modal-footer").style("flex-flow", "column");
+                select(".modal-footer").child(btn);
+
+                const letters = getLettersFromAlphabet();
+
+                let colors = [];
+
+                for (let col of settings.colorSchemes[settings.activeColorScheme]) {
+                    if (col != "#C0C0C0") {
+                        colors.push({
+                            color: col,
+                            pos: ""
+                        })
+                    }
+                }
+
+                for (let s of userInterface.board) {
+                    if ((!(s instanceof Index)) && s.fill != "#C0C0C0") {
+
+                        let vert = letters[s.iteratorIndex.x - 1]
+                        let hor = s.iteratorIndex.y;
+                        let pos = vert + hor;
+
+                        colors[settings.colorSchemes[settings.activeColorScheme].indexOf(s.fill)].pos += ` ${pos}`
+                    }
+                }
+                print(colors)
+
+                let anyInIDiv = false;
+
+                for (let col of colors) {
+                    if (!col.pos == "") {
+                        let el = createP(`<span style="background-color: ${col.color};" class = "textColorBox"></span> : ${col.pos}`);
+                        select('.modal-body').child(el);
+                        anyInIDiv = true;
+                    }
+                }
+
+                if (!anyInIDiv) {
+                    select('.modal-body').child(createP("Plansza jest pusta!"));
+                }
+
+                break;
+
             default:
                 break;
         }
+    }
+
+    action.saveColorDsc = function () {
+        html2canvas(document.querySelector(".modal-body")).then(canvas => {
+            saveCanvas(canvas, `zakodowanaPlansza-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png')
+        });
     }
 
     action.newColor = function () {
@@ -475,22 +536,6 @@ function addMethodsToObjects() {
             }
         }
         axis.visible = false;
-    }
-
-    action.generateColorDesc = function () {
-        const letters = getLettersFromAlphabet();
-
-        for (let s of userInterface.board) {
-            if ((!(s instanceof Index)) && s.fill != "#C0C0C0") {
-
-                let vert = letters[s.iteratorIndex.x - 1]
-                let hor = s.iteratorIndex.y;
-                let col = s.fill;
-
-                console.log(`%c ${vert}${hor} | Kolor: ${col}`, `color: white; background-color: ${col}`);
-
-            }
-        }
     }
 
     // action.hidePageParts = function () {
