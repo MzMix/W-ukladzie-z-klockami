@@ -477,6 +477,22 @@ function addMethodsToObjects() {
         axis.visible = false;
     }
 
+    action.generateColorDesc = function () {
+        const letters = getLettersFromAlphabet();
+
+        for (let s of userInterface.board) {
+            if ((!(s instanceof Index)) && s.fill != "#C0C0C0") {
+
+                let vert = letters[s.iteratorIndex.x - 1]
+                let hor = s.iteratorIndex.y;
+                let col = s.fill;
+
+                console.log(`%c ${vert}${hor} | Kolor: ${col}`, `color: white; background-color: ${col}`);
+
+            }
+        }
+    }
+
     // action.hidePageParts = function () {
     //     let elements = selectAll(".turnOff");
 
