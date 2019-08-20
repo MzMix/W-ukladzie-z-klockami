@@ -284,4 +284,9 @@ $('modal').on('show.bs.modal', function () {
 
 $('#modal').on('hidden.bs.modal', function () {
     userInterface.modalOpened = false;
+
+    if (select(".saveColorDsc")) select(".saveColorDsc").remove();
+
+    select(".p5Canvas").show();
+    select(".colorSchemeContainer").show();
 })

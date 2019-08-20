@@ -77,7 +77,6 @@ function addMethodsToObjects() {
                                 break;
                             }
                         } else if (settings.currentAxis == "CENTER") {
-                            print(1);
                             // Symetria Center:
                             if (sx == -1 * (this.posKart.x + 1) && sy == -1 * (this.posKart.y - 1)) {
                                 s.fill = userInterface.pickedColor;
@@ -142,6 +141,8 @@ function addMethodsToObjects() {
 
     action.showModal = function (value) {
         let el;
+
+        select(".modal-body").html("");
 
         switch (value) {
             case "changeSet":
@@ -253,16 +254,19 @@ function addMethodsToObjects() {
             case "DisplayColorDesc":
                 select(".modal-title").html("Zakodowany rysunek:");
 
+                select(".colorSchemeContainer").hide();
+                select(".p5Canvas").hide();
+
                 let btn = createButton('Zapis do pliku');
-                btn.addClass("btn btn-success");
-                btn.style("order", "2");
+                btn.addClass("btn btn-success saveColorDsc");
                 btn.attribute("onclick", "action.saveColorDsc()");
 
-                select(".modalCloseBtn").style("order", "1")
+                let footer = select(".modal-footer")
+                let exBtn = footer.html();
 
-                select(".modal-footer").style("display", "flex");
-                select(".modal-footer").style("flex-flow", "column");
-                select(".modal-footer").child(btn);
+                footer.html("");
+                footer.child(btn);
+                footer.html(exBtn, true);
 
                 const letters = getLettersFromAlphabet();
 
@@ -287,8 +291,6 @@ function addMethodsToObjects() {
                         colors[settings.colorSchemes[settings.activeColorScheme].indexOf(s.fill)].pos += ` ${pos}`
                     }
                 }
-                print(colors)
-
                 let anyInIDiv = false;
 
                 for (let col of colors) {
@@ -311,6 +313,7 @@ function addMethodsToObjects() {
     }
 
     action.saveColorDsc = function () {
+        const data = new Date();
         html2canvas(document.querySelector(".modal-body")).then(canvas => {
             saveCanvas(canvas, `zakodowanaPlansza-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png')
         });
