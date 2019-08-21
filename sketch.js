@@ -300,8 +300,8 @@ function addMethodsToObjects() {
                                 break;
 
                             case "Kolory":
-                                codeX = s.iteratorIndex.x;
-                                codeY = s.iteratorIndex.y;
+                                codeX = s.iteratorIndex.x - 1;
+                                codeY = s.iteratorIndex.y - 1;
 
                                 codeX = settings.colorSchemes[settings.activeColorScheme][codeX];
                                 codeY = settings.colorSchemes[settings.activeColorScheme][codeY];
