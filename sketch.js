@@ -283,10 +283,33 @@ function addMethodsToObjects() {
 
                 for (let s of userInterface.board) {
                     if ((!(s instanceof Index)) && s.fill != "#C0C0C0") {
+                        let codeX, codeY, pos;
 
-                        let vert = letters[s.iteratorIndex.x - 1]
-                        let hor = s.iteratorIndex.y;
-                        let pos = vert + hor;
+                        switch (settings.currentIndexType) {
+                            case "Numeracja":
+                            case "Brak":
+                                codeX = s.iteratorIndex.x.toString();
+                                codeY = s.iteratorIndex.y.toString();
+                                pos = `(${codeX},${codeY})`;
+                                break;
+
+                            case "Adresowanie":
+                                codeX = letters[s.iteratorIndex.x - 1].toString();
+                                codeY = s.iteratorIndex.y.toString();
+                                pos = codeX + codeY;
+                                break;
+
+                            case "Kolory":
+                                codeX = s.iteratorIndex.x;
+                                codeY = s.iteratorIndex.y;
+
+                                codeX = settings.colorSchemes[settings.activeColorScheme][codeX];
+                                codeY = settings.colorSchemes[settings.activeColorScheme][codeY];
+
+                                pos = `[<span style="background-color: ${codeX};" class = "textColorBox"></span>|<span style="background-color: ${codeY};" class = "textColorBox"></span>]`;
+
+                                break;
+                        }
 
                         colors[settings.colorSchemes[settings.activeColorScheme].indexOf(s.fill)].pos += ` ${pos}`
                     }
@@ -319,9 +342,7 @@ function addMethodsToObjects() {
         });
     }
 
-    action.newColor = function () {
-
-    }
+    action.newColor = function () {}
 
     action.newSet = function () {
         action.showModal('addColorScheme')
@@ -501,7 +522,8 @@ function addMethodsToObjects() {
         axisHeight: 10,
         axisColor: 'red',
         currentAxis: 'none',
-        activeColorScheme: 0
+        activeColorScheme: 0,
+        currentIndexType: "Numeracja"
     })
 
     userInterface.executeQueue = {
