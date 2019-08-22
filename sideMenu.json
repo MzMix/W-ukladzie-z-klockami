@@ -15,8 +15,8 @@
                 ["action.showModal('symetryDrawing')", "action.showModal('changeSegmentContent')"]
             ],
             "Udostępnianie": [
-                ["Zapis planszy do pliku"],
-                ["action.saveImg()"]
+                ["Zapis planszy do pliku", "Zakoduj rysunek"],
+                ["action.saveImg()", "action.showModal('DisplayColorDesc')"]
             ],
             "Dostosowywanie": [
                 ["Zestawy kolorów", "Ukryj paletę barw"],
