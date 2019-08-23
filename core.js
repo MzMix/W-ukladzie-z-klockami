@@ -278,7 +278,7 @@ class Index extends Segment {
     }
 }
 
-$('modal').on('show.bs.modal', function () {
+$('#modal').on('show.bs.modal', function () {
     userInterface.modalOpened = true;
 })
 
