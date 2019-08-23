@@ -77,7 +77,6 @@ function addMethodsToObjects() {
                                 break;
                             }
                         } else if (settings.currentAxis == "CENTER") {
-                            print(1);
                             // Symetria Center:
                             if (sx == -1 * (this.posKart.x + 1) && sy == -1 * (this.posKart.y - 1)) {
                                 s.fill = userInterface.pickedColor;
@@ -142,6 +141,8 @@ function addMethodsToObjects() {
 
     action.showModal = function (value) {
         let el;
+
+        select(".modal-body").html("");
 
         switch (value) {
             case "changeSet":
@@ -250,14 +251,98 @@ function addMethodsToObjects() {
                 select(".modal-body").html("");
                 break;
 
+            case "DisplayColorDesc":
+                select(".modal-title").html("Zakodowany rysunek:");
+
+                select(".colorSchemeContainer").hide();
+                select(".p5Canvas").hide();
+
+                let btn = createButton('Zapis do pliku');
+                btn.addClass("btn btn-success saveColorDsc");
+                btn.attribute("onclick", "action.saveColorDsc()");
+
+                let footer = select(".modal-footer")
+                let exBtn = footer.html();
+
+                footer.html("");
+                footer.child(btn);
+                footer.html(exBtn, true);
+
+                const letters = getLettersFromAlphabet();
+
+                let colors = [];
+
+                for (let col of settings.colorSchemes[settings.activeColorScheme]) {
+                    if (col != "#C0C0C0") {
+                        colors.push({
+                            color: col,
+                            pos: ""
+                        })
+                    }
+                }
+
+                for (let s of userInterface.board) {
+                    if ((!(s instanceof Index)) && s.fill != "#C0C0C0") {
+                        let codeX, codeY, pos;
+
+                        switch (settings.currentIndexType) {
+                            case "Numeracja":
+                            case "Brak":
+                                codeX = s.iteratorIndex.x.toString();
+                                codeY = s.iteratorIndex.y.toString();
+                                pos = `(${codeX},${codeY})`;
+                                break;
+
+                            case "Adresowanie":
+                                codeX = letters[s.iteratorIndex.x - 1].toString();
+                                codeY = s.iteratorIndex.y.toString();
+                                pos = codeX + codeY;
+                                break;
+
+                            case "Kolory":
+                                codeX = s.iteratorIndex.x - 1;
+                                codeY = s.iteratorIndex.y - 1;
+
+                                codeX = settings.colorSchemes[settings.activeColorScheme][codeX];
+                                codeY = settings.colorSchemes[settings.activeColorScheme][codeY];
+
+                                pos = `[<span style="background-color: ${codeX};" class = "textColorBox"></span>|<span style="background-color: ${codeY};" class = "textColorBox"></span>]`;
+
+                                break;
+                        }
+
+                        colors[settings.colorSchemes[settings.activeColorScheme].indexOf(s.fill)].pos += ` ${pos}`
+                    }
+                }
+                let anyInIDiv = false;
+
+                for (let col of colors) {
+                    if (!col.pos == "") {
+                        let el = createP(`<span style="background-color: ${col.color};" class = "textColorBox"></span> : ${col.pos}`);
+                        select('.modal-body').child(el);
+                        anyInIDiv = true;
+                    }
+                }
+
+                if (!anyInIDiv) {
+                    select('.modal-body').child(createP("Plansza jest pusta!"));
+                }
+
+                break;
+
             default:
                 break;
         }
     }
 
-    action.newColor = function () {
-
+    action.saveColorDsc = function () {
+        const data = new Date();
+        html2canvas(document.querySelector(".modal-body")).then(canvas => {
+            saveCanvas(canvas, `zakodowanaPlansza-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png')
+        });
     }
+
+    action.newColor = function () {}
 
     action.newSet = function () {
         action.showModal('addColorScheme')
@@ -437,7 +522,8 @@ function addMethodsToObjects() {
         axisHeight: 10,
         axisColor: 'red',
         currentAxis: 'none',
-        activeColorScheme: 0
+        activeColorScheme: 0,
+        currentIndexType: "Numeracja"
     })
 
     userInterface.executeQueue = {

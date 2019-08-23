@@ -182,6 +182,13 @@ canvas {
 	display: none !important;
 }
 
+.textColorBox {
+	width: 25px;
+	height: 25px;
+	display: inline-block;
+	vertical-align: middle;
+}
+
 /* #e3eaa7 */
 /* #d5e1df */
 /* #b5e7a0 */
