@@ -1,25 +1,26 @@
 class PresetSettings {
     constructor() {
         this.squareSize = 40;
-        this.squareSpacer = 7;
+        this.squareSpacer = 8;
         this.squaresBySideH = 10
         this.squaresBySideW = 10
 
-        this.squareCurvature = 2;
+        this.squareCurvature = 1;
 
-        this.squareFill = '#C0C0C0';
+        this.squareFill = '#D3D3D3';
         this.squareStroke = color(255, 255, 255, 125);
-        this.squareTextColor = color(255, 255, 255);
+        this.squareTextColor = "white";
+        this.squareTextStrokeColor = "black";
 
-        this.indexFill = '#F64C72';
-        this.indexStroke = 'pink';
+        this.squareTextSize = 25;
+        this.squareTextWeight = 2;
 
-        this.indexCurvature = 10;
+        this.indexFill = 'white';
+        this.indexStroke = 'black';
 
-        // this.basicColorScheme = ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'];
+        this.indexCurvature = 2;
     }
 
-    //Refactor?
     addValues(valueObj) {
         for (const el in valueObj) {
             this[el] = valueObj[el];
@@ -28,5 +29,3 @@ class PresetSettings {
 }
 
 const settings = new PresetSettings();
-
-// export default settings;
