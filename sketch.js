@@ -273,7 +273,7 @@ function addMethodsToObjects() {
                 let colors = [];
 
                 for (let col of settings.colorSchemes[settings.activeColorScheme]) {
-                    if (col != "#C0C0C0") {
+                    if (col != "#D3D3D3") {
                         colors.push({
                             color: col,
                             pos: ""
@@ -282,7 +282,7 @@ function addMethodsToObjects() {
                 }
 
                 for (let s of userInterface.board) {
-                    if ((!(s instanceof Index)) && s.fill != "#C0C0C0") {
+                    if ((!(s instanceof Index)) && s.fill != "#D3D3D3") {
                         let codeX, codeY, pos;
 
                         switch (settings.currentIndexType) {
@@ -563,24 +563,9 @@ function addMethodsToObjects() {
         axis.visible = false;
     }
 
-    // action.hidePageParts = function () {
-    //     let elements = selectAll(".turnOff");
-
-    //     if (elements[0].hasClass(".invisible")) {
-    //         for (let el of elements) {
-    //             el.removeClass("invisible")
-    //         }
-    //     } else {
-    //         for (let el of elements) {
-    //             el.addClass("invisible")
-    //         }
-    //     }
-
-    // }
-
     settings.colorSchemes = [
-        ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'],
-        ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#C0C0C0']
+        ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#D3D3D3'],
+        ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#D3D3D3']
     ];
 
 }

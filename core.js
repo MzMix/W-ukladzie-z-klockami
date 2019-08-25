@@ -235,6 +235,9 @@ class Segment {
         this.fill = settings.squareFill;
         this.round = settings.squareCurvature;
         this.textColor = settings.squareTextColor;
+        this.textStroke = settings.squareTextStrokeColor;
+        this.textStrokeWeight = settings.squareTextWeight;
+        this.textSize = settings.squareTextSize;
     }
 
     display() {
@@ -246,10 +249,11 @@ class Segment {
         rect(0, 0, settings.squareSize, settings.squareSize, this.round)
 
         if (this.txt) {
-            textSize(15);
+            textSize(this.textSize);
             fill(this.textColor);
+            stroke(this.textStroke);
             textAlign(CENTER, CENTER)
-            strokeWeight(0);
+            strokeWeight(this.textStrokeWeight);
             text(this.txt, 2, 2, settings.squareSize, settings.squareSize);
         }
 
@@ -268,6 +272,12 @@ class Index extends Segment {
         this.stroke = settings.indexStroke;
         this.fill = settings.indexFill;
         this.round = settings.indexCurvature;
+
+        this.textStrokeWeight = settings.indexTextWeight;
+        this.textSize = settings.indexTextSize;
+
+        this.textStroke = settings.indexTextStrokeColor;
+        this.textStrokeWeight = settings.indexTextWeight;
 
         this.txt = this.iteratorIndex.x;
         if (this.iteratorIndex.x == 0 || this.iteratorIndex.x == 11) this.txt = this.iteratorIndex.y;
