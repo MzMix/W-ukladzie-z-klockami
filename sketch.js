@@ -563,24 +563,9 @@ function addMethodsToObjects() {
         axis.visible = false;
     }
 
-    // action.hidePageParts = function () {
-    //     let elements = selectAll(".turnOff");
-
-    //     if (elements[0].hasClass(".invisible")) {
-    //         for (let el of elements) {
-    //             el.removeClass("invisible")
-    //         }
-    //     } else {
-    //         for (let el of elements) {
-    //             el.addClass("invisible")
-    //         }
-    //     }
-
-    // }
-
     settings.colorSchemes = [
-        ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'],
-        ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#C0C0C0']
+        ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#D3D3D3'],
+        ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#D3D3D3']
     ];
 
 }
