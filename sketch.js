@@ -1,519 +1,593 @@
-Number.prototype.between = function (a, b) {
-    let minVal = min([a, b]);
-    let maxVal = max([a, b]);
-
-    return this > minVal && this < maxVal;
-};
-
-class Segment {
-    constructor(iJ, kartPos, number) {
-        this.dim = Global.size;
-        this.kartPos = kartPos;
-        this.iJ = iJ;
-        this.pos = {
-            x: this.iJ.i * Global.size + Global.spacer * this.iJ.i + 2,
-            y: this.iJ.j * Global.size + Global.spacer * this.iJ.j + 2
-        };
-
-        this.fill = '#C0C0C0';
-        this.stroke = color(255, 255, 255, 125);
-        this.textColor = color(255, 255, 255);
-        this.number = number;
-        this.txt = '';
+class Axis {
+    constructor() {
+        this.visible = false;
+        // this.visible = true;
+        this.axisWidth = settings.axisWidth;
+        this.axisHeight = settings.axisHeight;
+        this.axisColor = settings.axisColor;
     }
 
-    display() {
+    update() {
+        if (this.visible) this.draw();
+    }
+
+    draw() {
         push();
-        translate(this.pos.x, this.pos.y);
-        stroke(this.stroke);
-        fill(this.fill);
+        stroke('red');
+        strokeWeight(4)
 
-        let r = 2;
+        //Position of the axis do not change! They are static!
 
-        square(0, 0, Global.size, r)
+        line(width / 2 - 1, settings.squareSize + settings.squareSpacer, width / 2 - 1, height - settings.squareSize - settings.squareSpacer);
 
-        textSize(15);
-        fill(0);
-        stroke(255);
-        textAlign(CENTER, CENTER)
-        strokeWeight(0);
-        text(this.txt, 2, 2, Global.size, Global.size);
+        line(settings.squareSize + settings.squareSpacer, height / 2 - 1, width - settings.squareSize - settings.squareSpacer, height / 2 - 1);
 
         pop();
-    }
 
-    checkPointing() {
-        return mouseX.between(this.pos.x, this.pos.x + this.dim) &&
-            mouseY.between(this.pos.y, this.pos.y + this.dim);
-    }
-
-    setColor() {
-        this.fill = Global.picekedColor;
-
-        if (Global.symetry) {
-            for (let s of Global.segments) {
-                if (s.kartPos) {
-                    let sx = s.kartPos.x;
-                    let sy = s.kartPos.y;
-
-                    if (Global.symX < 0 && Global.symY > 0) {
-                        //Symetria X:
-                        if (sx == Global.symY * (this.kartPos.x) && sy == Global.symX * (this.kartPos.y - 1)) {
-                            s.fill = Global.picekedColor;
-                            break;
-                        }
-                    }
-
-                    if (Global.symY < 0 && Global.symX > 0) {
-                        // Symetria Y:
-                        if (sx == Global.symY * (this.kartPos.x + 1) && sy == Global.symX * (this.kartPos.y)) {
-                            s.fill = Global.picekedColor;
-                            break;
-                        }
-                    }
-
-                    if (Global.symX < 0 && Global.symY < 0) {
-                        // Symetria WŚ:
-                        if (sx == Global.symY * (this.kartPos.x + 1) && sy == Global.symX * (this.kartPos.y - 1)) {
-                            s.fill = Global.picekedColor;
-                            break;
-                        }
-                    }
-
-                }
-            }
-        }
-    }
-}
-
-class Index extends Segment {
-    constructor(iJ) {
-        super(iJ, undefined, undefined);
-        this.fill = '#F64C72';
-        this.stroke = 'pink';
-    }
-
-    display() {
-        push();
-        translate(this.iJ.i * Global.size + Global.spacer * this.iJ.i + 2, this.iJ.j * Global.size + Global.spacer * this.iJ.j + 2);
-        fill(this.fill);
-        stroke(this.stroke);
-
-        let r = 10;
-
-        rect(0, 0, Global.size, Global.size, r)
-
-        let txt;
-
-        if (!Global.mult) {
-            txt = Global.litery[this.iJ.i - 1]
-        } else {
-            txt = this.iJ.i;
-        }
-
-        if (this.iJ.i == 0 || this.iJ.i == 11) {
-            txt = this.iJ.j;
-        }
-
-        textSize(15);
-        fill(this.textColor);
-        stroke(this.textColor);
-        textAlign(CENTER, CENTER)
-        strokeWeight(0);
-        text(txt, 2, 2, Global.size, Global.size);
-
-        pop();
     }
 
 }
+const axis = new Axis();
 
-class Gui {
+function addMethodsToObjects() {
 
-    createModal() {
-        let modal = createDiv();
-        select('body').child(modal);
-        modal.addClass('modal');
-        modal.id('modal1');
+    userInterface.generateColorContrainer = function () {
+        this.palette = [];
+        this.pickedColor = '';
+        select(".colorSchemeContainer").html("")
 
-        modal.html('<div class="modal-content"><span class="close" id="closeBtn">&times;</span><h1>Opcje:</h1></div>');
-
-        select('#closeBtn').mouseClicked(() => {
-            select('#modal1').style('display', "none");
-            Global.modalOpened = false;
-        });
-
-        return this;
-    }
-
-    generateOption(destination, dataStorage, spacerName, inputType, inputName, fxn, atr, listOptions) {
-        let spacer, input;
-
-        if (!Global.hasOwnProperty(dataStorage)) {
-            Global[`${dataStorage}`] = [];
-        }
-
-        if (spacerName) {
-            spacer = createDiv(spacerName);
-            spacer.addClass('spacer');
-            select(destination).child(spacer);
-        }
-
-        if (inputType == 'checkbox') {
-
-            input = createCheckbox(inputName, false);
-            if (fxn) {
-                input.changed(fxn);
-            }
-
-            if (atr) {
-                input.attribute('onchange', atr)
-            }
-
-        } else if (inputType == 'button') {
-            input = createButton(inputName);
-            input.mouseClicked(fxn);
-
-            if (atr) {
-                input.attribute('onclick', atr)
-            }
-
-        } else if (inputType == 'list') {
-            input = createSelect();
-
-            if (listOptions) {
-                for (let opt of listOptions) {
-                    input.option(opt);
-                }
-            }
-
-            input.changed(fxn);
-        }
-
-        Global[dataStorage].push(input);
-        select(destination).child(input);
-    }
-
-    createModalSection(name) {
-        let section = createDiv();
-        section.addClass('modalContentSection');
-        section.id(name);
-        select(".modal-content").child(section);
-
-        return `#${name}`;
-    }
-
-    createOptions() {
-        this.generateOption(".o1", "axles", "Osie układu:", 'checkbox', "Osie", this.axFlip);
-        this.generateOption(".o1", 'symCh', "Symetria:", 'checkbox', "Symetria - oś X", this.symetry, 'Global.symY *= -1');
-        this.generateOption(".o1", "symCh", undefined, 'checkbox', "Symetria - oś Y", this.symetry, 'Global.symX *= -1');
-        this.generateOption(".o1", "colorIndex", "Zmiana opisu pól", 'button', "Zmiana opisu", this.colorindex);
-        this.generateOption(".o1", "dropBtn", "Opcje:", 'button', "Pokaż opcje", function () {
-            select('#modal1').style('display', 'block');
-            Global.modalOpened = true;
-        });
-
-        // this.generateOption(this.createModalSection('fullScreen'), "fullScreenBtn", "Przełączanie pełnego ekranu:", 'button', "Pełny ekran", this.hideElements);
-        this.generateOption(this.createModalSection('list'), "textFill", "Zmiana opisu pól", 'list', "Zmiana opisu", this.changeTxt, undefined, ['Brak opisów', 'Numeracja', 'Adresowanie', 'Tabliczka mnożenia', ]);
-        this.generateOption(this.createModalSection('set'), "setSwitch", "Zmiana zestawu", 'list', "Zmiana zestawu", this.changeSet, undefined, ['Zestaw 1', 'Zestaw 2']);
-        this.generateOption(this.createModalSection('reset'), "resetBtn", "Reset planszy:", 'button', "Reset", this.reset);
-        this.generateOption(this.createModalSection('saveImg'), "saveImgBtn", "Zapis planszy do pliku:", 'button', "Zapisz", this.saveImg);
-        //this.generateOption(this.createModalSection('saveUrl'), "saveUrlBtn", "Generowanie linku z zapisem planszy:", 'button', "Generuj", createUrl);
-
-        return this;
-    }
-
-    saveImg() {
-        let data = new Date();
-        saveCanvas(`mata-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png');
-    }
-
-    createPalette() {
-
-        Global['palette'] = [];
-
-        for (let col of Global.colors) {
+        for (let col of settings.colorSchemes[settings.activeColorScheme]) {
 
             let div = createDiv();
 
             div.addClass('paletteBtn');
             div.style('background-color', col);
-            div.attribute("onclick", `pick('${col}')`);
-            select(".palette").child(div);
-            Global.palette.push(div);
+            div.size(1.2 * settings.squareSize, 1.2 * settings.squareSize);
+            div.attribute("onclick", `userInterface.pickColor('${col}')`);
+            select(".colorSchemeContainer").child(div);
+            this.palette.push(div);
         }
-
         return this;
     }
 
-    createBox() {
-        let s = Global.size * (Global.segN + 2) + 11 * Global.spacer + 6;
-        Global['canva'] = createCanvas(s, s);
-        select(".box").child(Global.canva);
-
-        return this;
+    userInterface.pickColor = function (color) {
+        this.pickedColor = color;
     }
 
-    createBoard() {
-        Global['segments'] = [];
-        let total = 1;
-        for (let j = 0; j < Global.segN + 2; j++) {
-            for (let i = 0; i < Global.segN + 2; i++) {
+    Segment.prototype.colorSegment = function () {
+        if (userInterface.pickedColor) {
+            this.fill = userInterface.pickedColor;
 
-                let iJ = {
-                    i: i,
-                    j: j
-                }
+            if (settings.currentAxis != "none") {
+                for (let s of userInterface.board) {
+                    if (!(s instanceof Index) && s.posKart) {
+                        let sx = s.posKart.x;
+                        let sy = s.posKart.y;
 
-                let kartPos = {
-                    x: j - (Global.segN + 2) / 2,
-                    y: -i + (Global.segN + 2) / 2
-                }
+                        if (settings.currentAxis == "X") {
+                            // Symetria Y:
+                            if (sx == -1 * (this.posKart.x + 1) && sy == this.posKart.y) {
+                                s.fill = userInterface.pickedColor;
+                                break;
+                            }
+                        } else if (settings.currentAxis == "Y") {
+                            //Symetria X:
+                            if (sx == 1 * (this.posKart.x) && sy == -1 * (this.posKart.y - 1)) {
+                                s.fill = userInterface.pickedColor;
+                                break;
+                            }
+                        } else if (settings.currentAxis == "CENTER") {
+                            // Symetria Center:
+                            if (sx == -1 * (this.posKart.x + 1) && sy == -1 * (this.posKart.y - 1)) {
+                                s.fill = userInterface.pickedColor;
+                                break;
+                            }
+                        }
 
-                if (((j == 0 || j == Global.segN + 1) && i > 0 && i < Global.segN + 1) ||
-                    ((i == 0 || i == Global.segN + 1) && j > 0 && j < Global.segN + 1)) {
-                    //Index
-                    let s = new Index(iJ);
-                    Global.segments.push(s);
-                } else if (j != 0 && j != Global.segN + 1) {
-                    //Segment
-                    let s = new Segment(iJ, kartPos, total);
-                    Global.segments.push(s);
-                    total++;
+                    }
+
                 }
             }
         }
-
-        return this;
     }
 
-    axFlip() {
-        Global.axis = this.checked();
-    }
+    Segment.prototype.hideTxt = function () {
 
-    symetry() {
-        if (Global.symCh[0].checked() || Global.symCh[1].checked()) {
-            Global.symetry = true;
+        if (this.textColor === this.basicTxtColor) {
+            this.textColor = color(0, 0);
         } else {
-            Global.symetry = false;
+            this.textColor = this.basicTxtColor;
         }
     }
 
-    reset() {
-        for (let s of Global.segments) {
-            if (s instanceof Index) {
-                s.fill = '#F64C72'
-                s.stroke = 'pink';
-                s.textColor = color(255, 255, 255);
-            } else {
-                s.fill = Global.colors[Global.colors.length - 1];
-            }
+    Segment.prototype.basicTxtColor = settings.squareTextColor;
+    Index.prototype.basicTxtColor = settings.squareTextColor;
+
+    Segment.prototype.changeContent = function (val) {
+        if (val) {
+            this.txt = val;
+        } else {
+            this.txt = this.basicContent;
         }
     }
 
-    colorindex() {
-        for (let s of Global.segments) {
-            if (s instanceof Index) {
-                if (s.iJ.i.between(0, 11)) {
+    Segment.prototype.basicContent = "";
+    Index.prototype.basicContent = Index["iteratorIndex.x"]
 
-                    if (s.fill == '#F64C72' && s.stroke == 'pink') {
-                        s.fill = Global.colors[abs(s.iJ.i - 1)];
-                        s.stroke = color(0, 0, 0, 0);
-                        s.textColor = color(0, 0, 0, 0);
-                    } else {
-                        s.fill = '#F64C72'
-                        s.stroke = 'pink';
-                        s.textColor = color(255, 255, 255);
-                    }
-                } else if (s.iJ.j.between(0, 11)) {
-                    if (s.fill == '#F64C72' && s.stroke == 'pink') {
-                        s.fill = Global.colors[abs(s.iJ.j - 1)];
-                        s.stroke = color(0, 0, 0, 0);
-                        s.textColor = color(0, 0, 0, 0);
-                    } else {
-                        s.fill = '#F64C72'
-                        s.stroke = 'pink';
-                        s.textColor = color(255, 255, 255);
+    Segment.prototype.changeColor = function (val) {
+        if (val) {
+            this.fill = val;
+            this.stroke = "transparent"
+        } else {
+            this.fill = this.basicFillColor;
+            this.stroke = this.basicStrokeColor
+        }
+    }
+
+    Segment.prototype.basicFillColor = settings.squareFill;
+    Index.prototype.basicFillColor = settings.indexFill;
+
+    Segment.prototype.basicStrokeColor = settings.squareStroke;
+    Index.prototype.basicStrokeColor = settings.indexStroke;
+
+    Segment.prototype.retriveBasicValues = function () {
+        this.changeContent();
+        // this.hideTxt();
+    }
+
+    action.togAxis = function () {
+        axis.visible = !axis.visible;
+    }
+
+    action.showModal = function (value) {
+        let el;
+
+        select(".modal-body").html("");
+
+        switch (value) {
+            case "changeSet":
+                select(".modal-title").html("Zmiana opisu pól");
+
+                el = createSelect();
+                el.option("Numeracja");
+                el.option("Adresowanie");
+                el.option("Kolory");
+                el.option("Brak");
+
+                if (settings.currentIndexType) el.value(settings.currentIndexType);
+
+                el.addClass("custom-select switchIndexType");
+
+                el.changed(this.switchIndexType);
+
+                select(".modal-body").html("");
+                select(".modal-body").child(el);
+                break;
+
+            case 'changeSegmentContent':
+
+                select(".modal-title").html("Zmiana zawartości pól");
+
+                el = createSelect();
+                el.option("Brak");
+                el.option("Numeracja");
+                el.option("Adresowanie");
+
+                if (settings.currentSegmentContent) el.value(settings.currentSegmentContent);
+
+                el.addClass("custom-select switchSegmentContent");
+
+                el.changed(this.changeSegContent);
+
+                select(".modal-body").html("");
+                select(".modal-body").child(el);
+
+                break;
+
+
+            case 'symetryDrawing':
+
+                select(".modal-title").html("Ustawienia symetrii");
+
+                el = createSelect();
+                el.option("Brak");
+                el.option("Oś X");
+                el.option("Oś Y");
+                el.option("Względem środka układu");
+
+                if (settings.currentSymetryType) el.value(settings.currentSymetryType);
+
+                el.addClass("custom-select switchSymetryType");
+
+                el.changed(this.switchSymetryType);
+
+                select(".modal-body").html("");
+                select(".modal-body").child(el);
+
+                break;
+
+            case 'changeColorSet':
+
+                this.refreshColorSets();
+
+                select(".modal-title").html("Zestawy kolorów");
+
+                el = createSelect();
+                el.option("Domyślny");
+
+                for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
+                    el.option(`Zestaw ${i+1}`);
+                }
+
+                if (settings.currentColorScheme) el.value(settings.currentColorScheme);
+
+                el.addClass("custom-select switchColorScheme");
+
+                el.changed(this.switchColorScheme);
+
+                // let btn = createButton("Dodaj nowy zestaw");
+                // btn.addClass("btn btn-outline-primary btn-block");
+                // btn.style("margin-top", "20px");
+                // btn.mousePressed(action.newSet)
+
+                select(".modal-body").html("");
+                select(".modal-body").child(el);
+                // select(".modal-body").child(btn);
+
+                break;
+
+            case "addColorScheme":
+                select(".modal-title").html("Dodaj nowy zestaw");
+
+                for (let col of settings.colorSchemes[settings.activeColorScheme]) {
+                    let el = createDiv();
+                    el.addClass("paletteBtn");
+                    el.style("background-color", col);
+                    el.size(1.2 * settings.squareSize, 1.2 * settings.squareSize);
+                    el.mousePressed(action.newColor(settings.colorSchemes[settings.activeColorScheme].indexOf(col)));
+                    select(".modal-body").child(el);
+                }
+
+                select(".modal-body").html("");
+                break;
+
+            case "DisplayColorDesc":
+                select(".modal-title").html("Zakodowany rysunek:");
+
+                select(".colorSchemeContainer").hide();
+                select(".p5Canvas").hide();
+
+                let btn = createButton('Zapis do pliku');
+                btn.addClass("btn btn-success saveColorDsc");
+                btn.attribute("onclick", "action.saveColorDsc()");
+
+                let footer = select(".modal-footer")
+                let exBtn = footer.html();
+
+                footer.html("");
+                footer.child(btn);
+                footer.html(exBtn, true);
+
+                const letters = getLettersFromAlphabet();
+
+                let colors = [];
+
+                for (let col of settings.colorSchemes[settings.activeColorScheme]) {
+                    if (col != "#D3D3D3") {
+                        colors.push({
+                            color: col,
+                            pos: ""
+                        })
                     }
                 }
 
+                for (let s of userInterface.board) {
+                    if ((!(s instanceof Index)) && s.fill != "#D3D3D3") {
+                        let codeX, codeY, pos;
 
-            }
-        }
-    }
+                        switch (settings.currentIndexType) {
+                            case "Numeracja":
+                            case "Brak":
+                                codeX = s.iteratorIndex.x.toString();
+                                codeY = s.iteratorIndex.y.toString();
+                                pos = `(${codeX},${codeY})`;
+                                break;
 
-    changeTxt() {
-        let type = this.value();
-        let eql;
+                            case "Adresowanie":
+                                codeX = letters[s.iteratorIndex.x - 1].toString();
+                                codeY = s.iteratorIndex.y.toString();
+                                pos = codeX + codeY;
+                                break;
 
-        switch (type) {
-            case 'Numeracja':
-                eql = 's.number';
-                Global.mult = false;
-                break;
+                            case "Kolory":
+                                codeX = s.iteratorIndex.x - 1;
+                                codeY = s.iteratorIndex.y - 1;
 
-            case 'Adresowanie':
-                eql = 'Global.litery[s.iJ.i - 1] + s.iJ.j';
-                Global.mult = false;
-                break;
+                                codeX = settings.colorSchemes[settings.activeColorScheme][codeX];
+                                codeY = settings.colorSchemes[settings.activeColorScheme][codeY];
 
-            case 'Tabliczka mnożenia':
-                eql = 's.iJ.i * s.iJ.j'
-                Global.mult = true;
-                break;
+                                pos = `[<span style="background-color: ${codeX};" class = "textColorBox"></span>|<span style="background-color: ${codeY};" class = "textColorBox"></span>]`;
 
-            case 'Brak opisów':
-                eql = 'undefined';
-                Global.mult = false;
+                                break;
+                        }
+
+                        colors[settings.colorSchemes[settings.activeColorScheme].indexOf(s.fill)].pos += ` ${pos}`
+                    }
+                }
+                let anyInIDiv = false;
+
+                for (let col of colors) {
+                    if (!col.pos == "") {
+                        let el = createP(`<span style="background-color: ${col.color};" class = "textColorBox"></span> : ${col.pos}`);
+                        select('.modal-body').child(el);
+                        anyInIDiv = true;
+                    }
+                }
+
+                if (!anyInIDiv) {
+                    select('.modal-body').child(createP("Plansza jest pusta!"));
+                }
+
                 break;
 
             default:
-                eql = 's.number';
-                Global.mult = false;
+                break;
+        }
+    }
+
+    action.saveColorDsc = function () {
+        const data = new Date();
+        html2canvas(document.querySelector(".modal-body")).then(canvas => {
+            saveCanvas(canvas, `zakodowanaPlansza-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png')
+        });
+    }
+
+    action.newColor = function () {}
+
+    action.newSet = function () {
+        action.showModal('addColorScheme')
+    }
+
+    action.refreshColorSets = function () {
+        settings.colorsSchemesInList = [];
+        for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
+            settings.colorsSchemesInList.push(`Zestaw ${i+1}`);
+        }
+    }
+
+    action.switchIndexType = function () {
+        settings["currentIndexType"] = select(".switchIndexType").value()
+
+        switch (settings.currentIndexType) {
+            case "Numeracja":
+
+                for (let s of userInterface.board) {
+                    if (s instanceof Index) {
+
+                        s.retriveBasicValues();
+                        s.changeColor();
+
+                        if (s.iteratorIndex.x.between(0, 11)) {
+                            s.changeContent(s.iteratorIndex.x)
+
+                        } else if (s.iteratorIndex.y.between(0, 11)) {
+                            s.changeContent(s.iteratorIndex.y)
+                        }
+                    }
+                }
+
+                break;
+
+            case "Adresowanie":
+
+                const letters = getLettersFromAlphabet();
+
+                for (let s of userInterface.board) {
+                    if (s instanceof Index) {
+
+                        s.retriveBasicValues();
+                        s.changeColor();
+
+                        if (s.iteratorIndex.x.between(0, 11)) {
+                            s.changeContent(letters[s.iteratorIndex.x - 1])
+
+                        } else if (s.iteratorIndex.y.between(0, 11)) {
+                            s.changeContent(s.iteratorIndex.y)
+                        }
+                    }
+                }
+
+                break;
+
+            case "Kolory":
+
+                for (let s of userInterface.board) {
+                    if (s instanceof Index) {
+
+                        s.retriveBasicValues();
+                        s.changeColor();
+
+                        if (s.iteratorIndex.x.between(0, 11)) {
+                            s.changeColor(settings.colorSchemes[settings.activeColorScheme][abs(s.iteratorIndex.x - 1)]);
+                        } else if (s.iteratorIndex.y.between(0, 11)) {
+                            s.changeColor(settings.colorSchemes[settings.activeColorScheme][abs(s.iteratorIndex.y - 1)]);
+                        }
+                    }
+                }
+
+                break;
+
+            case "Brak":
+                for (let s of userInterface.board) {
+                    if (s instanceof Index) {
+
+                        s.retriveBasicValues();
+                        s.changeColor();
+                        s.changeContent("");
+                    }
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    action.changeSegContent = function () {
+        settings["currentSegmentContent"] = select(".switchSegmentContent").value()
+
+        print(settings.currentSegmentContent)
+
+        switch (settings.currentSegmentContent) {
+
+            case "Brak":
+                for (let s of userInterface.board) {
+                    if (!(s instanceof Index)) {
+                        s.retriveBasicValues()
+                    }
+                }
+                break;
+
+            case "Numeracja":
+                for (let s of userInterface.board) {
+                    if (!(s instanceof Index)) {
+                        s.retriveBasicValues()
+                        s.changeContent(s.num)
+                    }
+                }
+                break;
+
+            case "Adresowanie":
+                const letters = getLettersFromAlphabet();
+
+                for (let s of userInterface.board) {
+                    if (!(s instanceof Index)) {
+                        s.retriveBasicValues()
+                        s.changeContent(`${letters[s.iteratorIndex.x - 1]}${s.iteratorIndex.y}`)
+                    }
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    action.switchSymetryType = function () {
+        settings["currentSymetryType"] = select(".switchSymetryType").value()
+
+
+        switch (settings.currentSymetryType) {
+
+            case "Oś X":
+                settings.currentAxis = "X";
+                break;
+
+            case "Oś Y":
+                settings.currentAxis = "Y";
+                break;
+
+            case "Względem środka układu":
+                settings.currentAxis = "CENTER";
+                break;
+
+            case "Brak":
+                settings.currentAxis = "none";
+                break;
+
+            default:
                 break;
         }
 
-        for (let s of Global.segments) {
-            if (!s.index) {
-                s.txt = eval(eql);
-            }
-        }
     }
 
-    changeSet() {
-        let type = this.value();
+    action.switchColorScheme = function () {
+        settings["currentColorScheme"] = select(".switchColorScheme").value();
 
-        if (type == "Zestaw 1") {
-            Global.colors = Global.mtmColors;
-        } else if (type == "Zestaw 2") {
-            Global.colors = Global.crColors;
-        }
+        if (settings.currentColorScheme == "Domyślny") {
+            settings.activeColorScheme = 0;
+            userInterface.generateColorContrainer()
+        } else {
+            let pos = settings.colorsSchemesInList.indexOf(settings.currentColorScheme);
+            pos++;
 
-        let btns = selectAll('.paletteBtn');
-        let i = 0;
-        for (let b of btns) {
-            b.style('background-color', Global.colors[i]);
-            b.attribute("onclick", `pick('${Global.colors[i]}')`);
-            i++;
-        }
-
-        for (let s of Global.segments) {
-            if (s instanceof Index) {
-                if (s.iJ.i.between(0, 11)) {
-
-                    if (!(s.fill == '#F64C72' && s.stroke == 'pink')) {
-                        s.fill = Global.colors[abs(s.iJ.i - 1)];
-                        s.stroke = color(0, 0, 0, 0);
-                        s.textColor = color(0, 0, 0, 0);
-                    }
-
-                } else if (s.iJ.j.between(0, 11)) {
-                    if (!(s.fill == '#F64C72' && s.stroke == 'pink')) {
-                        s.fill = Global.colors[abs(s.iJ.j - 1)];
-                        s.stroke = color(0, 0, 0, 0);
-                        s.textColor = color(0, 0, 0, 0);
-                    }
-                }
-
-
-            }
+            settings.activeColorScheme = pos;
+            userInterface.generateColorContrainer()
         }
 
     }
 
-    loadBoard() {
-        if (Global.seed) {
+    settings.addValues({
+        axisWidth: 5,
+        axisHeight: 10,
+        axisColor: 'red',
+        currentAxis: 'none',
+        activeColorScheme: 0,
+        currentIndexType: "Numeracja"
+    })
 
-            let txt = Global.seed;
-            let counter = 0;
-
-            for (let s of Global.segments) {
-                if (s instanceof Index == false) {
-
-                    let char = txt.charAt(counter);
-
-                    s.fill = Global.colors[Global.urlCodes.indexOf(char)];
-                    counter++;
-                }
-            }
+    userInterface.executeQueue = {
+        displayAxis: () => {
+            axis.update()
         }
-
-        return this;
     }
 
-    hideElements() {
-        let elements = selectAll('.hide');
-
-        for (let e of elements) {
-            if (Global.infoHide) {
-                e.show();
-            } else {
-                e.hide();
-            }
-        }
-
-        Global.infoHide = !Global.infoHide;
+    action.saveImg = function () {
+        let data = new Date();
+        saveCanvas(`plansza-${data.getHours()}-${data.getMinutes()}-${data.getSeconds()}`, 'png');
     }
 
-}
+    action.hideColorPalette = function () {
 
-const Global = {
-    size: 40,
-    segN: 10,
-    colors: ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'],
-    mtmColors: ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#C0C0C0'],
-    crColors: ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#C0C0C0'],
-    urlCodes: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'],
-    urlSpacer: '*',
-    litery: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
-    spacer: 7,
-    picekedColor: '#C0C0C0',
-    axis: false,
-    symetry: false,
-    symCh: [],
-    symX: 1,
-    symY: 1,
-    indexColored: 0,
-    modalOpened: false,
-    mult: false,
-    infoHide: false
-}
+        let colPal = select(".colorSchemeContainer")
+        let canvas = select(".canvasDiv")
 
-function pick(color) {
-    Global.picekedColor = color;
+        if (colPal.style('display') === "none") {
+            colPal.removeClass("invisible");
+            canvas.style("margin", "0");
+        } else {
+            colPal.addClass("invisible");
+            canvas.style("margin", "0 auto 0 auto");
+        }
+
+
+    }
+
+    action.resetBoard = function () {
+        for (let s of userInterface.board) {
+            if (!(s instanceof Index)) {
+                s.retriveBasicValues()
+                s.changeColor();
+            }
+        }
+        axis.visible = false;
+    }
+
+    settings.colorSchemes = [
+        ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#D3D3D3'],
+        ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#D3D3D3']
+    ];
+
 }
 
 function setup() {
-    cursor('pointer');
-    Global['gui'] = new Gui();
-    Global.gui.createPalette().createBox().createBoard().createModal().createOptions().loadBoard();
+    addMethodsToObjects();
+
+    userInterface.createInterface().generateBoard().generateColorContrainer();
+    for (let segment of userInterface.board) {
+        segment.display();
+    }
+    noLoop();
 }
 
 function draw() {
-    background(color('#553D67'));
-
-    if (Global.segments) {
-        for (let s of Global.segments) {
-            s.display();
-        }
-    }
-
-    if (Global.axis) {
-        push();
-        translate(-1 / 2, -1 / 2);
-        stroke('yellow');
-        strokeWeight(3);
-        line(0, height / 2, width, height / 2);
-        line(width / 2, 0, width / 2, height);
-        pop();
+    userInterface.refreshBoard();
+    for (let segment of userInterface.board) {
+        segment.display();
     }
 }
 
 function mouseClicked() {
-    if (!Global.modalOpened) {
-        for (s of Global.segments) {
-            if (s instanceof Segment && s.checkPointing()) {
-                s.setColor();
-            }
-        }
-    }
+    userInterface.checkBoardClicks();
+    redraw();
 }
