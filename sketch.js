@@ -264,19 +264,25 @@ function addMethodsToObjects() {
 
                 break;
 
-            case "addColorScheme":
-                select(".modal-title").html("Dodaj nowy zestaw");
+            case 'addCustomColorSet':
+                $('#modal').modal('show');
+                select(".modal-title").html("Dodaj zestaw kolorów");
+                select(".modal-body").html("");
 
-                for (let col of settings.colorSchemes[settings.activeColorScheme]) {
-                    let el = createDiv();
-                    el.addClass("paletteBtn");
-                    el.style("background-color", col);
-                    el.size(1.2 * settings.squareSize, 1.2 * settings.squareSize);
-                    el.mousePressed(action.newColor(settings.colorSchemes[settings.activeColorScheme].indexOf(col)));
+                select(".modalBtn").html("Zapisz");
+                select(".modalBtn").attribute('onclick', 'userInterface.addCustomColorSet()');
+
+                for (let col of settings.colorMatrix) {
+
+                    let el = createP(`Kolor ${1 + settings.colorMatrix.indexOf(col)}: `);
+                    let picker = createColorPicker(col);
+
+                    picker.addClass(`colorPicker picker${settings.colorMatrix.indexOf(col)}`);
+
+                    picker.parent(el);
                     select(".modal-body").child(el);
                 }
 
-                select(".modal-body").html("");
                 break;
 
             case "DisplayColorDesc":
@@ -368,7 +374,10 @@ function addMethodsToObjects() {
 
                 for (let col of settings.colorMatrix) {
 
-                    let el = createP(`Kolor ${1 + settings.colorMatrix.indexOf(col)}: `);
+                    let num = 1 + settings.colorMatrix.indexOf(col)
+                    if (num < 10) num = '0' + num.toString();
+                    let el = createP(`Kolor ${num}: `);
+
                     let picker = createColorPicker(col);
 
                     picker.addClass(`colorPicker picker${settings.colorMatrix.indexOf(col)}`);
