@@ -139,38 +139,10 @@ function addMethodsToObjects() {
         axis.visible = !axis.visible;
     }
 
-    UserInterface.prototype.addCustomColorSet = function () {
-
-        let newColorSet = [];
-
-        for (let i = 0; i < settings.colorMatrix.length; i++) {
-            let picker = select(`.picker${i}`);
-
-            newColorSet.push(picker.value());
-        }
-        newColorSet.push('#C0C0C0');
-
-        settings.colorSchemes.push(newColorSet);
-        action.refreshColorSets();
-
-        let val;
-        for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
-            val = `Zestaw ${i+1}`;
-        }
-        settings["currentColorScheme"] = val;
-        action.switchColorScheme(true);
-    }
-
     action.showModal = function (value) {
         let el;
 
         select(".modal-body").html("");
-        if (select(".ownColors")) select(".ownColors").remove();
-
-        if (select('.modalBtn')) {
-            select('.modalBtn').removeAttribute('onclick');
-            select('.modalBtn').html('Zamknij');
-        }
 
         switch (value) {
             case "changeSet":
@@ -235,16 +207,10 @@ function addMethodsToObjects() {
                 break;
 
             case 'changeColorSet':
+
                 this.refreshColorSets();
 
                 select(".modal-title").html("Zestawy kolorów");
-
-                if (!select(".ownColors")) {
-                    let ownScheme = createButton('Dodaj własny zestaw kolorów');
-                    ownScheme.addClass("ownColors btn btn-info btn-sm order-1");
-                    ownScheme.attribute('onclick', "action.showModal('addCustomColorSet')");
-                    ownScheme.parent(select(".footerLeft"));
-                }
 
                 el = createSelect();
                 el.option("Domyślny");
@@ -259,30 +225,30 @@ function addMethodsToObjects() {
 
                 el.changed(this.switchColorScheme);
 
+                // let btn = createButton("Dodaj nowy zestaw");
+                // btn.addClass("btn btn-outline-primary btn-block");
+                // btn.style("margin-top", "20px");
+                // btn.mousePressed(action.newSet)
+
                 select(".modal-body").html("");
                 select(".modal-body").child(el);
+                // select(".modal-body").child(btn);
 
                 break;
 
-            case 'addCustomColorSet':
-                $('#modal').modal('show');
-                select(".modal-title").html("Dodaj zestaw kolorów");
-                select(".modal-body").html("");
+            case "addColorScheme":
+                select(".modal-title").html("Dodaj nowy zestaw");
 
-                select(".modalBtn").html("Zapisz");
-                select(".modalBtn").attribute('onclick', 'userInterface.addCustomColorSet()');
-
-                for (let col of settings.colorMatrix) {
-
-                    let el = createP(`Kolor ${1 + settings.colorMatrix.indexOf(col)}: `);
-                    let picker = createColorPicker(col);
-
-                    picker.addClass(`colorPicker picker${settings.colorMatrix.indexOf(col)}`);
-
-                    picker.parent(el);
+                for (let col of settings.colorSchemes[settings.activeColorScheme]) {
+                    let el = createDiv();
+                    el.addClass("paletteBtn");
+                    el.style("background-color", col);
+                    el.size(1.2 * settings.squareSize, 1.2 * settings.squareSize);
+                    el.mousePressed(action.newColor(settings.colorSchemes[settings.activeColorScheme].indexOf(col)));
                     select(".modal-body").child(el);
                 }
 
+                select(".modal-body").html("");
                 break;
 
             case "DisplayColorDesc":
@@ -360,30 +326,6 @@ function addMethodsToObjects() {
 
                 if (!anyInIDiv) {
                     select('.modal-body').child(createP("Plansza jest pusta!"));
-                }
-
-                break;
-
-            case 'addCustomColorSet':
-                $('#modal').modal('show');
-                select(".modal-title").html("Dodaj zestaw kolorów");
-                select(".modal-body").html("");
-
-                select(".modalBtn").html("Zapisz");
-                select(".modalBtn").attribute('onclick', 'userInterface.addCustomColorSet()');
-
-                for (let col of settings.colorMatrix) {
-
-                    let num = 1 + settings.colorMatrix.indexOf(col)
-                    if (num < 10) num = '0' + num.toString();
-                    let el = createP(`Kolor ${num}: `);
-
-                    let picker = createColorPicker(col);
-
-                    picker.addClass(`colorPicker picker${settings.colorMatrix.indexOf(col)}`);
-
-                    picker.parent(el);
-                    select(".modal-body").child(el);
                 }
 
                 break;
@@ -559,21 +501,18 @@ function addMethodsToObjects() {
 
     }
 
-    action.switchColorScheme = function (dontChange) {
-
-        if (dontChange != true) settings["currentColorScheme"] = select(".switchColorScheme").value();
+    action.switchColorScheme = function () {
+        settings["currentColorScheme"] = select(".switchColorScheme").value();
 
         if (settings.currentColorScheme == "Domyślny") {
             settings.activeColorScheme = 0;
+            userInterface.generateColorContrainer()
         } else {
             let pos = settings.colorsSchemesInList.indexOf(settings.currentColorScheme);
             pos++;
 
             settings.activeColorScheme = pos;
-        }
-
-        for (let s of userInterface.board) {
-            if (!(s instanceof Index)) s.changeColor(settings.colorSchemes[settings.activeColorScheme][s.txt - 1])
+            userInterface.generateColorContrainer()
         }
 
     }
@@ -628,9 +567,6 @@ function addMethodsToObjects() {
         ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#D3D3D3'],
         ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#D3D3D3']
     ];
-
-    settings.colorMatrix = settings.colorSchemes[1];
-    settings.colorMatrix.pop();
 
 }
 
