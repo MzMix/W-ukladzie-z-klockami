@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<body>
+
+    <template id="sidebar">
+
+        <div class="sidebar-content">
+
+            <a href="#submenuPlansza" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">Plansza</a>
+            <ul class="collapse list-unstyled" id="submenuPlansza">
+                <li class="menuOption"><a href="#" onclick="action.togAxis()">Pokaż osie</a></li>
+                <li class="menuOption"><a href="#" onclick="action.showModal('changeSet')" data-toggle="modal"
+                        data-target="#modal">Zmaina opisu pól</a></li>
+                <li class="menuOption"><a href="#" onclick="action.resetBoard()">Reset planszy</a></li>
+            </ul><a href="#submenuRysowanie" class="dropdown-toggle" data-toggle="collapse"
+                aria-expanded="false">Rysowanie</a>
+            <ul class="collapse list-unstyled" id="submenuRysowanie">
+                <li class="menuOption"><a href="#" onclick="action.showModal('symetryDrawing')" data-toggle="modal"
+                        data-target="#modal">Ustawienia symetrii</a></li>
+                <li class="menuOption"><a href="#" onclick="action.showModal('changeSegmentContent')"
+                        data-toggle="modal" data-target="#modal">Zmaina zawartości pól</a></li>
+            </ul><a href="#submenuUdostępnianie" class="dropdown-toggle" data-toggle="collapse"
+                aria-expanded="false">Udostępnianie</a>
+            <ul class="collapse list-unstyled" id="submenuUdostępnianie">
+                <li class="menuOption"><a href="#" onclick="action.saveImg()">Zapis planszy do pliku</a></li>
+                <li class="menuOption"><a href="#" onclick="action.showModal('DisplayColorDesc')" data-toggle="modal"
+                        data-target="#modal">Zakoduj rysunek</a></li>
+            </ul><a href="#submenuDostosowywanie" class="dropdown-toggle" data-toggle="collapse"
+                aria-expanded="false">Dostosowywanie</a>
+            <ul class="collapse list-unstyled" id="submenuDostosowywanie">
+                <li class="menuOption"><a href="#" onclick="action.showModal('changeColorSet')" data-toggle="modal"
+                        data-target="#modal">Zestawy kolorów</a></li>
+                <li class="menuOption"><a href="#" onclick="action.hideColorPalette()">Ukryj paletę barw</a></li>
+            </ul>
+        </div>
+
+        </div>
+
+    </template>
+
+    <template class="modal" id="changeColorSet">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="modalLabel">Zestawy kolorów</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+
+                <div class="footerLeft col-6 text-left">
+                    <button type="button" class="ownColors btn btn-info btn-sm order-1" data-dismiss="modal"
+                        onclick="action.showModal('addCustomColorSet')">Dodaj własny zestaw kolorów</button>
+                </div>
+                <div class="footerRight col-6 text-right">
+                    <button type="button" class="btn btn-primary order-2 modalBtn" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+    <template class="modal" id="changeSet">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="modalLabel">Zmiana opisu pól</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+                <span id="selectSpot"></span>
+            </div>
+            <div class="modal-footer">
+                <div class="footerRight col-6 text-right">
+                    <button type="button" class="btn btn-primary order-2 modalBtn" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+    <template class="modal" id="changeSegmentContent">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="modalLabel">Zmiana zawartości pól</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <div class="footerLeft col-6 text-left">
+                </div>
+                <div class="footerRight col-6 text-right">
+                    <button type="button" class="btn btn-primary order-2 modalBtn" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+    <template class="modal" id="symetryDrawing">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="modalLabel">Ustawienia symetrii</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <div class="footerRight col-6 text-right">
+                    <button type="button" class="btn btn-primary order-2 modalBtn" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+    <template class="modal" id="displayColorDesc">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="modalLabel">Zakodowany rysunek:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <div class="footerRight col-6 text-right">
+                    <button type="button" class="btn btn-primary order-2 modalBtn" data-dismiss="modal">Zamknij</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+
+</body>
+
+</html>

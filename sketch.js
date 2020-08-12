@@ -141,12 +141,15 @@ function addMethodsToObjects() {
 
     action.showModal = function (value) {
         let el;
-
-        select(".modal-body").html("");
+        select(".modal-dialog").html("");
 
         switch (value) {
+
             case "changeSet":
-                select(".modal-title").html("Zmiana opisu pól");
+                templatka = templateHTML.querySelector("#changeSet");
+                clone = templatka.content.cloneNode(true);
+                insert = clone.querySelector(".modal-content");
+                select(".modal-dialog").child(insert);
 
                 el = createSelect();
                 el.option("Numeracja");
@@ -160,13 +163,15 @@ function addMethodsToObjects() {
 
                 el.changed(this.switchIndexType);
 
-                select(".modal-body").html("");
-                select(".modal-body").child(el);
+                select("#selectSpot").child(el);
                 break;
 
             case 'changeSegmentContent':
 
-                select(".modal-title").html("Zmiana zawartości pól");
+                templatka = templateHTML.querySelector("#changeSegmentContent");
+                clone = templatka.content.cloneNode(true);
+                insert = clone.querySelector(".modal-content");
+                select(".modal-dialog").child(insert);
 
                 el = createSelect();
                 el.option("Brak");
@@ -179,15 +184,16 @@ function addMethodsToObjects() {
 
                 el.changed(this.changeSegContent);
 
-                select(".modal-body").html("");
                 select(".modal-body").child(el);
 
                 break;
 
-
             case 'symetryDrawing':
 
-                select(".modal-title").html("Ustawienia symetrii");
+                templatka = templateHTML.querySelector("#symetryDrawing");
+                clone = templatka.content.cloneNode(true);
+                insert = clone.querySelector(".modal-content");
+                select(".modal-dialog").child(insert);
 
                 el = createSelect();
                 el.option("Brak");
@@ -198,61 +204,40 @@ function addMethodsToObjects() {
                 if (settings.currentSymetryType) el.value(settings.currentSymetryType);
 
                 el.addClass("custom-select switchSymetryType");
-
                 el.changed(this.switchSymetryType);
 
-                select(".modal-body").html("");
                 select(".modal-body").child(el);
 
                 break;
 
             case 'changeColorSet':
 
-                this.refreshColorSets();
+                templatka = templateHTML.querySelector("#changeColorSet");
+                clone = templatka.content.cloneNode(true);
+                insert = clone.querySelector(".modal-content");
+                select(".modal-dialog").child(insert);
 
-                select(".modal-title").html("Zestawy kolorów");
+                this.refreshColorSets();
 
                 el = createSelect();
                 el.option("Domyślny");
-
                 for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
                     el.option(`Zestaw ${i+1}`);
                 }
-
                 if (settings.currentColorScheme) el.value(settings.currentColorScheme);
-
                 el.addClass("custom-select switchColorScheme");
-
                 el.changed(this.switchColorScheme);
-
-                // let btn = createButton("Dodaj nowy zestaw");
-                // btn.addClass("btn btn-outline-primary btn-block");
-                // btn.style("margin-top", "20px");
-                // btn.mousePressed(action.newSet)
-
                 select(".modal-body").html("");
                 select(".modal-body").child(el);
-                // select(".modal-body").child(btn);
 
-                break;
-
-            case "addColorScheme":
-                select(".modal-title").html("Dodaj nowy zestaw");
-
-                for (let col of settings.colorSchemes[settings.activeColorScheme]) {
-                    let el = createDiv();
-                    el.addClass("paletteBtn");
-                    el.style("background-color", col);
-                    el.size(1.2 * settings.squareSize, 1.2 * settings.squareSize);
-                    el.mousePressed(action.newColor(settings.colorSchemes[settings.activeColorScheme].indexOf(col)));
-                    select(".modal-body").child(el);
-                }
-
-                select(".modal-body").html("");
                 break;
 
             case "DisplayColorDesc":
-                select(".modal-title").html("Zakodowany rysunek:");
+
+                templatka = templateHTML.querySelector("#displayColorDesc");
+                clone = templatka.content.cloneNode(true);
+                insert = clone.querySelector(".modal-content");
+                select(".modal-dialog").child(insert);
 
                 select(".colorSchemeContainer").hide();
                 select(".p5Canvas").hide();
@@ -435,8 +420,6 @@ function addMethodsToObjects() {
 
     action.changeSegContent = function () {
         settings["currentSegmentContent"] = select(".switchSegmentContent").value()
-
-        print(settings.currentSegmentContent)
 
         switch (settings.currentSegmentContent) {
 
