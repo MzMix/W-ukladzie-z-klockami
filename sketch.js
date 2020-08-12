@@ -50,8 +50,30 @@ function addMethodsToObjects() {
         return this;
     }
 
-    userInterface.pickColor = function (color) {
+    UserInterface.prototype.pickColor = function (color) {
         this.pickedColor = color;
+    }
+
+    UserInterface.prototype.addCustomColorSet = function () {
+        print('tak');
+        let newColorSet = [];
+
+        for (let i = 0; i < settings.colorMatrix.length; i++) {
+            let picker = select(`.picker${i}`);
+
+            newColorSet.push(picker.value());
+        }
+        newColorSet.push('#C0C0C0');
+
+        settings.colorSchemes.push(newColorSet);
+        action.refreshColorSets();
+
+        let val;
+        for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
+            val = `Zestaw ${i+1}`;
+        }
+        settings["currentColorScheme"] = val;
+        action.switchColorScheme(true);
     }
 
     Segment.prototype.colorSegment = function () {
@@ -209,8 +231,16 @@ function addMethodsToObjects() {
             case 'changeColorSet':
 
                 this.refreshColorSets();
+                this.refreshColorSets();
 
                 select(".modal-title").html("Zestawy kolorów");
+
+                if (!select(".ownColors")) {
+                    let ownScheme = createButton('Dodaj własny zestaw kolorów');
+                    ownScheme.addClass("ownColors btn btn-info btn-sm order-1");
+                    ownScheme.attribute('onclick', "action.showModal('addCustomColorSet')");
+                    ownScheme.parent(select(".footerLeft"));
+                }
 
                 el = createSelect();
                 el.option("Domyślny");
@@ -225,15 +255,8 @@ function addMethodsToObjects() {
 
                 el.changed(this.switchColorScheme);
 
-                // let btn = createButton("Dodaj nowy zestaw");
-                // btn.addClass("btn btn-outline-primary btn-block");
-                // btn.style("margin-top", "20px");
-                // btn.mousePressed(action.newSet)
-
                 select(".modal-body").html("");
                 select(".modal-body").child(el);
-                // select(".modal-body").child(btn);
-
                 break;
 
             case "addColorScheme":
@@ -556,7 +579,7 @@ function addMethodsToObjects() {
     action.resetBoard = function () {
         for (let s of userInterface.board) {
             if (!(s instanceof Index)) {
-                s.retriveBasicValues()
+                `1`
                 s.changeColor();
             }
         }
