@@ -187,6 +187,7 @@ canvas {
 	height: 25px;
 	display: inline-block;
 	vertical-align: middle;
+	border: solid 1px black;
 }
 
 /* #e3eaa7 */
