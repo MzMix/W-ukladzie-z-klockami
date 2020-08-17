@@ -1,3 +1,15 @@
+let loadedFile;
+
+function handleFile(file) {
+
+    if (file.type == 'application' && file.subtype == 'json') {
+
+        let fileData = file.data;
+        loadJSON(fileData, action.updateColors, action.rejectedFile);
+
+    }
+}
+
 class Axis {
     constructor() {
         this.visible = false;
@@ -52,6 +64,10 @@ function addMethodsToObjects() {
 
     UserInterface.prototype.pickColor = function (color) {
         this.pickedColor = color;
+    }
+
+    UserInterface.prototype.loadSave = function () {
+
     }
 
     UserInterface.prototype.addCustomColorSet = function () {
@@ -240,8 +256,6 @@ function addMethodsToObjects() {
                 select(".modal-dialog").child(insert);
                 this.refreshColorSets();
 
-                this.refreshColorSets();
-
                 if (!select(".ownColors")) {
                     let ownScheme = createButton('Dodaj własny zestaw kolorów');
                     ownScheme.addClass("ownColors btn btn-info btn-sm order-1");
@@ -344,6 +358,44 @@ function addMethodsToObjects() {
 
                 break;
 
+            case 'addCustomColorSet':
+                $('#modal').modal('show');
+
+                templatka = templateHTML.querySelector("#addCustomColorSet");
+                clone = templatka.content.cloneNode(true);
+                insert = clone.querySelector(".modal-content");
+                select(".modal-dialog").child(insert);
+
+                for (let col of settings.colorMatrix) {
+
+                    let num = 1 + settings.colorMatrix.indexOf(col)
+                    if (num < 10) num = '0' + num.toString();
+                    let el = createP(`Kolor ${num}: `);
+
+                    let picker = createColorPicker(col);
+
+                    picker.addClass(`colorPicker picker${settings.colorMatrix.indexOf(col)}`);
+
+                    picker.parent(el);
+                    select(".modal-body").child(el);
+                }
+                break;
+
+            case 'loadColorsFromFile':
+                $('#modal').modal('show');
+
+                templatka = templateHTML.querySelector("#loadColorsFromFile");
+                clone = templatka.content.cloneNode(true);
+                insert = clone.querySelector(".modal-content");
+                select(".modal-dialog").child(insert);
+
+                let input = createFileInput(handleFile, false);
+                input.attribute("accept", "application/json");
+
+                select(".modal-body").child(input);
+
+                break;
+
             default:
                 break;
         }
@@ -356,10 +408,30 @@ function addMethodsToObjects() {
         });
     }
 
-    action.newColor = function () {}
+    action.saveColorSets = function () {
 
-    action.newSet = function () {
-        action.showModal('addColorScheme')
+        let json = {};
+        let listOfSets = [];
+        let colorsToSave = [];
+
+        for (let i = 0; i < settings.colorSchemes.length; i++) {
+
+            for (let color of settings.colorSchemes[i]) {
+                if (color != "#C0C0C0") colorsToSave.push(color)
+            }
+
+            name = `set${i}`;
+
+            listOfSets.push({
+                name: name,
+                colors: colorsToSave
+            });
+
+            colorsToSave = [];
+        }
+
+        json.setsOfColors = listOfSets;
+        saveJSON(json, "kolory");
     }
 
     action.refreshColorSets = function () {
@@ -485,9 +557,21 @@ function addMethodsToObjects() {
         }
     }
 
+    action.updateColors = function (givenJson) {
+
+        if (givenJson.setsOfColors.length > 2) {
+            //Mamy dodaną własną paletę
+
+            for (let i = 2; i < givenJson.setsOfColors.length; i++) {
+                settings.colorSchemes.push(givenJson.setsOfColors[i].colors);
+            }
+
+        }
+        action.refreshColorSets();
+    }
+
     action.switchSymetryType = function () {
         settings["currentSymetryType"] = select(".switchSymetryType").value()
-
 
         switch (settings.currentSymetryType) {
 
@@ -513,8 +597,9 @@ function addMethodsToObjects() {
 
     }
 
-    action.switchColorScheme = function () {
-        settings["currentColorScheme"] = select(".switchColorScheme").value();
+    action.switchColorScheme = function (dontChange) {
+
+        if (dontChange != true) settings["currentColorScheme"] = select(".switchColorScheme").value();
 
         if (settings.currentColorScheme == "Domyślny") {
             settings.activeColorScheme = 0;
@@ -527,7 +612,11 @@ function addMethodsToObjects() {
             userInterface.generateColorContrainer()
         }
 
+        for (let s of userInterface.board) {
+            if (!(s instanceof Index)) s.changeColor(settings.colorSchemes[settings.activeColorScheme][s.txt - 1])
+        }
     }
+
 
     settings.addValues({
         axisWidth: 5,
@@ -579,6 +668,9 @@ function addMethodsToObjects() {
         ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#D3D3D3'],
         ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#D3D3D3']
     ];
+
+    settings.colorMatrix = settings.colorSchemes[1];
+    settings.colorMatrix.pop();
 
 }
 
