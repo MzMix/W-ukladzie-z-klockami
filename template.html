@@ -26,11 +26,15 @@
                 <li class="menuOption"><a href="#" onclick="action.saveImg()">Zapis planszy do pliku</a></li>
                 <li class="menuOption"><a href="#" onclick="action.showModal('DisplayColorDesc')" data-toggle="modal"
                         data-target="#modal">Zakoduj rysunek</a></li>
+                <li class="menuOption"><a href="#" onclick="action.saveColorSets()">Zapis zestawów kolorów do pliku</a>
+                </li>
             </ul><a href="#submenuDostosowywanie" class="dropdown-toggle" data-toggle="collapse"
                 aria-expanded="false">Dostosowywanie</a>
             <ul class="collapse list-unstyled" id="submenuDostosowywanie">
                 <li class="menuOption"><a href="#" onclick="action.showModal('changeColorSet')" data-toggle="modal"
                         data-target="#modal">Zestawy kolorów</a></li>
+                <li class="menuOption"><a href="#" onclick="action.showModal('loadColorsFromFile')" data-toggle="modal"
+                        data-target="#modal">Wczytaj zapisane kolory</a></li>
                 <li class="menuOption"><a href="#" onclick="action.hideColorPalette()">Ukryj paletę barw</a></li>
             </ul>
         </div>
@@ -176,6 +180,61 @@
 
     </template>
 
+    <template class="modal" id="addCustomColorSet">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="modalLabel">Dodaj zestaw kolorów</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <div class="footerLeft col-6 text-left">
+                </div>
+                <div class="footerRight col-6 text-right">
+                    <button type="button" class="btn btn-primary order-2 modalBtn" data-dismiss="modal"
+                        onclick="userInterface.addCustomColorSet()">Zapisz</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+    <template class="modal" id="loadColorsFromFile">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="modalLabel">Wczytaj zapisane zestawy kolorów</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <div class="footerRight col-6 text-right">
+                    <button type="button" class="btn btn-primary order-2 modalBtn" data-dismiss="modal"
+                        onclick="userInterface.loadSave()">Wczytaj zapis</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
 
 </body>
 
