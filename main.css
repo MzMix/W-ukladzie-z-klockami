@@ -135,7 +135,6 @@ canvas {
 #sidebar .sidebar-content {
 	padding: 20px;
 	font-size: var(--sidebarFontSize);
-	text-align: justify;
 }
 
 #sidebar .close {
