@@ -3,19 +3,27 @@
 
 <head>
 	<link rel="stylesheet" type="text/css" href="main.css">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+	</script>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta charset="utf-8" />
 	<meta author="Mikołaj Zuziak">
 	<title>Klockiem w matematykę!</title>
 
-	<script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.min.js"
+		integrity="sha512-gQVBYBvfC+uyor5Teonjr9nmY1bN+DlOCezkhzg4ShpC5q81ogvFsr5IV4xXAj6HEtG7M1Pb2JCha97tVFItYQ=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="./main.js"></script>
+
+	<!-- <script>
 		window.onbeforeunload = function () {
 			return 'Are you sure you want to leave?';
 		};
-	</script>
+	</script> -->
 
 </head>
 
@@ -23,147 +31,184 @@
 	<!-- usuwanie napisu Loading -->
 	<div id="p5_loading"></div>
 
-	<div class="content">
-		<div class="container-fluid">
-			<!-- Title -->
-			<div class="row titleRow turnOff">
-				<div class="col-12 title noPadding">
-					<h1 class="display-3">Klockiem w matematykę!</h1>
-				</div>
-			</div>
-			<!--row Title-->
+	<div class="container-fluid" style="margin-bottom: 2%;">
 
-			<!-- Header -->
-			<div class="row headerRow turnOff">
-				<div class="col-12 header noPadding">
-					<h4>W układzie z klockami</h4>
-				</div>
-			</div>
-			<!--row Header-->
-
-			<!-- Sidebar open btn -->
-			<div id="content" class="navBtnDiv">
-				<nav class="navbar navbar-expand-lg navbar-light">
-					<div class="container-fluid">
-						<button type="button" id="sidebarCollapse" class="btn btn-info green ">
-							<span class="navbar-toggler-icon"></span>
-						</button>
-					</div>
-				</nav>
-			</div>
-			<!-- Sidebar open btn end -->
-
-			<div class="row">
-				<div class="col-2 offset-2 colorSchemeContainer top-buffer"></div>
-				<div class="canvasDiv top-buffer"></div>
-			</div>
-
-			<!-- Footer -->
-			<div class="row fixed-bottom turnOff">
-				<div class="col-sm-12 footer">
-					<h5>Klockiem w matematykę! 2018 - 2021 | W układzie z klockami | Wersja: 1.4 z dnia: 29.05.2021
-					</h5>
-				</div>
-			</div>
-			<!-- Footer end -->
-
+		<div class="row ">
+			<div class="col-12 h1 text-center fw-bold bg-primary text-white ">Klockiem w matematykę</div>
 		</div>
-		<!--container end-->
 
 	</div>
-	<!-- Content end -->
 
-	<!-- Wrapper -->
-	<div class="wrapper">
-		<!-- Sidebar -->
-		<div id="sidebar" class="disabled">
-			<div class="sidebar-header"> <button type="button" class="close" aria-label="Close"
-					onclick="$('#sidebar').toggleClass('disabled');">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h3><span>Ustawienia aplikacji</span></h3>
+	<div class="container">
+		<!-- Pierwsza linia -->
+		<div class="row text-center">
+
+			<div class=" col-1 invisible indexSquare" id="iD0">
+				<div class=" box">0</div>
 			</div>
-
-			<span id=sidebarContentHolder></span>
-
-			<div class="sidebar-footer">
-				<h3><a href="https://mzmix.github.io/">Strona Główna</a></h3>
+			<div class="col-1 indexSquare" id="iD1">
+				<div class="box align-middle">1</div>
 			</div>
-
-			<!-- Sidebar end -->
+			<div class="col-1 indexSquare" id="iD2">
+				<div class="box">2</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD3">
+				<div class="box">3</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD4">
+				<div class="box">4</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD5">
+				<div class="box">5</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD6">
+				<div class="box">6</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD7">
+				<div class="box">7</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD8">
+				<div class="box">8</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD9">
+				<div class="box">9</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD10">
+				<div class="box">10</div>
+			</div>
+			<div class="col-1 invisible indexSquare" id="iD11">
+				<div class="box"></div>
+			</div>
 
 		</div>
-		<!-- Modal -->
-		<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="modalLabel"></h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body"></div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary modalCloseBtn"
-							data-dismiss="modal">Zamknij</button>
-						<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button> -->
-						<!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Zastosuj</button> -->
-					</div>
-				</div>
+
+		<div class="row text-center">
+
+			<div class=" col-1  indexSquare" id="iD12">
+				<div class=" box">1</div>
 			</div>
+			<div class="col-1 colorSquare" id="cS0">
+				<div class="box align-middle">A</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS1">
+				<div class="box">B</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS2">
+				<div class="box">C</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS3">
+				<div class="box">D</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS4">
+				<div class="box">E</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS5">
+				<div class="box">F</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS6">
+				<div class="box">G</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS7">
+				<div class="box">H</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS8">
+				<div class="box">I</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS9">
+				<div class="box">J</div>
+			</div>
+			<div class="col-1  indexSquare" id="iD13">
+				<div class="box">1</div>
+			</div>
+
 		</div>
-		<!-- Modal end -->
+
+		<div class="row text-center">
+
+			<div class=" col-1  indexSquare" id="iD12">
+				<div class=" box">2</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS0">
+				<div class="box align-middle">A</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS1">
+				<div class="box">B</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS2">
+				<div class="box">C</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS3">
+				<div class="box">D</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS4">
+				<div class="box">E</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS5">
+				<div class="box">F</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS6">
+				<div class="box">G</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS7">
+				<div class="box">H</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS8">
+				<div class="box">I</div>
+			</div>
+			<div class="col-1 colorSquare" id="cS9">
+				<div class="box">J</div>
+			</div>
+			<div class="col-1  indexSquare" id="iD13">
+				<div class="box">2</div>
+			</div>
+
+		</div>
+
+		<!-- Ostatnia linia -->
+
+		<div class="row text-center">
+
+			<div class=" col-1 invisible indexSquare" id="iD0">
+				<div class=" box">0</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD1">
+				<div class="box align-middle">1</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD2">
+				<div class="box">2</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD3">
+				<div class="box">3</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD4">
+				<div class="box">4</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD5">
+				<div class="box">5</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD6">
+				<div class="box">6</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD7">
+				<div class="box">7</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD8">
+				<div class="box">8</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD9">
+				<div class="box">9</div>
+			</div>
+			<div class="col-1 indexSquare" id="iD10">
+				<div class="box">10</div>
+			</div>
+			<div class="col-1 invisible indexSquare" id="iD1">
+				<div class="box"></div>
+			</div>
+
+		</div>
+
 	</div>
-	<!-- Wrapper end -->
 
-	<!-- Bootstrap Js:  -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
-	</script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
-	</script>
-
-	<script>
-		//Obsługa sidebara
-		function changePosition() {
-			let pos = $('.titleRow').height() + $('.headerRow').height();
-			$("#sidebar").css({
-				top: pos,
-				position: 'fixed'
-			});
-
-			$(".navBtnDiv").css({
-				top: pos,
-				position: 'fixed'
-			});
-		}
-
-		$(document).ready(() => {
-			changePosition();
-
-			$('#sidebarCollapse').on('click', () => {
-				changePosition();
-				$('#sidebar').toggleClass('disabled');
-			});
-		});
-
-		$(window).on('resize', () => {
-			changePosition();
-		});
-	</script>
-
-	<!-- Custom Js: -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.js"></script>
-	<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js" defer></script>
-	<script src="core.js"></script>
-	<script src="settings.js"></script>
-	<script src="sketch.js"></script>
 
 </body>
 
