@@ -71,15 +71,15 @@ function addMethodsToObjects() {
     }
 
     UserInterface.prototype.addCustomColorSet = function () {
-        print('tak');
+        // print('tak');
         let newColorSet = [];
 
-        for (let i = 0; i < settings.colorMatrix.length; i++) {
+        for (let i = 0; i < settings.colorMatrix.length - 1; i++) {
             let picker = select(`.picker${i}`);
 
             newColorSet.push(picker.value());
         }
-        newColorSet.push('#C0C0C0');
+        newColorSet.push('#D3D3D3');
 
         settings.colorSchemes.push(newColorSet);
         action.refreshColorSets();
@@ -94,7 +94,7 @@ function addMethodsToObjects() {
 
     Segment.prototype.colorSegment = function () {
         if (userInterface.pickedColor) {
-            this.fill = userInterface.pickedColor;
+            this.changeColor(userInterface.pickedColor);
 
             if (settings.currentAxis != "none") {
                 for (let s of userInterface.board) {
@@ -105,19 +105,19 @@ function addMethodsToObjects() {
                         if (settings.currentAxis == "X") {
                             // Symetria Y:
                             if (sx == -1 * (this.posKart.x + 1) && sy == this.posKart.y) {
-                                s.fill = userInterface.pickedColor;
+                                this.changeColor(userInterface.pickedColor);
                                 break;
                             }
                         } else if (settings.currentAxis == "Y") {
                             //Symetria X:
                             if (sx == 1 * (this.posKart.x) && sy == -1 * (this.posKart.y - 1)) {
-                                s.fill = userInterface.pickedColor;
+                                this.changeColor(userInterface.pickedColor);
                                 break;
                             }
                         } else if (settings.currentAxis == "CENTER") {
                             // Symetria Center:
                             if (sx == -1 * (this.posKart.x + 1) && sy == -1 * (this.posKart.y - 1)) {
-                                s.fill = userInterface.pickedColor;
+                                this.changeColor(userInterface.pickedColor);
                                 break;
                             }
                         }
@@ -156,6 +156,7 @@ function addMethodsToObjects() {
         if (val) {
             this.fill = val;
             this.stroke = "transparent"
+            this.oldColId = settings.colorSchemes[settings.activeColorScheme].indexOf(val);
         } else {
             this.fill = this.basicFillColor;
             this.stroke = this.basicStrokeColor
@@ -366,8 +367,9 @@ function addMethodsToObjects() {
                 insert = clone.querySelector(".modal-content");
                 select(".modal-dialog").child(insert);
 
-                for (let col of settings.colorMatrix) {
+                for (let i = 0; i < settings.colorMatrix.length - 1; i++) {
 
+                    let col = settings.colorMatrix[i];
                     let num = 1 + settings.colorMatrix.indexOf(col)
                     if (num < 10) num = '0' + num.toString();
                     let el = createP(`Kolor ${num}: `);
@@ -613,10 +615,11 @@ function addMethodsToObjects() {
         }
 
         for (let s of userInterface.board) {
-            if (!(s instanceof Index)) s.changeColor(settings.colorSchemes[settings.activeColorScheme][s.txt - 1])
+            if (!(s instanceof Index)) {
+                s.changeColor(settings.colorSchemes[settings.activeColorScheme][s.oldColId]);
+            }
         }
     }
-
 
     settings.addValues({
         axisWidth: 5,
@@ -686,7 +689,7 @@ function addMethodsToObjects() {
 
     settings.colorSchemes = [
         ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#D3D3D3'],
-        ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#D3D3D3']
+        ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#D3D3D3', '#D3D3D3']
     ];
 
     settings.colorMatrix = settings.colorSchemes[1];
