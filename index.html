@@ -19,196 +19,94 @@
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="./main.js"></script>
 
-	<!-- <script>
-		window.onbeforeunload = function () {
-			return 'Are you sure you want to leave?';
-		};
-	</script> -->
+	<script>
+		// window.onbeforeunload = function () {
+		// 	return 'Are you sure you want to leave?';
+		// };
+
+		window.onload = function () {
+			let data = new Date();
+			let year = data.getFullYear();
+			select('#yearInsert').html(year);
+		}
+	</script>
 
 </head>
 
 <body>
-	<!-- usuwanie napisu Loading -->
-	<div id="p5_loading"></div>
+	<main>
+		<!-- usuwanie napisu Loading -->
+		<div id="p5_loading"></div>
 
-	<div class="container-fluid" style="margin-bottom: 2%;">
+		<!-- LOGO -->
+		<div class="container-fluid">
+			<div class="row bg-primary">
+				<div class="col-12 h2 fw-bold bg-primary text-white pageTitle">
+					<p class="float-start" style="margin-left: 1%;">Klockiem w matematykę</p>
+					<p class="float-end" style="margin-right: 1%;">W układzie z klockami</p>
+				</div>
+			</div>
 
-		<div class="row ">
-			<div class="col-12 h1 text-center fw-bold bg-primary text-white ">Klockiem w matematykę</div>
+			<nav>
+				<div class="row subtleOpacity" style="padding: 0 !important;">
+					<div class="col-12">
+						<ul class="nav float-start">
+							<li class="nav-item">
+								<a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#ustawieniaPanel"
+									role="button" aria-controls="offcanvasExample">Ustawienia</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+									role="button" aria-controls="offcanvasExample">Paleta
+									barw</a>
+							</li>
+						</ul>
+						<ul class="nav float-end ">
+							<li class="nav-item">
+								<a class="nav-link" href="https://mzmix.github.io/" target="_blank">Strona Główna</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
 		</div>
 
+		<!-- PLANSZA -->
+		<div class="boardContainer"></div>
+
+	</main>
+
+	<!-- STOPKA -->
+	<footer class="footer py-3 bg-light fixed-bottom">
+		<div class="container text-center">
+			<span class="text-muted font-monospace">
+				Klockiem w matematykę! 2018 - <span id="yearInsert">2021</span> | W układzie z klockami | Wersja: 2.0 z
+				dnia: 01.06.2021
+			</span>
+		</div>
+	</footer>
+
+	<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+		id="ustawieniaPanel" aria-labelledby="Panel ustawień aplikacji">
+		<div class="offcanvas-header">
+			<h5 id="offcanvas-title">Ustawienia aplikacji</h5>
+			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+			...
+		</div>
 	</div>
 
-	<div class="container">
-		<!-- Pierwsza linia -->
-		<div class="row text-center">
-
-			<div class=" col-1 invisible indexSquare" id="iD0">
-				<div class=" box">0</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD1">
-				<div class="box align-middle">1</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD2">
-				<div class="box">2</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD3">
-				<div class="box">3</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD4">
-				<div class="box">4</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD5">
-				<div class="box">5</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD6">
-				<div class="box">6</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD7">
-				<div class="box">7</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD8">
-				<div class="box">8</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD9">
-				<div class="box">9</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD10">
-				<div class="box">10</div>
-			</div>
-			<div class="col-1 invisible indexSquare" id="iD11">
-				<div class="box"></div>
-			</div>
-
+	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" data-bs-scroll="true"
+		data-bs-backdrop="false" aria-labelledby="offcanvasRightLabel">
+		<div class="offcanvas-header">
+			<h5 id="offcanvas-title">Paleta barw</h5>
+			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
-
-		<div class="row text-center">
-
-			<div class=" col-1  indexSquare" id="iD12">
-				<div class=" box">1</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS0">
-				<div class="box align-middle">A</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS1">
-				<div class="box">B</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS2">
-				<div class="box">C</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS3">
-				<div class="box">D</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS4">
-				<div class="box">E</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS5">
-				<div class="box">F</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS6">
-				<div class="box">G</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS7">
-				<div class="box">H</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS8">
-				<div class="box">I</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS9">
-				<div class="box">J</div>
-			</div>
-			<div class="col-1  indexSquare" id="iD13">
-				<div class="box">1</div>
-			</div>
-
+		<div class="offcanvas-body">
+			...
 		</div>
-
-		<div class="row text-center">
-
-			<div class=" col-1  indexSquare" id="iD12">
-				<div class=" box">2</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS0">
-				<div class="box align-middle">A</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS1">
-				<div class="box">B</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS2">
-				<div class="box">C</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS3">
-				<div class="box">D</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS4">
-				<div class="box">E</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS5">
-				<div class="box">F</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS6">
-				<div class="box">G</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS7">
-				<div class="box">H</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS8">
-				<div class="box">I</div>
-			</div>
-			<div class="col-1 colorSquare" id="cS9">
-				<div class="box">J</div>
-			</div>
-			<div class="col-1  indexSquare" id="iD13">
-				<div class="box">2</div>
-			</div>
-
-		</div>
-
-		<!-- Ostatnia linia -->
-
-		<div class="row text-center">
-
-			<div class=" col-1 invisible indexSquare" id="iD0">
-				<div class=" box">0</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD1">
-				<div class="box align-middle">1</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD2">
-				<div class="box">2</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD3">
-				<div class="box">3</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD4">
-				<div class="box">4</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD5">
-				<div class="box">5</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD6">
-				<div class="box">6</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD7">
-				<div class="box">7</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD8">
-				<div class="box">8</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD9">
-				<div class="box">9</div>
-			</div>
-			<div class="col-1 indexSquare" id="iD10">
-				<div class="box">10</div>
-			</div>
-			<div class="col-1 invisible indexSquare" id="iD1">
-				<div class="box"></div>
-			</div>
-
-		</div>
-
 	</div>
-
 
 </body>
 

@@ -2,8 +2,19 @@
 /* https://www.toptal.com/designers/subtlepatterns/faq/ */
 
 body {
+	background-color: #EFEFEF;
 	/* background-image: url("./diamond_upholstery/diamond_upholstery.png"); */
 	background-image: url("./diamond_upholstery/diamond_upholstery_@2X.png");
+
+	/* background-image: url("./gridme/gridme.png"); */
+	/* background-image: url("./gridme/gridme_@2X.png"); */
+
+	/* background-image: url("./inflicted/inflicted.png"); */
+	/* background-image: url("./inflicted/inflicted_@2X.png"); */
+
+	/* background-image: url("./tiny_grid/tiny_grid.png"); */
+	/* background-image: url("./tiny_grid/tiny_grid_@2X.png"); */
+
 	overflow-y: hidden;
 	font-family: 'Helvetica';
 	-webkit-touch-callout: none;
@@ -14,18 +25,49 @@ body {
 	user-select: none;
 }
 
-.indexSquare {
-	background: #fff;
+.pageTitle {
+	padding: 1%;
 }
 
-.box {
-	height: 0 !important;
-	/* height: 40px !important; */
-	padding-bottom: 100%;
-	line-height: 450%;
+nav {
+	margin-bottom: 2% !important;
+}
+
+.subtleOpacity {
+	background-color: rgba(255, 255, 255, 0.548) !important;
+}
+
+.offcanvas {
+	max-width: 300px !important;
+}
+
+.boardContainer {
+	width: 30%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.boardCell {
+	text-align: center;
+	display: inline-block;
+	width: 7.5% !important;
+	font-size: 1vw;
+	margin: 0.2%;
+}
+
+.indexCell {
+	background: #EFEFEF;
+	border: 1px solid black;
 	border-radius: 10%;
+	font-weight: 500;
 }
 
-.colorSquare {
-	background: red;
+.contentCell {
+	background: #D3D3D3;
+	border: 1px solid #EFEFEF;
+	font-weight: 400;
+}
+
+.contentBox {
+	padding-top: 15% !important;
 }
