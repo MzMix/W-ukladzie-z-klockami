@@ -8,6 +8,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
 	</script>
+	<script src="https://unpkg.com/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta charset="utf-8" />
@@ -28,6 +29,11 @@
 			let data = new Date();
 			let year = data.getFullYear();
 			select('#yearInsert').html(year);
+
+			var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+			var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+				return new bootstrap.Tooltip(tooltipTriggerEl)
+			})
 		}
 	</script>
 
@@ -93,7 +99,12 @@
 			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
 		<div class="offcanvas-body">
-			...
+
+			<button type="button" class="btn btn-outline-primary" onclick="axies.toggleAxies()" data-bs-toggle="tooltip"
+				data-bs-placement="right" title="Przełączenie widoczności osi symetrii - poikaż/ukryj">Przełącz
+				widoczność osi
+				symetrii</button>
+
 		</div>
 	</div>
 
@@ -103,8 +114,11 @@
 			<h5 id="offcanvas-title">Paleta barw</h5>
 			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
-		<div class="offcanvas-body">
-			...
+		<div class="offcanvas-body" id="colorConatiner">
+			<select class="form-select" aria-label="Wybieranie zestawu" style="margin-bottom: 10%;">
+				<option selected value="1">Zestaw matematyczny</option>
+				<option value="2">Zestaw kreatywny</option>
+			</select>
 		</div>
 	</div>
 

@@ -71,3 +71,26 @@ nav {
 .contentBox {
 	padding-top: 15% !important;
 }
+
+#verticalAxies {
+	width: 0;
+	max-width: 0;
+	position: absolute;
+	z-index: 1000;
+}
+
+#horizontalAxies {
+	height: 0;
+	max-height: 0;
+	position: absolute;
+	z-index: 1000;
+}
+
+.colorContainerSquare {
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	border: 1px solid black;
+	border-radius: 10%;
+	margin: 1%;
+}
