@@ -1,13 +1,60 @@
+const utility = {
+    formatSingleDigitNumbers: function (inputNumber) {
+        let outputNumber;
+        if (inputNumber >= 10) {
+            return inputNumber;
+        } else {
+            outputNumber = '0' + inputNumber;
+            return outputNumber;
+        }
+    }
+}
+
 class Board {
 
     constructor() {
         this.backgroundColor = "#D3D3D3"
-        // this.
     }
 
-    //DO ZMIANY !!!!!!
     handleBoardClick(cellID) {
-        select(`#boardCell${cellID}`).style('background-color', colorSet.pickedColor);
+
+        let boardCell = select(`#boardCell${cellID}`);
+        let colorNumber = colorSets.colorNumber;
+        // if(symetria){}
+
+
+        boardCell.style('background-color', colorSets.pickedColor);
+        boardCell.attribute('data-colorNumber', colorNumber);
+    }
+
+    clearBoard() {
+
+        for (let i = 0; i < 144; i++) {
+
+            let target = select('#boardCell' + i);
+
+            if (target && !target.hasClass('indexCell')) {
+                target.style('backgroundColor', colorSets.backgroundColor);
+            }
+
+        }
+
+    }
+
+    updateCells() {
+        for (let i = 0; i < 144; i++) {
+
+            let target = select('#boardCell' + i);
+
+            if (target && !target.hasClass('indexCell')) {
+
+                let colorId = target.attribute('data-colorNumber');
+                let newColor = colorSets[`colorSet${colorContainer.colorSetId}`][colorId];
+
+                target.style('backgroundColor', `backgroundColor = ${newColor};`);
+            }
+
+        }
     }
 }
 
@@ -100,21 +147,77 @@ class Axies {
 }
 
 class ColorSets {
-    constructor(colorSet) {
+    constructor(colorSet, colorSetName) {
         this.colorSet1 = colorSet;
+        this.colorSet1Name = colorSetName;
         this.numberOfSets = 1;
         this.pickedColor = undefined;
-        this.backgroundColor = "#D3D3D3"
+        this.backgroundColor = "#D3D3D3";
+        this.colorNumber = undefined;
     }
 
-    addColorSet(colorSet) {
+    addColorSet(colorSet, colorSetName) {
         this.numberOfSets++;
         let setName = `colorSet${this.numberOfSets}`;
         this[setName] = colorSet;
+        this[setName + 'Name'] = colorSetName;
     }
 
-    setColor(colorToSet) {
+    setColor(colorToSet, colorNumber) {
         this.pickedColor = colorToSet;
+        this.colorNumber = colorNumber;
+    }
+
+    addCustomColorSet() {
+        let setAvaliable = false;
+        let colorArray = [];
+
+        let setName = select("#newSetName").value();
+
+        for (let i = 1; i <= colorSets.numberOfSets; i++) {
+            if (setName == colorSets[`colorSet${i}Name`]) {
+                alert("Zestaw o takiej nazwie już istnieje!")
+                setAvaliable = false;
+            } else {
+                setAvaliable = true;
+            }
+        }
+
+        if (setAvaliable) {
+            for (let i = 0; i < 10; i++) {
+                let input = select(`#colorPicker${i}`).value();
+                colorArray.push(input);
+            }
+
+            colorSets.addColorSet(colorArray, setName);
+            colorContainer.generateColorSelect();
+
+            let myModalEl = document.getElementById('customColorSetModal')
+            bootstrap.Modal.getInstance(myModalEl).hide();
+        }
+    }
+
+    displayColorSetModal() {
+        let basicColorSet = colorSets[`colorSet${colorContainer.colorSetId}`];
+        let htmlInsert, colorPicker;
+        let target = select('#customColorModalBody');
+
+        target.html("");
+
+        select("#newSetName").value(`Zestaw ${utility.formatSingleDigitNumbers(colorSets.numberOfSets-1)}`);
+
+        for (let i = 0; i < colorSets[`colorSet${colorContainer.colorSetId}`].length; i++) {
+
+            htmlInsert = createDiv(`Kolor ${utility.formatSingleDigitNumbers(i+1)}: <br>`);
+            htmlInsert.addClass("customColorPickerDiv");
+            colorPicker = createColorPicker(basicColorSet[i]);
+            colorPicker.addClass("form-control form-control-color colorPicker");
+            colorPicker.attribute("id", "colorPicker" + i);
+            htmlInsert.child(colorPicker);
+
+            target.child(htmlInsert);
+        }
+
     }
 }
 
@@ -127,7 +230,7 @@ class ColorContainer {
 
     generateColorContainer() {
         let setName = `colorSet${this.colorSetId}`;
-        let listOfColors = colorSet[setName];
+        let listOfColors = colorSets[setName];
         let parent = select('#colorConatiner');
 
         let colorToInsert, div;
@@ -136,24 +239,52 @@ class ColorContainer {
 
             colorToInsert = listOfColors[i];
             div = createDiv();
-            div.addClass('colorContainerSquare');
+            div.addClass('colorContainerSquare ratio ratio-1x1');
             div.style('background-color', colorToInsert);
-            div.attribute('onclick', `colorSet.setColor('${colorToInsert}')`);
+            div.attribute('onclick', `colorSets.setColor('${colorToInsert}',${i})`);
             div.parent(parent);
         }
 
-        colorToInsert = colorSet.backgroundColor;
+        colorToInsert = colorSets.backgroundColor;
         div = createDiv();
-        div.addClass('colorContainerSquare');
+        div.addClass('colorContainerSquare ratio ratio-1x1');
         div.style('background-color', colorToInsert);
-        div.attribute('onclick', `colorSet.setColor('${colorToInsert}')`);
+        div.attribute('onclick', `colorSets.setColor('${colorToInsert}', 10)`);
         div.parent(parent);
+    }
+
+    generateColorSelect(firstGeneration) {
+
+        let htmlContent = ""
+        select("#colorSelectForm").html("");
+
+        for (let i = 1; i <= colorSets.numberOfSets; i++) {
+
+            let name = colorSets[`colorSet${i}Name`];
+
+            if (firstGeneration && i == 1) htmlContent = `<option selected value='${i}'>Zestaw ${name}</option>`;
+            else htmlContent = `<option value='${i}'>Zestaw ${name}</option>`;
+
+            select("#colorSelectForm").html(htmlContent, true);
+        }
+
+    }
+
+    switchColorSet() {
+
+        let setNumber = select("#colorSelectForm").value();
+        this.colorSetId = setNumber;
+
+        select('#colorConatiner').html("");
+        this.generateColorContainer();
+
+        board.updateCells();
     }
 
 }
 
 const board = new Board();
-const colorSet = new ColorSets(['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange']);
+const colorSets = new ColorSets(['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange'], 'Matematyczny');
 const colorContainer = new ColorContainer();
 var axies;
 
@@ -175,8 +306,6 @@ function positionAxies() {
     horizontalAxiesY = ((horX + horY) / 2) + 14.5;
 
     axies.update(verticalAxiesX, verticalAxiesY, horizontalAxiesX, horizontalAxiesY);
-
-    colorSet.addColorSet(['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange']);
 }
 
 function setup() {
@@ -188,7 +317,10 @@ function setup() {
     axies = new Axies(0, 0);
     positionAxies();
 
+    colorSets.addColorSet(['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange'], "Kreatywny");
+
     colorContainer.generateColorContainer();
+    colorContainer.generateColorSelect(true);
 }
 
 function windowResized() {

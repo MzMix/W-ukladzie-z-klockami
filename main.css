@@ -87,10 +87,27 @@ nav {
 }
 
 .colorContainerSquare {
-	width: 50px;
-	height: 50px;
+	width: 25% !important;
 	display: inline-block;
 	border: 1px solid black;
 	border-radius: 10%;
-	margin: 1%;
+	margin: 2%;
+	/* box-shadow: 3px 3px grey; */
+}
+
+.colorContainerSquare:hover {
+	cursor: pointer;
+	opacity: 0.9;
+}
+
+.customColorPickerDiv {
+	margin: 10px;
+	padding-top: 10px;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.colorPicker {
+	display: inline-block;
+	vertical-align: middle;
 }

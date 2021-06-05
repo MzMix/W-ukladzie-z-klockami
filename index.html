@@ -21,9 +21,10 @@
 	<script src="./main.js"></script>
 
 	<script>
-		// window.onbeforeunload = function () {
-		// 	return 'Are you sure you want to leave?';
-		// };
+		window.onbeforeunload = function () {
+
+			if (!getURL().includes("localhost")) return 'Are you sure you want to leave?';
+		};
 
 		window.onload = function () {
 			let data = new Date();
@@ -87,7 +88,7 @@
 		<div class="container text-center">
 			<span class="text-muted font-monospace">
 				Klockiem w matematykę! 2018 - <span id="yearInsert">2021</span> | W układzie z klockami | Wersja: 2.0 z
-				dnia: 01.06.2021
+				dnia: 05.06.2021
 			</span>
 		</div>
 	</footer>
@@ -100,10 +101,10 @@
 		</div>
 		<div class="offcanvas-body">
 
-			<button type="button" class="btn btn-outline-primary" onclick="axies.toggleAxies()" data-bs-toggle="tooltip"
-				data-bs-placement="right" title="Przełączenie widoczności osi symetrii - poikaż/ukryj">Przełącz
-				widoczność osi
-				symetrii</button>
+			<button type="button" class="btn btn-outline-primary" onclick="axies.toggleAxies()"><span
+					data-bs-toggle="tooltip" data-bs-placement="right"
+					title="Przełączenie widoczności osi symetrii - pokaż/ukryj">Przełącz widoczność osi
+					symetrii</span></button>
 
 		</div>
 	</div>
@@ -114,11 +115,53 @@
 			<h5 id="offcanvas-title">Paleta barw</h5>
 			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
-		<div class="offcanvas-body" id="colorConatiner">
-			<select class="form-select" aria-label="Wybieranie zestawu" style="margin-bottom: 10%;">
-				<option selected value="1">Zestaw matematyczny</option>
-				<option value="2">Zestaw kreatywny</option>
+		<div class="offcanvas-body text-center">
+			<select class="form-select" id="colorSelectForm" aria-label="Wybieranie zestawu" style="margin-bottom: 10%;"
+				onchange="colorContainer.switchColorSet()">
 			</select>
+
+			<span id="colorConatiner"></span>
+
+			<button type=" button" class="btn btn-danger" onclick="board.clearBoard()" style="margin-top: 10%;"> <span
+					data-bs-toggle="tooltip" data-bs-placement="bottom" title="Czyści planszę">Wyczyść
+					plaszę</span></button>
+
+			<button type=" button" class="btn btn-success" onclick="colorSets.displayColorSetModal()"
+				style="margin-top: 10%;" data-bs-toggle="modal" data-bs-target="#customColorSetModal"
+				data-bs-dismiss="offcanvas" aria-label="Close"><span data-bs-toggle="tooltip" data-bs-placement="bottom"
+					title="Otwiera okno umożliwiające dodanie własnego zestawu kolorów">Dodajwłasny
+					zestaw kolorów</span></button>
+
+			<button type=" button" class="btn btn-info" onclick="print(1)" style="margin-top: 10%;"><span
+					data-bs-toggle="tooltip" data-bs-placement="bottom"
+					title="Eksport listy zestawów kolorów do pliku .json. Eksport umożliwia późniejsze wczytanie zapisu">Eksportuj
+					zestawy kolorów</span></button>
+
+		</div>
+	</div>
+
+	<div class="modal fade" id="customColorSetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Dodaj własny zestaw kolorów</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<label for="newSetName" class="form-label">Nazwa zestawu:</label>
+					<input type="text" class="form-control" id="newSetName">
+
+					<span id="customColorModalBody" class=" text-center"></span>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
+					<button type="button" class="btn btn-primary" onclick="colorSets.addCustomColorSet()">Zapisz nowy
+						zestaw</button>
+				</div>
+			</div>
 		</div>
 	</div>
 
