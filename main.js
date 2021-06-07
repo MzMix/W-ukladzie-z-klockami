@@ -10,6 +10,13 @@ const utility = {
     }
 }
 
+Number.prototype.between = function (a, b) {
+    let minVal = min([a, b]);
+    let maxVal = max([a, b]);
+
+    return this >= minVal && this <= maxVal;
+};
+
 class Board {
 
     constructor() {
@@ -35,6 +42,7 @@ class Board {
 
             if (target && !target.hasClass('indexCell')) {
                 target.style('backgroundColor', colorSets.backgroundColor);
+                target.attribute("data-colorNumber", 10);
             }
 
         }
@@ -51,34 +59,234 @@ class Board {
                 let colorId = target.attribute('data-colorNumber');
                 let newColor = colorSets[`colorSet${colorContainer.colorSetId}`][colorId];
 
-                target.style('backgroundColor', `backgroundColor = ${newColor};`);
+                target.style('backgroundColor', newColor);
             }
 
         }
     }
-}
 
-class boardCell {
+    generateBoardSaveUrl() {
+        //wygenerowanie zakodowanej listy kolorów
+        let contentSequence = readBoardContent();
+        let compressedContentSequence = compressBoardContent(contentSequence);
+        let shortenedList = countSpaces(compressedContentSequence);
+        let hexedList = hexList(shortenedList);
 
-    constructor(id, fillColor, text) {
-        this.cellID = id;
-        this.fillColor = fillColor;
-        this.text = text;
-        // this.previousColorID = 0;
+        if (hexedList.length > 0) {
+            //utworzenie parametru URL
+            let urlInsert = ""
+            for (let i = 0; i < hexedList.length; i++) {
+                if (i > 0) urlInsert += ',';
+                urlInsert += hexedList[i];
+            }
+
+            let courrentURL = getURL();
+
+            let cutPosition = courrentURL.indexOf("?");
+            courrentURL = courrentURL.slice(0, cutPosition);
+
+            print(`${courrentURL}?zapis=${urlInsert}`);
+        } else alert("Plansza jest pusta!")
     }
 
-    chageFillColor(color) {
+    loadBoard(inputList) {
 
-        if (color) {
-            // this.previousColorID = 
-            this.fillColor = color;
+        if (inputList) {
+
+            let listOfCommands = deCompressListOfCommands(inputList);
+
+            let board = [];
+
+            for (let element of listOfCommands) {
+
+                //element zawiera [ - należy wypełnić planszę pustymi miejscami
+                if (element.includes('[')) {
+                    //Wyciągnij wartość z []
+                    let value = element.substring(1, element.length - 1);
+
+                    //Wypełnin pola 10 - puste pole
+                    for (let i = 0; i < value; i++) {
+                        board.push(10);
+                    }
+
+                } else {
+                    //Dodaj kolor do listy
+                    for (let numberColor of element) {
+                        board.push(numberColor);
+                    }
+
+                }
+
+            }
+            //Ustaw kolory na planszy
+
+            let iterator = 0;
+            for (let i = 0; i < 144; i++) {
+                let target = select('#boardCell' + i);
+
+                if (target && !target.hasClass('indexCell')) {
+                    let color = colorSets[`colorSet${colorContainer.colorSetId}`][board[iterator]]
+                    target.style('backgroundColor', color);
+                    target.attribute("data-colorNumber", board[iterator]);
+
+                    iterator++;
+                }
+
+            }
+        }
+
+    }
+}
+
+function deCompressListOfCommands(inputList) {
+    //Podziel dostarczone dane w miejscach z ,
+    let tempList = split(inputList, ',')
+
+    let listOfCommands = [];
+
+    for (let element of tempList) {
+        //Dodaj elementy z [ do listy
+        if (element.includes("[")) listOfCommands.push(element);
+
+        else {
+            //odszyfruj dostarczony hex
+            let deliveredNumber = unhex(element);
+            deliveredNumber = deliveredNumber.toString();
+            let processedString = deliveredNumber.substring(1);
+
+            listOfCommands.push(processedString);
+        }
+
+    }
+    return listOfCommands;
+}
+
+
+function readBoardContent() {
+    //Lista zawierająca wszystkie ciągi cyfr i liczbę pustych miejsc
+    let contrentSequence = [];
+    for (let i = 13; i <= 130; i++) {
+        //wybranie pola z planszy
+        let target = select('#boardCell' + i);
+
+        //Sprawdzanie czy pole jest polem z zawartością (nie index)
+        if (target && !target.hasClass('indexCell')) {
+            let colorNumber = target.attribute("data-colorNumber");
+
+            if (colorNumber == null) colorNumber = 10;
+            else colorNumber = Number(colorNumber);
+
+            if (colorNumber.between(0, 9)) contrentSequence.push(colorNumber)
+            else contrentSequence.push("P")
+        }
+
+    }
+    return contrentSequence;
+}
+
+function compressBoardContent(listofContent) {
+
+    //usuwanie zbędnych zer na końcu listy
+    //Przedź przez listę od tyłu
+    for (let i = listofContent.length - 1; i >= 0; i--) {
+        //Jeżeli element zawiera P to jest to puste miejsce
+        if (listofContent[i] == "P") {
+            listofContent.pop();
+            //Jeżeli nie zawieara to znaleziono ciąg kolorów, koniec czyszczenia
+        } else break;
+    }
+
+    return listofContent;
+}
+
+function countSpaces(listofContent) {
+
+    let counter = 0;
+    let outputList = [];
+    let colorsString = ""
+
+    //Przeszukaj całą listę
+    for (let i = 0; i < listofContent.length; i++) {
+
+        let element = listofContent[i];
+
+        //Jeżeli pole jest puste to zwiększ licznik
+        if (element == "P") {
+            counter++;
         } else {
-            this.fillColor = board.backgroundColor;
+            //Pole ma zawartość
+
+            //Licznik większy od zera, czyli naliczono puste miejsca - dodaj je do listy i wyzeruj licznik
+            //dodaj ciąg kolorów do listy
+            if (counter > 0) {
+                outputList.push(`!${colorsString}`);
+                colorsString = "";
+
+                outputList.push(`[${counter}]`);
+                counter = 0;
+            }
+
+            colorsString += element;
+        }
+
+        //Ostatnia iteracja - dodaj ciąg kolorów do listy
+        if (i == listofContent.length - 1) {
+            outputList.push(`!${colorsString}`);
+        }
+    }
+    return outputList;
+}
+
+function hexList(inputList) {
+    let outputList = [];
+
+    for (let element of inputList) {
+
+        //element zawiera [ - określenie ilości pustych pól
+        if (element.includes("[")) {
+            outputList.push(element);
+        } else {
+            //Element zawiera ciąg kolorów
+
+            //konwersja na hex, dodanie 1 na początku
+            let tempString = element.replace('!', '1');
+            let number = Number(tempString, 10);
+            let hexed = hex(number);
+
+            //Usunięcie zer
+            while (hexed.charAt(0) === "0")
+                hexed = hexed.slice(1);
+
+            //dodanie do listy
+            outputList.push(hexed);
         }
 
     }
 
+    return outputList;
 }
+
+// class boardCell {
+
+//     constructor(id, fillColor, text) {
+//         this.cellID = id;
+//         this.fillColor = fillColor;
+//         this.text = text;
+//         // this.previousColorID = 0;
+//     }
+
+//     chageFillColor(color) {
+
+//         if (color) {
+//             // this.previousColorID = 
+//             this.fillColor = color;
+//         } else {
+//             this.fillColor = board.backgroundColor;
+//         }
+
+//     }
+
+// }
 
 class Axies {
     constructor(vertX, vertY, horX, horY) {
@@ -308,6 +516,19 @@ function positionAxies() {
     axies.update(verticalAxiesX, verticalAxiesY, horizontalAxiesX, horizontalAxiesY);
 }
 
+function preload() {
+    //Obsłużenie daty w stopce
+    let data = new Date();
+    let year = data.getFullYear();
+    select('#yearInsert').html(year);
+
+    //Aktywowanie tooltipów
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+}
+
 function setup() {
     noCanvas();
     noLoop();
@@ -321,6 +542,10 @@ function setup() {
 
     colorContainer.generateColorContainer();
     colorContainer.generateColorSelect(true);
+
+    //Obsługa ładowania planszy z linków
+    let daneURL = getURLParams();
+    board.loadBoard(daneURL.zapis);
 }
 
 function windowResized() {

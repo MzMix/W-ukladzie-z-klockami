@@ -22,20 +22,19 @@
 
 	<script>
 		window.onbeforeunload = function () {
-
 			if (!getURL().includes("localhost")) return 'Are you sure you want to leave?';
 		};
 
-		window.onload = function () {
-			let data = new Date();
-			let year = data.getFullYear();
-			select('#yearInsert').html(year);
+		// window.onload = function () {
+		// 	let data = new Date();
+		// 	let year = data.getFullYear();
+		// 	select('#yearInsert').html(year);
 
-			var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-			var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-				return new bootstrap.Tooltip(tooltipTriggerEl)
-			})
-		}
+		// 	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		// 	var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		// 		return new bootstrap.Tooltip(tooltipTriggerEl)
+		// 	})
+		// }
 	</script>
 
 </head>
@@ -60,12 +59,15 @@
 						<ul class="nav float-start">
 							<li class="nav-item">
 								<a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#ustawieniaPanel"
-									role="button" aria-controls="offcanvasExample">Ustawienia</a>
+									role="button" aria-controls="ustawieniaPanel">Ustawienia</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-									role="button" aria-controls="offcanvasExample">Paleta
+									role="button" aria-controls="offcanvasRight">Paleta
 									barw</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" role="button">Udostępnianie</a>
 							</li>
 						</ul>
 						<ul class="nav float-end ">
