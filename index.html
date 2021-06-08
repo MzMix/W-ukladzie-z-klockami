@@ -103,11 +103,29 @@
 		</div>
 		<div class="offcanvas-body">
 
-			<button type="button" class="btn btn-outline-primary" onclick="axies.toggleAxies()"><span
-					data-bs-toggle="tooltip" data-bs-placement="right"
+			<button type="button" class="btn btn-outline-primary" onclick="axies.toggleAxies()"
+				style="margin-bottom: 10%;"><span data-bs-toggle="tooltip" data-bs-placement="right"
 					title="Przełączenie widoczności osi symetrii - pokaż/ukryj">Przełącz widoczność osi
 					symetrii</span></button>
 
+			<label for="cellContentSelect" style="margin-bottom: 1%;">Zmiana zawartości pól:</label>
+			<select class="form-select" id="cellContentSelect" aria-label="Wybieranie zawartości pól"
+				style="margin-bottom: 10%;" onchange="board.changeCellContent()">
+				<option selected>Zmień zawartość pól planszy</option>>
+				<option value="1">Brak zawartości</option>
+				<option value="2">Numeracja</option>
+				<option value="3">Adresowanie</option>
+			</select>
+
+			<label for="indexContentSelect" style="margin-bottom: 1%;">Zmiana opisu pól:</label>
+			<select class="form-select" id="indexContentSelect" aria-label="Wybieranie opisu pól"
+				style="margin-bottom: 10%;" onchange="board.changeIndex()">
+				<option selected>Zmień opis pól planszy</option>>
+				<option value="1">Brak opisu</option>
+				<option value="2">Numeracja</option>
+				<option value="3">Adresowanie</option>
+				<option value="4">Kolory</option>
+			</select>
 		</div>
 	</div>
 
@@ -118,8 +136,8 @@
 			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
 		<div class="offcanvas-body text-center">
-			<select class="form-select" id="colorSelectForm" aria-label="Wybieranie zestawu" style="margin-bottom: 10%;"
-				onchange="colorContainer.switchColorSet()">
+			<select class="form-select" id="colorSelectForm" aria-label="Wybieranie zestawu kolorów"
+				style="margin-bottom: 10%;" onchange="colorContainer.switchColorSet()">
 			</select>
 
 			<span id="colorConatiner"></span>

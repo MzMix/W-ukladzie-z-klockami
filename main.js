@@ -7,6 +7,14 @@ const utility = {
             outputNumber = '0' + inputNumber;
             return outputNumber;
         }
+    },
+
+    getLettersFromAlphabet: function () {
+        const letters = (() => {
+            return [...Array(26)].map((val, i) => String.fromCharCode(i + 65));
+        })();
+
+        return letters;
     }
 }
 
@@ -74,7 +82,7 @@ class Board {
 
         if (hexedList.length > 0) {
             //utworzenie parametru URL
-            let urlInsert = ""
+            let urlInsert = "";
             for (let i = 0; i < hexedList.length; i++) {
                 if (i > 0) urlInsert += ',';
                 urlInsert += hexedList[i];
@@ -134,6 +142,53 @@ class Board {
 
             }
         }
+
+    }
+
+    changeCellContent() {
+
+        let formValue = select("#cellContentSelect").value();
+        print(formValue)
+
+        if (formValue == 1) {
+            this.fillBoard("none");
+        } else if (formValue == 2) {
+            this.fillBoard("numbers");
+        } else if (formValue == 3) {
+            this.fillBoard("address");
+        }
+
+    }
+
+    fillBoard(_input) {
+
+        let iterator = 1;
+        let cellPosition, cellPositionXY, insert;
+        let targetParent, target;
+
+        for (let i = 0; i < 144; i++) {
+            targetParent = select('#boardCell' + i);
+            target = select('.contentBox', '#boardCell' + i);
+
+            if (targetParent && !targetParent.hasClass('indexCell')) {
+                if (_input == "none") {
+                    target.html("");
+                } else if (_input == "numbers") {
+                    target.html(iterator);
+                    iterator++
+                } else if (_input == "address") {
+                    cellPosition = targetParent.attribute("data-position");
+                    cellPositionXY = splitTokens(cellPosition, ',');
+                    insert = `${alphabet[cellPositionXY[1]-1]}${cellPositionXY[0]}`
+                    target.html(insert);
+                }
+            }
+
+        }
+
+    }
+
+    changeIndex() {
 
     }
 }
@@ -496,6 +551,8 @@ const colorSets = new ColorSets(['green', 'deepskyblue', 'purple', 'khaki', 'red
 const colorContainer = new ColorContainer();
 var axies;
 
+const alphabet = utility.getLettersFromAlphabet();
+
 function positionAxies() {
     let verticalAxiesX = 0;
     let verticalAxiesY = 0;
@@ -571,7 +628,7 @@ function generateBoard() {
             else if ((i != 0) && (i != 11) && (j == 0)) insert = `<div class="boardCell indexCell ratio ratio-1x1" id="boardCell${counter}"><div class="contentBox">${i+j}</div></div>`
             else if ((i != 0) && (i != 11) && (j == 11)) insert = `<div class="boardCell indexCell ratio ratio-1x1 id="boardCell${counter}"><div class="contentBox">${i+j-11}</div></div>`
 
-            else insert = `<div class="boardCell contentCell ratio ratio-1x1" id="boardCell${counter}" onclick="board.handleBoardClick(${counter})"><div class="contentBox">${i+j-1}</div></div>`
+            else insert = `<div class="boardCell contentCell ratio ratio-1x1" id="boardCell${counter}" onclick="board.handleBoardClick(${counter})" data-position="${i},${j}"><div class="contentBox"></div></div>`
 
             destination.html(insert, true);
             counter++;
