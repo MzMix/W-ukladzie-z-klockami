@@ -549,7 +549,7 @@ class ColorContainer {
 
             colorToInsert = listOfColors[i];
             div = createDiv();
-            div.addClass('colorContainerSquare ratio ratio-1x1');
+            div.addClass('colorContainerSquare ratio ratio-1x1 border rounded-3 shadow border-dark');
             div.style('background-color', colorToInsert);
             div.attribute('onclick', `colorSets.setColor('${colorToInsert}',${i})`);
             div.parent(parent);
@@ -557,7 +557,7 @@ class ColorContainer {
 
         colorToInsert = colorSets.backgroundColor;
         div = createDiv();
-        div.addClass('colorContainerSquare ratio ratio-1x1');
+        div.addClass('colorContainerSquare ratio ratio-1x1 border rounded-3 shadow border-dark');
         div.style('background-color', colorToInsert);
         div.attribute('onclick', `colorSets.setColor('${colorToInsert}', 10)`);
         div.parent(parent);
@@ -590,6 +590,20 @@ class ColorContainer {
 
         board.updateCells();
         board.changeIndex();
+    }
+
+}
+
+function updateDate() {
+    // let dateInsert = `${year()}-${utility.formatSingleDigitNumbers(month())}-${utility.formatSingleDigitNumbers(day())}-${utility.formatSingleDigitNumbers(hour())}-${utility.formatSingleDigitNumbers(minute())}`;
+    let dateInsert = `${year()}-${utility.formatSingleDigitNumbers(month())}-${utility.formatSingleDigitNumbers(day())}-${utility.formatSingleDigitNumbers(hour())}-${utility.formatSingleDigitNumbers(minute())}-${utility.formatSingleDigitNumbers(second())}`;
+    let targets = selectAll('.updatedDateInsert');
+    let tempValue = "";
+
+    for (let element of targets) {
+        tempValue = element.value();
+        tempValue += dateInsert;
+        element.value(tempValue);
     }
 
 }

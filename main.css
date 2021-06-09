@@ -42,7 +42,7 @@ nav {
 }
 
 .boardContainer {
-	width: 30%;
+	width: 75% !important;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -51,7 +51,7 @@ nav {
 	text-align: center;
 	display: inline-block;
 	width: 7.5% !important;
-	font-size: 1vw;
+	font-size: 1rem;
 	margin: 0.2%;
 }
 
@@ -69,7 +69,7 @@ nav {
 }
 
 .contentBox {
-	padding-top: 15% !important;
+	padding-top: 20% !important;
 }
 
 #verticalAxies {
@@ -89,10 +89,7 @@ nav {
 .colorContainerSquare {
 	width: 25% !important;
 	display: inline-block;
-	border: 1px solid black;
-	border-radius: 10%;
 	margin: 2%;
-	/* box-shadow: 3px 3px grey; */
 }
 
 .colorContainerSquare:hover {
