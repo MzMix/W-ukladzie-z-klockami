@@ -146,9 +146,7 @@ class Board {
     }
 
     changeCellContent() {
-
         let formValue = select("#cellContentSelect").value();
-        print(formValue)
 
         if (formValue == 1) {
             this.fillBoard("none");
@@ -188,7 +186,56 @@ class Board {
 
     }
 
+    fillIndex(_input) {
+
+        let iterator = 1;
+        let cellPosition, cellPositionXY;
+        let targetParent, target;
+
+        for (let i = 0; i < 144; i++) {
+            targetParent = select('#boardCell' + i);
+            target = select('.contentBox', '#boardCell' + i);
+
+            if (targetParent && targetParent.hasClass('indexCell')) {
+                targetParent.style("backgroundColor", "#EFEFEF")
+
+                if (_input == "none") {
+                    target.html("");
+                } else if (_input == "numbers") {
+                    target.html(targetParent.attribute('data-number'));
+                } else if (_input == "address") {
+                    cellPosition = targetParent.attribute("data-position");
+                    cellPositionXY = splitTokens(cellPosition, ',');
+
+                    if (cellPositionXY[0] != 0 && cellPositionXY[0] != 11) {
+                        target.html(targetParent.attribute('data-number'));
+                    } else {
+                        target.html(alphabet[targetParent.attribute('data-number') - 1]);
+                    }
+
+                } else if (_input == "colors") {
+                    let newColor = colorSets[`colorSet${colorContainer.colorSetId}`][targetParent.attribute("data-number") - 1];
+                    targetParent.style('backgroundColor', newColor);
+                    target.html("");
+                }
+            }
+
+        }
+
+    }
+
     changeIndex() {
+        let formValue = select("#indexContentSelect").value();
+
+        if (formValue == 1) {
+            this.fillIndex("none");
+        } else if (formValue == 2) {
+            this.fillIndex("numbers");
+        } else if (formValue == 3) {
+            this.fillIndex("address");
+        } else if (formValue == 4) {
+            this.fillIndex("colors")
+        }
 
     }
 }
@@ -542,6 +589,7 @@ class ColorContainer {
         this.generateColorContainer();
 
         board.updateCells();
+        board.changeIndex();
     }
 
 }
@@ -619,14 +667,14 @@ function generateBoard() {
 
         for (let j = 0; j <= 11; j++) {
 
-            if ((i == 0 && j == 0) || (i == 0 && j == 11)) insert = `<div class="boardCell indexCell ratio ratio-1x1 invisible" id="boardCell${counter}"><div class="contentBox">${i+j}</div></div>`;
-            else if ((i == 11 && j == 0) || (i == 11 && j == 11)) insert = `<div class="boardCell indexCell ratio ratio-1x1 invisible" id="boardCell${counter}"><div class="contentBox">${i+j}</div></div>`;
+            if ((i == 0 && j == 0) || (i == 0 && j == 11)) insert = `<div class="boardCell indexCell ratio ratio-1x1 invisible" id="boardCell${counter}" data-number="${i+j}" data-position="${i},${j}"><div class="contentBox">${i+j}</div></div>`;
+            else if ((i == 11 && j == 0) || (i == 11 && j == 11)) insert = `<div class="boardCell indexCell ratio ratio-1x1 invisible" id="boardCell${counter}" data-number="${i+j}" data-position="${i},${j}"><div class="contentBox">${i+j}</div></div>`;
 
-            else if (i == 0) insert = `<div class="boardCell indexCell ratio ratio-1x1" id="boardCell${counter}"><div class="contentBox">${i+j}</div></div>`;
-            else if (i == 11) insert = `<div class="boardCell indexCell ratio ratio-1x1" id="boardCell${counter}"><div class="contentBox">${i+j-11}</div></div>`;
+            else if (i == 0) insert = `<div class="boardCell indexCell ratio ratio-1x1" id="boardCell${counter}" data-number="${i+j}" data-position="${i},${j}"><div class="contentBox">${i+j}</div></div>`;
+            else if (i == 11) insert = `<div class="boardCell indexCell ratio ratio-1x1" id="boardCell${counter}" data-number="${i+j-11}" data-position="${i},${j}"><div class="contentBox">${i+j-11}</div></div>`;
 
-            else if ((i != 0) && (i != 11) && (j == 0)) insert = `<div class="boardCell indexCell ratio ratio-1x1" id="boardCell${counter}"><div class="contentBox">${i+j}</div></div>`
-            else if ((i != 0) && (i != 11) && (j == 11)) insert = `<div class="boardCell indexCell ratio ratio-1x1 id="boardCell${counter}"><div class="contentBox">${i+j-11}</div></div>`
+            else if ((i != 0) && (i != 11) && (j == 0)) insert = `<div class="boardCell indexCell ratio ratio-1x1" id="boardCell${counter}" data-number="${i+j}" data-position="${i},${j}"><div class="contentBox">${i+j}</div></div>`
+            else if ((i != 0) && (i != 11) && (j == 11)) insert = `<div class="boardCell indexCell ratio ratio-1x1" id="boardCell${counter}" data-number="${i+j-11}" data-position="${i},${j}"><div class="contentBox">${i+j-11}</div></div>`
 
             else insert = `<div class="boardCell contentCell ratio ratio-1x1" id="boardCell${counter}" onclick="board.handleBoardClick(${counter})" data-position="${i},${j}"><div class="contentBox"></div></div>`
 

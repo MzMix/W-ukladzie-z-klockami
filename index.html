@@ -67,8 +67,10 @@
 									barw</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" role="button">Udostępnianie</a>
+								<a class="nav-link" role="button" data-bs-toggle="modal" data-bs-target="#sharingModal"
+									data-bs-dismiss="offcanvas" aria-label="Close">Udostępnianie</a>
 							</li>
+
 						</ul>
 						<ul class="nav float-end ">
 							<li class="nav-item">
@@ -152,11 +154,6 @@
 					title="Otwiera okno umożliwiające dodanie własnego zestawu kolorów">Dodajwłasny
 					zestaw kolorów</span></button>
 
-			<button type=" button" class="btn btn-info" onclick="print(1)" style="margin-top: 10%;"><span
-					data-bs-toggle="tooltip" data-bs-placement="bottom"
-					title="Eksport listy zestawów kolorów do pliku .json. Eksport umożliwia późniejsze wczytanie zapisu">Eksportuj
-					zestawy kolorów</span></button>
-
 		</div>
 	</div>
 
@@ -180,6 +177,27 @@
 					<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
 					<button type="button" class="btn btn-primary" onclick="colorSets.addCustomColorSet()">Zapisz nowy
 						zestaw</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="sharingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Udostępnianie</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<button type=" button" class="btn btn-info" onclick="print(1)" style="margin-top: 1%;"><span
+							data-bs-toggle="tooltip" data-bs-placement="bottom"
+							title="Eksport listy zestawów kolorów do pliku .json. Eksport umożliwia późniejsze wczytanie zapisu">Eksportuj
+							zestawy kolorów</span></button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Zamknij</button>
 				</div>
 			</div>
 		</div>
