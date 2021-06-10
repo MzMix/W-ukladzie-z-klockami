@@ -93,8 +93,9 @@ class Board {
             let cutPosition = courrentURL.indexOf("?");
             courrentURL = courrentURL.slice(0, cutPosition);
 
-            print(`${courrentURL}?zapis=${urlInsert}`);
-        } else alert("Plansza jest pusta!")
+            return `${courrentURL}?zapis=${urlInsert}`;
+
+        } else return alert("Plansza jest pusta!")
     }
 
     loadBoard(inputList) {
@@ -238,6 +239,11 @@ class Board {
         }
 
     }
+
+    changeSymetryDrawing() {
+
+    }
+
 }
 
 function deCompressListOfCommands(inputList) {
@@ -368,28 +374,6 @@ function hexList(inputList) {
     return outputList;
 }
 
-// class boardCell {
-
-//     constructor(id, fillColor, text) {
-//         this.cellID = id;
-//         this.fillColor = fillColor;
-//         this.text = text;
-//         // this.previousColorID = 0;
-//     }
-
-//     chageFillColor(color) {
-
-//         if (color) {
-//             // this.previousColorID = 
-//             this.fillColor = color;
-//         } else {
-//             this.fillColor = board.backgroundColor;
-//         }
-
-//     }
-
-// }
-
 class Axies {
     constructor(vertX, vertY, horX, horY) {
         this.visible = false;
@@ -417,6 +401,9 @@ class Axies {
         this.hor.position(this.horPos.x, this.horPos.y);
         this.hor.addClass('invisible');
         this.hor.id('horizontalAxies');
+
+        this.vert.parent(select('.boardContainer'));
+        this.hor.parent(select('.boardContainer'));
     }
 
     toggleAxies() {
@@ -572,8 +559,8 @@ class ColorContainer {
 
             let name = colorSets[`colorSet${i}Name`];
 
-            if (firstGeneration && i == 1) htmlContent = `<option selected value='${i}'>Zestaw ${name}</option>`;
-            else htmlContent = `<option value='${i}'>Zestaw ${name}</option>`;
+            if (firstGeneration && i == 1) htmlContent = `<option selected value='${i}'>${name}</option>`;
+            else htmlContent = `<option value='${i}'>${name}</option>`;
 
             select("#colorSelectForm").html(htmlContent, true);
         }
@@ -601,15 +588,64 @@ function updateDate() {
     let tempValue = "";
 
     for (let element of targets) {
-        tempValue = element.value();
+        tempValue = element.attribute("data-nameStart");
         tempValue += dateInsert;
         element.value(tempValue);
     }
 
 }
 
+function generateScreenShot() {
+    let target = select('#boardSaveScreenShotNameInput');
+    let fileName = target.value();
+    html2canvas(document.querySelector(".boardContainer"), {
+        backgroundColor: null
+    }).then(canvas => {
+        saveCanvas(canvas, fileName, 'png')
+    });
+    updateDate();
+}
+
+// function generateBoardSave() {
+//     let target = select("#boardSaveHTMLNameInput");
+//     let fileName = target.value();
+//     let writer = createWriter(`${fileName}.html`);
+
+//     let content = select("#mainContentContainer").html();
+//     let insert = "";
+//     insert += '<template> <div class = "boardContainer mt - md - 1 mt - sm - 5 " >';
+//     insert += content;
+//     insert += '</div><template>';
+//     insert = insert.replace(/\s/g, "");
+
+//     writer.print(insert);
+//     writer.close();
+//     writer.clear();
+//     updateDate();
+// }
+
+function prepareSharingLink() {
+    let url = board.generateBoardSaveUrl();
+    target = select("#boardSharingUrlOutput");
+
+    if (url) {
+        target.value(url);
+        select("#urlSharingBtn").attribute('href', url);
+    }
+
+}
+
+function toggleFulscreen() {
+    let fs = fullscreen();
+    fullscreen(!fs);
+}
+
+function resetApp() {
+
+}
+
 const board = new Board();
-const colorSets = new ColorSets(['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange'], 'Matematyczny');
+const colorSets = new ColorSets(['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange'], 'Zestaw Matematyczny');
 const colorContainer = new ColorContainer();
 var axies;
 
@@ -657,7 +693,7 @@ function setup() {
     axies = new Axies(0, 0);
     positionAxies();
 
-    colorSets.addColorSet(['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange'], "Kreatywny");
+    colorSets.addColorSet(['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange'], "Zestaw Kreatywny");
 
     colorContainer.generateColorContainer();
     colorContainer.generateColorSelect(true);
