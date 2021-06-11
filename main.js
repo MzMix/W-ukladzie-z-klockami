@@ -88,10 +88,10 @@ class Board {
                 urlInsert += hexedList[i];
             }
 
-            let courrentURL = getURL();
+            let courrentURL = "";
 
-            let cutPosition = courrentURL.indexOf("?");
-            courrentURL = courrentURL.slice(0, cutPosition);
+            if (getURL().includes("localhost")) courrentURL = "http://localhost:5500/index.html"
+            else courrentURL = "https://mzmix.github.io/W-ukladzie-z-klockami"
 
             return `${courrentURL}?zapis=${urlInsert}`;
 
@@ -516,6 +516,28 @@ class ColorSets {
         }
 
     }
+
+    loadColorSetsFromFile(input) {
+        let numberOfSets = input.numberOfSets;
+        let set;
+        let setName = "";
+        let setColors;
+
+        for (let i = 1; i <= numberOfSets; i++) {
+            set = input[`set${i}`];
+
+            if (set.baseSet) continue;
+
+            setName = set.setName;
+            setColors = set.setColors;
+
+            colorSets.addColorSet(setColors, setName)
+        }
+        colorContainer.generateColorSelect();
+        alert("Wczytano zestawy kolorów!");
+        let myModalEl = document.getElementById('loadingColorSetModal')
+        bootstrap.Modal.getInstance(myModalEl).hide();
+    }
 }
 
 class ColorContainer {
@@ -640,8 +662,67 @@ function toggleFulscreen() {
     fullscreen(!fs);
 }
 
-function resetApp() {
+function generateColorSetsSave() {
+    let fileName = select("#colorSetFileNameInput").value();
 
+    let jsonInsert = {};
+    let setName = "";
+    let setColors = []
+
+    jsonInsert.numberOfSets = colorSets.numberOfSets;
+
+    for (let i = 1; i <= colorSets.numberOfSets; i++) {
+
+        setName = colorSets[`colorSet${i}Name`];
+        setColors = colorSets[`colorSet${i}`];
+
+        if (i == 1 || i == 2) {
+            jsonInsert[`set${i}`] = {
+                setName: setName,
+                setColors: setColors,
+                baseSet: true
+            };
+        } else {
+            jsonInsert[`set${i}`] = {
+                setName: setName,
+                setColors: setColors
+            };
+        }
+
+
+
+        setName = "";
+        setColors = [];
+    }
+
+    saveJSON(jsonInsert, fileName, false);
+}
+
+function handleColorSetLoading(file) {
+
+    if (file.type == "application" && file.subtype == "json") {
+
+        let fileData = file.data;
+        colorSets.loadColorSetsFromFile(fileData);
+
+    } else {
+        alert("Wczytano nieprawidłowy plik")
+    }
+
+}
+
+function prepareColorSetFileInput() {
+    if (!select("#colorSetsFileInput")) {
+        let element = createFileInput(handleColorSetLoading);
+        element.addClass("form-control");
+        element.parent(select("#colorSetsFileInputContainer"));
+        element.attribute("id", "colorSetsFileInput")
+    }
+}
+
+function resetApp() {
+    clearBoard();
+    //Dodać więcej rzeczy
 }
 
 const board = new Board();
