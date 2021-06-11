@@ -663,6 +663,28 @@ class ColorContainer {
 }
 
 function encodeBoard() {
+    // let colorAndPositionDirectory = [];
+    // let colorNumber, cellPosition;
+
+    // for (let i = 13; i <= 130; i++) {
+    //     let target = select('#boardCell' + i);
+
+    //     if (target && !target.hasClass('indexCell')) {
+    //         colorNumber = target.attribute("data-colorNumber");
+    //         cellPosition = target.attribute("data-position");
+
+    //         if (colorNumber != 0 || colorNumber != null) {
+
+    //             colorEntry[`number${colorNumber}`];
+    //             colorEntry.position.push(cellPosition);
+
+
+    //         }
+
+    //     }
+
+    // }
+
 
 }
 
