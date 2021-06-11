@@ -29,15 +29,55 @@ class Board {
 
     constructor() {
         this.backgroundColor = "#D3D3D3"
+        this.symetryType = "none"
     }
 
     handleBoardClick(cellID) {
 
         let boardCell = select(`#boardCell${cellID}`);
         let colorNumber = colorSets.colorNumber;
-        // if(symetria){}
+        let boardPosition = splitTokens(boardCell.attribute("data-gridPosition"), ',');
+        let targetedX, targetedY, target;
 
+        if (this.symetryType == "none") {
+            this.colorCell(boardCell, colorNumber);
+        } else if (this.symetryType == "axX") {
+            targetedX = boardPosition[0];
+            targetedY = boardPosition[1] * -1;
 
+            target = this.searchforCellOnPosition(targetedX, targetedY);
+
+            this.colorCell(boardCell, colorNumber);
+            this.colorCell(target, colorNumber);
+        } else if (this.symetryType == "axY") {
+            targetedX = boardPosition[0] * -1;
+            targetedY = boardPosition[1];
+
+            target = this.searchforCellOnPosition(targetedX, targetedY);
+
+            this.colorCell(boardCell, colorNumber);
+            this.colorCell(target, colorNumber);
+        } else if (this.symetryType == "axXY") {
+            targetedX = boardPosition[0] * -1;
+            targetedY = boardPosition[1] * -1;
+
+            target = this.searchforCellOnPosition(targetedX, targetedY);
+
+            this.colorCell(boardCell, colorNumber);
+            this.colorCell(target, colorNumber);
+        }
+    }
+
+    searchforCellOnPosition(trgetedX, targetedY) {
+        for (let i = 13; i <= 130; i++) {
+            let target = select('#boardCell' + i);
+            if (target && !target.hasClass('indexCell')) {
+                if (target.attribute("data-gridPosition") == `${trgetedX},${targetedY}`) return target;
+            }
+        }
+    }
+
+    colorCell(boardCell, colorNumber) {
         boardCell.style('background-color', colorSets.pickedColor);
         boardCell.attribute('data-colorNumber', colorNumber);
     }
@@ -146,17 +186,21 @@ class Board {
 
     }
 
-    changeCellContent() {
-        let formValue = select("#cellContentSelect").value();
-
-        if (formValue == 1) {
+    changeCellContent(reset) {
+        if (reset) {
             this.fillBoard("none");
-        } else if (formValue == 2) {
-            this.fillBoard("numbers");
-        } else if (formValue == 3) {
-            this.fillBoard("address");
-        }
+        } else {
+            let formValue = select("#cellContentSelect").value();
 
+            if (formValue == 1) {
+                this.fillBoard("none");
+            } else if (formValue == 2) {
+                this.fillBoard("numbers");
+            } else if (formValue == 3) {
+                this.fillBoard("address");
+            }
+
+        }
     }
 
     fillBoard(_input) {
@@ -225,22 +269,37 @@ class Board {
 
     }
 
-    changeIndex() {
-        let formValue = select("#indexContentSelect").value();
-
-        if (formValue == 1) {
-            this.fillIndex("none");
-        } else if (formValue == 2) {
+    changeIndex(reset) {
+        if (reset) {
             this.fillIndex("numbers");
-        } else if (formValue == 3) {
-            this.fillIndex("address");
-        } else if (formValue == 4) {
-            this.fillIndex("colors")
-        }
+        } else {
+            let formValue = select("#indexContentSelect").value();
 
+            if (formValue == 1) {
+                this.fillIndex("none");
+            } else if (formValue == 2) {
+                this.fillIndex("numbers");
+            } else if (formValue == 3) {
+                this.fillIndex("address");
+            } else if (formValue == 4) {
+                this.fillIndex("colors")
+            }
+        }
     }
 
     changeSymetryDrawing() {
+
+        let formValue = select("#symetryDrawingSelect").value();
+
+        if (formValue == 1) {
+            this.symetryType = "none";
+        } else if (formValue == 2) {
+            this.symetryType = "axX";
+        } else if (formValue == 3) {
+            this.symetryType = "axY";
+        } else if (formValue == 4) {
+            this.symetryType = "axXY";
+        }
 
     }
 
@@ -386,7 +445,7 @@ class Axies {
             y: horY
         }
 
-        this.vertHeight = (select('.boardContainer').height) - 25;
+        this.vertHeight = (select('.boardContainer').height);
         this.vert = createDiv("");
         this.vert.style('border-left', '3px solid red');
         this.vert.style('height', `${this.vertHeight}px`);
@@ -394,7 +453,7 @@ class Axies {
         this.vert.addClass('invisible');
         this.vert.id('verticalAxies');
 
-        this.horWidtht = (select('.boardContainer').width) - 35;
+        this.horWidtht = (select('.boardContainer').width);
         this.hor = createDiv("");
         this.hor.style('border-top', '3px solid red');
         this.hor.style('width', `${this.horWidtht}px`);
@@ -428,14 +487,14 @@ class Axies {
 
     }
 
-    update(vertX, vertY, horX, horY) {
-        this.vertHeight = (select('.boardContainer').height) - 25;
+    update(vertX, vertY, horX, horY, height, width) {
+        this.vertHeight = height;
         this.vert.style('height', `${this.vertHeight}px`);
         this.vertPos.x = vertX;
         this.vertPos.y = vertY;
         this.vert.position(this.vertPos.x, this.vertPos.y);
 
-        this.horWidtht = (select('.boardContainer').width) - 35;
+        this.horWidtht = width;
         this.hor.style('width', `${this.horWidtht}px`);
         this.horPos.x = horX;
         this.horPos.y = horY;
@@ -603,6 +662,10 @@ class ColorContainer {
 
 }
 
+function encodeBoard() {
+
+}
+
 function updateDate() {
     // let dateInsert = `${year()}-${utility.formatSingleDigitNumbers(month())}-${utility.formatSingleDigitNumbers(day())}-${utility.formatSingleDigitNumbers(hour())}-${utility.formatSingleDigitNumbers(minute())}`;
     let dateInsert = `${year()}-${utility.formatSingleDigitNumbers(month())}-${utility.formatSingleDigitNumbers(day())}-${utility.formatSingleDigitNumbers(hour())}-${utility.formatSingleDigitNumbers(minute())}-${utility.formatSingleDigitNumbers(second())}`;
@@ -720,9 +783,23 @@ function prepareColorSetFileInput() {
     }
 }
 
+function handleClearBoard() {
+    let confirmation = confirm("Potwierdź wyczyszczenie planszy!");
+
+    if (confirmation) {
+        board.clearBoard();
+    }
+}
+
 function resetApp() {
-    clearBoard();
-    //Dodać więcej rzeczy
+    let confirmation = confirm("Potwierdź wyczyszczenie planszy!");
+
+    if (confirmation) {
+        board.clearBoard();
+        board.changeIndex(true);
+        board.changeCellContent(true);
+        //Dodać więcej rzeczy
+    }
 }
 
 const board = new Board();
@@ -733,23 +810,32 @@ var axies;
 const alphabet = utility.getLettersFromAlphabet();
 
 function positionAxies() {
-    let verticalAxiesX = 0;
-    let verticalAxiesY = 0;
-    let horizontalAxiesX = 0;
-    let horizontalAxiesY = 0;
+    let verticalAxiesX = 0,
+        verticalAxiesY = 0;
+    let horizontalAxiesX = 0,
+        horizontalAxiesY = 0;
 
-    let vertX = select('#boardCell17').position().x;
-    let vertY = select('#boardCell19').position().x;
-    verticalAxiesX = ((vertX + vertY) / 2) - 3;
-    verticalAxiesY = (select('#boardCell8').position().y) + 5;
+    let height = 0,
+        width = 0;
+
+    let cellWidth = select('#boardCell17').size().width;
+    let cellHeight = select('#boardCell17').size().height;
+
+    let vertX1 = select('#boardCell17').position().x;
+    let vertX2 = select('#boardCell19').position().x;
+    verticalAxiesX = ((vertX1 + vertX2) / 2) - cellWidth / 12;
+    verticalAxiesY = (select('#boardCell8').position().y) + cellHeight / 2;
 
 
-    let horX = select('#boardCell60').position().y;
-    let horY = select('#boardCell72').position().y;
-    horizontalAxiesX = (select('#boardCell0').position().x) + 5;
-    horizontalAxiesY = ((horX + horY) / 2) + 14.5;
+    let horY1 = select('#boardCell60').position().y;
+    let horY2 = select('#boardCell72').position().y;
+    horizontalAxiesX = (select('#boardCell0').position().x) + cellWidth / 2;
+    horizontalAxiesY = ((horY1 + horY2) / 2) + cellHeight / 2;
 
-    axies.update(verticalAxiesX, verticalAxiesY, horizontalAxiesX, horizontalAxiesY);
+    height = select(".boardContainer").size().height - cellHeight;
+    width = select(".boardContainer").size().width - 2 * cellWidth;
+
+    axies.update(verticalAxiesX, verticalAxiesY, horizontalAxiesX, horizontalAxiesY, height, width);
 }
 
 function preload() {
@@ -775,7 +861,6 @@ function setup() {
     positionAxies();
 
     colorSets.addColorSet(['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange'], "Zestaw Kreatywny");
-
     colorContainer.generateColorContainer();
     colorContainer.generateColorSelect(true);
 
@@ -793,6 +878,10 @@ function generateBoard() {
     let insert = '';
     let destination = select(".boardContainer");
     let counter = 0;
+    let iteratorX = 0;
+    let iteratorY = -1;
+
+    let kartPosSeq = [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5];
 
     for (let i = 0; i <= 11; i++) {
 
@@ -807,12 +896,16 @@ function generateBoard() {
             else if ((i != 0) && (i != 11) && (j == 0)) insert = `<div class="boardCell indexCell ratio ratio-1x1" id="boardCell${counter}" data-number="${i+j}" data-position="${i},${j}"><div class="contentBox">${i+j}</div></div>`
             else if ((i != 0) && (i != 11) && (j == 11)) insert = `<div class="boardCell indexCell ratio ratio-1x1" id="boardCell${counter}" data-number="${i+j-11}" data-position="${i},${j}"><div class="contentBox">${i+j-11}</div></div>`
 
-            else insert = `<div class="boardCell contentCell ratio ratio-1x1" id="boardCell${counter}" onclick="board.handleBoardClick(${counter})" data-position="${i},${j}"><div class="contentBox"></div></div>`
+            else {
+                insert = `<div class="boardCell contentCell ratio ratio-1x1" id="boardCell${counter}" onclick="board.handleBoardClick(${counter})" data-position="${i},${j}" data-gridPosition="${kartPosSeq[iteratorX]},${kartPosSeq[iteratorY]}"><div class="contentBox"></div></div>`;
+                iteratorX++;
+                iteratorX = iteratorX % 10;
+            }
 
             destination.html(insert, true);
             counter++;
         }
-
+        iteratorY++;
     }
 
 }
