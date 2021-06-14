@@ -119,6 +119,7 @@ class Board {
         let compressedContentSequence = compressBoardContent(contentSequence);
         let shortenedList = countSpaces(compressedContentSequence);
         let hexedList = hexList(shortenedList);
+        // let hexedList = shortenedList;
 
         if (hexedList.length > 0) {
             //utworzenie parametru URL
@@ -398,6 +399,11 @@ function countSpaces(listofContent) {
             }
 
             colorsString += element;
+
+            if (colorsString.length > 8) {
+                outputList.push(`!${colorsString}`);
+                colorsString = "";
+            }
         }
 
         //Ostatnia iteracja - dodaj ciąg kolorów do listy
