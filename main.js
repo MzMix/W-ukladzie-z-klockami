@@ -672,6 +672,22 @@ class ColorContainer {
 
 }
 
+function randomizeBoard() {
+    let target, colorToSet;
+
+    for (let i = 13; i <= 130; i++) {
+        target = select('#boardCell' + i);
+
+        if ((target && target.hasClass('contentCell'))) {
+            colorToSet = random(colorSets[`colorSet${colorContainer.colorSetId}`])
+            colorNumber = colorSets[`colorSet${colorContainer.colorSetId}`].indexOf(colorToSet);
+            colorSets.setColor(colorToSet, colorNumber);
+
+            board.handleBoardClick(i);
+        }
+    }
+}
+
 function encodeBoard() {
     updateDate();
 
