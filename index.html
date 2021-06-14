@@ -337,8 +337,9 @@
 
 					<label for="boardSaveScreenShotNameInput" class="mb-2">Zapisz zrzut ekranu planszy: </label>
 					<div class="input-group mb-3">
-						<button type="button" class="btn btn-outline-primary btn-sm m-2" onclick="generateScreenShot()"
-							id="boardScreenShotExportBtn">Zapisz zrzut ekranu</button>
+						<button type="button" class="btn btn-outline-primary btn-sm m-2"
+							onclick='generateScreenShot("boardContainer")' id="boardScreenShotExportBtn">Zapisz zrzut
+							ekranu</button>
 						<input type="text" class="form-control form-control-sm updatedDateInsert"
 							id="boardSaveScreenShotNameInput" data-nameStart="plansza-" value="plansza-">
 						<span class="input-group-text">.png</span>
@@ -408,13 +409,20 @@
 					<h5 class="modal-title" id="staticBackdropLabel">Zakodowana plansza</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
-					<div class="input-group mb-3" id="colorSetsFileInputContainer">
+				<div class="modal-body" id="colorDescriptionModalBody">
+					<div class="input-group mb-3" id="colorSetsFileInputContainer" data-html2canvas-ignore>
+						<input type="text" class="form-control form-control-sm updatedDateInsert"
+							id="colorDescriptionNameInput" data-nameStart="zakodowanaPlansza-"
+							value="zakodowanaPlansza-">
+						<span class="input-group-text">.png</span>
 					</div>
+
+					<span id="colorDescription"></span>
+
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-outline-success btn-sm"
-						data-bs-dismiss="modal">Pobierz</button>
+					<button type="button" class="btn btn-outline-success btn-sm" data-bs-dismiss="modal"
+						onclick="generateScreenShot('colorDescription')">Pobierz</button>
 					<button type="button" class="btn btn-outline-primary btn-sm"
 						data-bs-dismiss="modal">Zamknij</button>
 				</div>

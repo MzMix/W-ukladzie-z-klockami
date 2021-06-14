@@ -209,7 +209,7 @@ class Board {
         let cellPosition, cellPositionXY, insert;
         let targetParent, target;
 
-        for (let i = 0; i < 144; i++) {
+        for (let i = 13; i <= 130; i++) {
             targetParent = select('#boardCell' + i);
             target = select('.contentBox', '#boardCell' + i);
 
@@ -277,12 +277,16 @@ class Board {
 
             if (formValue == 1) {
                 this.fillIndex("none");
+                selectedIndexMode = "none";
             } else if (formValue == 2) {
                 this.fillIndex("numbers");
+                selectedIndexMode = "numbers";
             } else if (formValue == 3) {
                 this.fillIndex("address");
+                selectedIndexMode = "address";
             } else if (formValue == 4) {
                 this.fillIndex("colors")
+                selectedIndexMode = "colors";
             }
         }
     }
@@ -663,29 +667,70 @@ class ColorContainer {
 }
 
 function encodeBoard() {
-    // let colorAndPositionDirectory = [];
-    // let colorNumber, cellPosition;
+    updateDate();
 
-    // for (let i = 13; i <= 130; i++) {
-    //     let target = select('#boardCell' + i);
+    let colorAndPositionDirectory = [];
+    let cellDescription = "";
+    let cellPosition = "",
+        cellPositionXY,
+        cellColorNumber;
+    let selectedColorScheme = colorSets[`colorSet${colorContainer.colorSetId}`];
+    let htmlInsert = "";
+    let targetedWindow = select("#colorDescription");
 
-    //     if (target && !target.hasClass('indexCell')) {
-    //         colorNumber = target.attribute("data-colorNumber");
-    //         cellPosition = target.attribute("data-position");
+    targetedWindow.html("");
 
-    //         if (colorNumber != 0 || colorNumber != null) {
+    if (selectedIndexMode == "none") {
+        targetedWindow.html('<p class = "text-danger">Nie można zakodować nieopisanej planszy!</p>');
+        return false;
+    }
 
-    //             colorEntry[`number${colorNumber}`];
-    //             colorEntry.position.push(cellPosition);
+    for (let i = 0; i < selectedColorScheme.length; i++) {
 
+        colorAndPositionDirectory.push({
+            colorNumber: i,
+            description: ""
+        });
 
-    //         }
+    }
 
-    //     }
+    for (let i = 13; i <= 130; i++) {
+        let target = select('#boardCell' + i);
 
-    // }
+        if ((target && target.hasClass('contentCell')) && (target.attribute("data-colorNumber") && target.attribute("data-colorNumber") != 10)) {
+            cellPosition = target.attribute("data-position");
+            cellPositionXY = splitTokens(cellPosition, ',');
+            cellColorNumber = target.attribute("data-colorNumber");
 
+            if (selectedIndexMode == "numbers") {
 
+                cellDescription = `(${cellPositionXY[0]},${cellPositionXY[1]})`;
+
+            } else if (selectedIndexMode == "address") {
+
+                cellDescription = `${alphabet[cellPositionXY[1]-1]}${cellPositionXY[0]}`
+
+            } else if (selectedIndexMode == "colors") {
+
+                cellDescription = `<span class="colorDecriptionColorBox" style="background-color: ${selectedColorScheme[cellPositionXY[1]-1]}"></span>|<span class="colorDecriptionColorBox" style="background-color: ${selectedColorScheme[cellPositionXY[0]]}"></span>`
+
+            }
+
+            colorAndPositionDirectory[cellColorNumber].description += `, ${cellDescription}`;
+        }
+    }
+
+    for (let selectedColor of colorAndPositionDirectory) {
+
+        if (selectedColor.description != "") {
+            htmlInsert = `<span class="colorDecriptionColorBox" style="background-color: ${selectedColorScheme[selectedColor.colorNumber]}"></span>: `;
+            htmlInsert += selectedColor.description.substring(2);
+            htmlInsert += '<br/>';
+
+            targetedWindow.html(htmlInsert, true);
+        }
+
+    }
 }
 
 function updateDate() {
@@ -702,15 +747,27 @@ function updateDate() {
 
 }
 
-function generateScreenShot() {
-    let target = select('#boardSaveScreenShotNameInput');
-    let fileName = target.value();
-    html2canvas(document.querySelector(".boardContainer"), {
-        backgroundColor: null
-    }).then(canvas => {
-        saveCanvas(canvas, fileName, 'png')
-    });
-    updateDate();
+function generateScreenShot(targetName) {
+
+    if (targetName == "boardContainer") {
+        let target = select('#boardSaveScreenShotNameInput');
+        let fileName = target.value();
+        html2canvas(document.querySelector(".boardContainer"), {
+            backgroundColor: null
+        }).then(canvas => {
+            saveCanvas(canvas, fileName, 'png')
+        });
+        updateDate();
+    } else if (targetName == "colorDescription") {
+        let target = select('#colorDescriptionNameInput');
+        let fileName = target.value();
+        html2canvas(document.querySelector("#colorDescriptionModalBody")).then(canvas => {
+            saveCanvas(canvas, fileName, 'png')
+        });
+        updateDate();
+    }
+
+
 }
 
 // function generateBoardSave() {
@@ -827,7 +884,7 @@ function resetApp() {
 const board = new Board();
 const colorSets = new ColorSets(['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange'], 'Zestaw Matematyczny');
 const colorContainer = new ColorContainer();
-var axies;
+var axies, selectedIndexMode = "numbers";
 
 const alphabet = utility.getLettersFromAlphabet();
 
