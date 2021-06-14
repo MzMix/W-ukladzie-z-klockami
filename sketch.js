@@ -265,8 +265,9 @@ function addMethodsToObjects() {
                 }
 
                 el = createSelect();
-                el.option("Domyślny");
-                for (let i = 0; i < settings.colorSchemes.length - 1; i++) {
+                el.option("Kreatywny");
+                el.option("Matematyczny");
+                for (let i = 1; i < settings.colorSchemes.length - 1; i++) {
                     el.option(`Zestaw ${i+1}`);
                 }
                 if (settings.currentColorScheme) el.value(settings.currentColorScheme);
@@ -603,8 +604,11 @@ function addMethodsToObjects() {
 
         if (dontChange != true) settings["currentColorScheme"] = select(".switchColorScheme").value();
 
-        if (settings.currentColorScheme == "Domyślny") {
+        if (settings.currentColorScheme == "Kreatywny") {
             settings.activeColorScheme = 0;
+            userInterface.generateColorContrainer()
+        } else if (settings.currentColorScheme == "Matematyczny") {
+            settings.activeColorScheme = 1;
             userInterface.generateColorContrainer()
         } else {
             let pos = settings.colorsSchemesInList.indexOf(settings.currentColorScheme);
@@ -688,8 +692,9 @@ function addMethodsToObjects() {
     }
 
     settings.colorSchemes = [
-        ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#D3D3D3'],
-        ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#D3D3D3', '#D3D3D3']
+        ['green', 'deepskyblue', 'purple', 'yellow', 'red', 'greenyellow', 'black', 'white', 'blue', 'darkorange', '#D3D3D3'],
+        ['green', 'deepskyblue', 'purple', 'khaki', 'red', 'greenyellow', 'black', 'white', 'saddlebrown', 'darkorange', '#D3D3D3', '#D3D3D3']
+
     ];
 
     settings.colorMatrix = settings.colorSchemes[1];
