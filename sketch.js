@@ -105,19 +105,20 @@ function addMethodsToObjects() {
                         if (settings.currentAxis == "X") {
                             // Symetria Y:
                             if (sx == -1 * (this.posKart.x + 1) && sy == this.posKart.y) {
-                                this.changeColor(userInterface.pickedColor);
+                                s.changeColor(userInterface.pickedColor);
+                                console.log(this);
                                 break;
                             }
                         } else if (settings.currentAxis == "Y") {
                             //Symetria X:
                             if (sx == 1 * (this.posKart.x) && sy == -1 * (this.posKart.y - 1)) {
-                                this.changeColor(userInterface.pickedColor);
+                                s.changeColor(userInterface.pickedColor);
                                 break;
                             }
                         } else if (settings.currentAxis == "CENTER") {
                             // Symetria Center:
                             if (sx == -1 * (this.posKart.x + 1) && sy == -1 * (this.posKart.y - 1)) {
-                                this.changeColor(userInterface.pickedColor);
+                                s.changeColor(userInterface.pickedColor);
                                 break;
                             }
                         }
