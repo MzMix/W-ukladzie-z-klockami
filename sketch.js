@@ -155,7 +155,7 @@ function addMethodsToObjects() {
     Segment.prototype.changeColor = function (val) {
         if (val) {
             this.fill = val;
-            this.stroke = "transparent"
+            // this.stroke = "transparent"
             this.oldColId = settings.colorSchemes[settings.activeColorScheme].indexOf(val);
         } else {
             this.fill = this.basicFillColor;
@@ -684,7 +684,6 @@ function addMethodsToObjects() {
     action.resetBoard = function () {
         for (let s of userInterface.board) {
             if (!(s instanceof Index)) {
-                `1`
                 s.changeColor();
             }
         }
