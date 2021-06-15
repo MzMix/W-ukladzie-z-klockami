@@ -155,7 +155,6 @@ function addMethodsToObjects() {
     Segment.prototype.changeColor = function (val) {
         if (val) {
             this.fill = val;
-            // this.stroke = "transparent"
             this.oldColId = settings.colorSchemes[settings.activeColorScheme].indexOf(val);
         } else {
             this.fill = this.basicFillColor;
