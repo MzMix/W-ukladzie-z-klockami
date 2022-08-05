@@ -1,0 +1,159 @@
+<script setup>
+import Cell from './Cell.vue'
+import Index from './Index.vue'
+import { watch, ref, onMounted } from 'vue'
+import { useStore } from '../stores/DrawingStore'
+import { storeToRefs } from 'pinia';
+
+// import { RandomInRange } from '../utils/MathUtilities';
+
+const store = useStore();
+const { AxesShown } = storeToRefs(store);
+
+const Board = ref(null);
+watch(AxesShown, () => {
+  if (AxesShown.value) {
+    Board.value.style.setProperty('--display-axes', '1');
+  } else {
+    Board.value.style.setProperty('--display-axes', '0');
+  }
+});
+
+onMounted(() => {
+  if (AxesShown.value) {
+    Board.value.style.setProperty('--display-axes', '1');
+  } else {
+    Board.value.style.setProperty('--display-axes', '0');
+  }
+});
+
+</script>
+
+<template>
+
+  <div id="BoardContainer">
+
+    <div class=" index top-index">
+      <Index v-for="index in 9" :key="index" :cellId="index">{{ index }}</Index>
+      <Index :cellId="10" :key="10" class="border-dark border-end">10</Index>
+    </div>
+
+    <div class="index left-index">
+      <Index v-for="index in 9" :key="index">{{ index }}</Index>
+      <Index :cellId="10" :key="10" class="border-dark border-bottom">10</Index>
+
+    </div>
+
+    <div id="Board" ref="Board">
+      <Cell v-for="i in 100" :key="i" :cellId="i">{{ i }}</Cell>
+    </div>
+
+    <div class="index right-index border-dark border-end">
+      <Index v-for="index in 9" :key="index">{{ index }}</Index>
+      <Index :cellId="10" :key="10" class="border-dark border-bottom">10</Index>
+
+    </div>
+
+    <div class="index bottom-index border-dark border-bottom">
+      <Index v-for="index in 9" :key="index">{{ index }}</Index>
+      <Index :cellId="10" :key="10" class="border-dark border-end">10</Index>
+
+    </div>
+
+  </div>
+
+</template>
+
+<style scoped>
+* {
+  transition: all 0.15s ease-in-out;
+}
+
+#BoardContainer {
+  display: grid;
+  grid-template-columns: calc(4vw) calc(40vw) calc(4vw);
+  grid-template-rows: calc(4vw) calc(40vw) calc(4vw);
+  grid-template:
+    '.top-index.'
+    'left-index board right-index'
+    '.bottom-index.';
+}
+
+#Board {
+  display: grid;
+  grid-template-columns: repeat(10, 10%);
+  grid-template-rows: repeat(10, 10%);
+  grid-area: board;
+  position: relative;
+  box-sizing: border-box;
+
+  --axes-color: #ff0000;
+}
+
+
+#Board::after {
+  content: "";
+
+  position: absolute;
+  right: calc(50% - 2px);
+  top: 1px;
+
+  height: 100%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+
+  border-right: 4px solid var(--axes-color);
+  z-index: 2;
+
+  opacity: var(--display-axes)
+}
+
+#Board::before {
+  content: "";
+
+  position: absolute;
+  top: calc(50% - 2px);
+  left: 1px;
+
+  width: 100%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+
+  border-top: 4px solid red;
+  z-index: 2;
+
+  opacity: var(--display-axes)
+}
+
+.index {
+  display: grid;
+  place-content: center;
+  text-align: center;
+}
+
+.top-index {
+  grid-area: top-index;
+  grid-template-columns: repeat(10, 1fr);
+  width: 100%;
+}
+
+.bottom-index {
+  grid-area: bottom-index;
+  grid-template-columns: repeat(10, 1fr);
+  width: 100%;
+}
+
+.left-index {
+  grid-area: left-index;
+  grid-template-rows: repeat(10, 1fr);
+  width: 100%;
+}
+
+.right-index {
+  grid-area: right-index;
+  grid-template-rows: repeat(10, 1fr);
+  width: 100%;
+}
+</style>
