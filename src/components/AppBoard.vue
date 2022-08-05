@@ -1,6 +1,6 @@
 <script setup>
-import Cell from './Cell.vue'
-import Index from './Index.vue'
+import BoardCell from './BoardCell.vue'
+import BoardIndex from './BoardIndex.vue'
 import { watch, ref, onMounted } from 'vue'
 import { useStore } from '../stores/DrawingStore'
 import { storeToRefs } from 'pinia';
@@ -34,29 +34,29 @@ onMounted(() => {
   <div id="BoardContainer">
 
     <div class=" index top-index">
-      <Index v-for="index in 9" :key="index" :cellId="index">{{ index }}</Index>
-      <Index :cellId="10" :key="10" class="border-dark border-end">10</Index>
+      <BoardIndex v-for="index in 9" :key="index" :cellId="index">{{ index }}</BoardIndex>
+      <BoardIndex :cellId="10" :key="10" class="border-dark border-end">10</BoardIndex>
     </div>
 
     <div class="index left-index">
-      <Index v-for="index in 9" :key="index">{{ index }}</Index>
-      <Index :cellId="10" :key="10" class="border-dark border-bottom">10</Index>
+      <BoardIndex v-for="index in 9" :key="index">{{ index }}</BoardIndex>
+      <BoardIndex :cellId="10" :key="10" class="border-dark border-bottom">10</BoardIndex>
 
     </div>
 
     <div id="Board" ref="Board">
-      <Cell v-for="i in 100" :key="i" :cellId="i">{{ i }}</Cell>
+      <BoardCell v-for="i in 100" :key="i" :cellId="i" v-bind="{ pos: i }">{{ i }}</BoardCell>
     </div>
 
     <div class="index right-index border-dark border-end">
-      <Index v-for="index in 9" :key="index">{{ index }}</Index>
-      <Index :cellId="10" :key="10" class="border-dark border-bottom">10</Index>
+      <BoardIndex v-for="index in 9" :key="index">{{ index }}</BoardIndex>
+      <BoardIndex :cellId="10" :key="10" class="border-dark border-bottom">10</BoardIndex>
 
     </div>
 
     <div class="index bottom-index border-dark border-bottom">
-      <Index v-for="index in 9" :key="index">{{ index }}</Index>
-      <Index :cellId="10" :key="10" class="border-dark border-end">10</Index>
+      <BoardIndex v-for="index in 9" :key="index">{{ index }}</BoardIndex>
+      <BoardIndex :cellId="10" :key="10" class="border-dark border-end">10</BoardIndex>
 
     </div>
 
@@ -135,25 +135,29 @@ onMounted(() => {
 
 .top-index {
   grid-area: top-index;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: 1;
+  grid-template-columns: repeat(10, 10%);
   width: 100%;
 }
 
 .bottom-index {
   grid-area: bottom-index;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: 1;
+  grid-template-columns: repeat(10, 10%);
   width: 100%;
 }
 
 .left-index {
   grid-area: left-index;
-  grid-template-rows: repeat(10, 1fr);
-  width: 100%;
+  grid-template-columns: 1;
+  grid-template-rows: repeat(10, 10%);
+  height: 100%;
 }
 
 .right-index {
   grid-area: right-index;
-  grid-template-rows: repeat(10, 1fr);
-  width: 100%;
+  grid-template-columns: 1;
+  grid-template-rows: repeat(10, 10%);
+  height: 100%;
 }
 </style>

@@ -19,7 +19,7 @@ export const useStore = defineStore('ColorManager', () => {
      * @description Stores the array position of the selected color
      * @type {number}
     */
-    const SelectedColor = ref(10);
+    const SelectedColor = ref(7);
 
     /**
      * @description Stores color palettes in Map
@@ -32,7 +32,7 @@ export const useStore = defineStore('ColorManager', () => {
     /**
      * @type { BoardFill: Number[]] }
     */
-    const BoardFill = ref(useLocalStorage("BoardFill", new Array(100).fill(10)));
+    const BoardFill = ref(useLocalStorage("BoardFill", new Array(100).fill(SelectedColor.value)));
 
     const SymetryTypes = ref(new Map([
         [0, 'Brak'],
@@ -58,14 +58,14 @@ export const useStore = defineStore('ColorManager', () => {
      * @param {string[]} colors
      */
     function AddPalette(key, colors) {
-        ColorPalettes.set(key, colors);
+        ColorPalettes.value.set(key, colors);
     }
 
     /**
      * @param {number} number
      */
     function RemovePalette(key) {
-        ColorPalettes.delete(key);
+        ColorPalettes.value.delete(key);
     }
 
     /**
@@ -108,7 +108,7 @@ export const useStore = defineStore('ColorManager', () => {
     }
 
     function ClearBoard() {
-        BoardFill.value.fill(10);
+        BoardFill.value.fill(7);
     }
 
     function ToggleAxes() {

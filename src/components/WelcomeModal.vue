@@ -5,12 +5,10 @@ import { useStore } from "../stores/WelcomeStore";
 const store = useStore();
 const { ShowWelcome, DesibleWelcome } = store;
 
-document.addEventListener("DOMContentLoaded", function (event) {
-
+document.addEventListener("DOMContentLoaded", function () {
     if (!ShowWelcome) return;
     var WelcomeModal = new Modal(document.getElementById('WelcomeModal'))
     WelcomeModal.show();
-
 });
 </script>
 

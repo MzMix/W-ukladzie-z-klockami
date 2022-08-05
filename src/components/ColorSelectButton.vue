@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "@vue/runtime-core";
+import { computed } from "vue";
 import { useStore } from "../stores/DrawingStore";
 
 const store = useStore();

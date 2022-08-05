@@ -3,12 +3,14 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    --cell-size: 3rem;
 }
 
 .squareOnBoard {
     box-sizing: border-box;
-    min-width: 2em;
-    min-height: 2em;
+    width: var(--cell-size);
+    height: var(--cell-size);
     aspect-ratio: 1/1;
 
     display: grid;

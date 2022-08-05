@@ -6,15 +6,17 @@
 export function CalculatePosition(id) {
     let tmp = new Number(id) / 10;
 
-    let x = tmp % 1;
+    let x = Math.round((tmp % 1) * 10);
     if (x === 0) x = 10;
 
     let y = -Math.floor(tmp);
-    if (y === 0) y = -10;
+    if (x === 10) y++;
 
-    let dX = 6, dY = 6;
-    x += dX;
-    y += dY;
+    x -= 6;
+    y += 5;
+
+    if (x >= 0) x++;
+    if (y <= 0) y--;
 
     return {
         x: x,
@@ -23,20 +25,10 @@ export function CalculatePosition(id) {
 }
 
 /**
-* @description Calculate id of a cell based on its position in a Cartesian coordinate system with the center being point (0,0).
-* @param {{x: number, y: number}}
-* @return {number} id
+ * @description Creates id for cell based on its position 
+ * @param {{x: number, y: number}} position
+ * @return {string}
 */
-export function CalculateId({ x, y }) {
-
-    let dX = 6, dY = 6;
-    x -= dX;
-    y -= dY;
-
-    if (y === -10) y = 0;
-    if (x === 10) x = 0;
-
-    let id = -y * 10 + x * 10;
-
-    return id;
+export function GetId(position) {
+    return `(${position.x}, ${position.y})`
 }

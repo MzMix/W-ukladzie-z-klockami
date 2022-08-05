@@ -4,7 +4,7 @@ import DrawingButtons from './DrawingButtons.vue'
 import { useStore } from "../stores/WelcomeStore";
 
 const store = useStore();
-const { ShowWelcome, EnableWelcome } = store;
+const { EnableWelcome } = store;
 
 </script>
 

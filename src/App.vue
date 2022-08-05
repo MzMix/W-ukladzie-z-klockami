@@ -1,7 +1,7 @@
 <script setup>
 import SideMenu from './components/SideMenu.vue'
 import WelcomeModal from './components/WelcomeModal.vue'
-import Board from './components/Board.vue'
+import AppBoard from './components/AppBoard.vue'
 
 </script>
 
@@ -14,7 +14,7 @@ import Board from './components/Board.vue'
     </div>
 
     <div class="p-0 m-0 vh-100" id="boardHalf">
-      <Board />
+      <AppBoard />
     </div>
 
   </div>
