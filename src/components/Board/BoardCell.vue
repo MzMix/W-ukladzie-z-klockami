@@ -1,10 +1,10 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
-import { useStore } from "../stores/DrawingStore";
+import { useStore } from "../../stores/DrawingStore";
 import { get } from '@vueuse/core';
 
-import { CalculatePosition, GetId } from "../utils/CalculatePositionAndId";
+import { CalculatePosition, GetId } from "../../utils/CalculatePositionAndId";
 
 const store = useStore();
 const { GetCellColor, SetCellColor_Selected } = store;

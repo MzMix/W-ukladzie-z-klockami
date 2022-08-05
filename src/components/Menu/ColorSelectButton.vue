@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { useStore } from "../stores/DrawingStore";
+import { useStore } from "../../stores/DrawingStore";
 
 const store = useStore();
 const { PickColor, UseColor } = store;

@@ -1,7 +1,7 @@
 <script setup>
 import ColorSelectionArea from './ColorSelectionArea.vue'
 import DrawingButtons from './DrawingButtons.vue'
-import { useStore } from "../stores/WelcomeStore";
+import { useStore } from "../../stores/WelcomeStore";
 
 const store = useStore();
 const { EnableWelcome } = store;
@@ -75,6 +75,8 @@ const { EnableWelcome } = store;
                 <h5 class="card-title">Rysowanie</h5>
 
                 <DrawingButtons />
+
+
             </div>
 
         </div>
@@ -143,7 +145,7 @@ const { EnableWelcome } = store;
 /* ===== Resize Handle CSS ===== */
 ::-webkit-resizer {
     background-color: #ffffff;
-    background: url("../assets/grip-vertical.svg") no-repeat;
+    background: url("../../assets/grip-vertical.svg") no-repeat;
     padding-bottom: 10px;
 }
 </style>

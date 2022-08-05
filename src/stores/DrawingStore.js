@@ -34,12 +34,30 @@ export const useStore = defineStore('ColorManager', () => {
     */
     const BoardFill = ref(useLocalStorage("BoardFill", new Array(100).fill(SelectedColor.value)));
 
-    const SymetryTypes = ref(new Map([
-        [0, 'Brak'],
-        [1, 'Oś X'],
-        [2, 'Oś Y'],
-        [3, 'Względem środka układu'],
-    ]));
+    // const SymetryTypes = ref(new Map([
+    //     [0, 'Brak'],
+    //     [1, 'Oś X'],
+    //     [2, 'Oś Y'],
+    //     [3, 'Względem środka układu'],
+    // ]));
+
+    const SymetryTypes = ref([
+        {
+            value: 0,
+            text: 'Brak'
+        },
+        {
+            value: 1,
+            text: 'Oś X'
+        },
+        {
+            value: 2,
+            text: 'Oś Y'
+        }, {
+            value: 3,
+            text: 'Względem środka układu'
+        }
+    ]);
 
     const SelectedSymetry = ref(useLocalStorage("SelectedSymetry", 0));
 
@@ -115,6 +133,10 @@ export const useStore = defineStore('ColorManager', () => {
         AxesShown.value = !AxesShown.value;
     }
 
+    function SetSymetry(value) {
+        SelectedSymetry.value = value;
+    }
+
     // --------------------------
 
     ChangePalette('Kreatywny');
@@ -136,6 +158,7 @@ export const useStore = defineStore('ColorManager', () => {
         GetCellColor,
         SetCellColor,
         SetCellColor_Selected,
+        SetSymetry,
 
         ColorPalettes,
         SymetryTypes,

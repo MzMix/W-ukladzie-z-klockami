@@ -1,7 +1,7 @@
 <script setup>
-import SideMenu from './components/SideMenu.vue'
-import WelcomeModal from './components/WelcomeModal.vue'
-import AppBoard from './components/AppBoard.vue'
+import SideMenu from './components/Menu/SideMenu.vue'
+import WelcomeModal from './components/General/WelcomeModal.vue'
+import AppBoard from './components/Board/AppBoard.vue'
 
 </script>
 

@@ -2,7 +2,7 @@
 import BoardCell from './BoardCell.vue'
 import BoardIndex from './BoardIndex.vue'
 import { watch, ref, onMounted } from 'vue'
-import { useStore } from '../stores/DrawingStore'
+import { useStore } from '../../stores/DrawingStore'
 import { storeToRefs } from 'pinia';
 
 // import { RandomInRange } from '../utils/MathUtilities';
