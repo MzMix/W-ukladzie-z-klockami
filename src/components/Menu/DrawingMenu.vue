@@ -17,6 +17,7 @@ const { SelectedSymetry, SymetryTypes, CellContentTypes, SelectedCellContentType
 
         <!-- Show axes -->
         <button class="btn btn-outline-info" @click="(ToggleAxes())">Przełącz osie</button>
+        <hr />
 
         <!-- Switch symetry type  -->
         <InputSelect @action="(value) => SetSymetry(value)" :options="get(SymetryTypes)"

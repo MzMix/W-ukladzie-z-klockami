@@ -45,7 +45,7 @@ onMounted(() => {
     </div>
 
     <div id="Board" ref="Board">
-      <BoardCell v-for="i in 100" :key="i" :cellId="i" v-bind="{ pos: i }">{{ i }}</BoardCell>
+      <BoardCell v-for="i in 100" :key="i" :cellId="i" v-bind="{ pos: i }" />
     </div>
 
     <div class="index right-index border-dark border-end">

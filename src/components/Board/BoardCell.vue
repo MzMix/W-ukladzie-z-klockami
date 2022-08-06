@@ -1,14 +1,16 @@
 <script setup>
-import { storeToRefs } from "pinia";
 import { computed } from "vue";
-import { useStore } from "../../stores/DrawingStore";
 import { get } from '@vueuse/core';
 
-import { CalculatePosition, GetId } from "../../utils/CalculatePositionAndId";
+import { storeToRefs } from "pinia";
+import { useStore } from "../../stores/DrawingStore";
+
+import { CalculatePosition, GetId, CalculateBoardPosition } from "../../utils/CalculatePositionAndId";
+import { GetLetter } from "../../utils/TextUtilities";
 
 const store = useStore();
 const { GetCellColor, SetCellColor_Selected } = store;
-const { SelectedSymetry } = storeToRefs(store);
+const { SelectedSymetry, SelectedCellContentType } = storeToRefs(store);
 
 const props = defineProps({
     cellId: Number,
@@ -29,24 +31,24 @@ function ColorCell() {
         //Oś X
         case 1:
             target = {
-                x: get(position).x,
-                y: -get(position).y,
+                x: get(PoitionCCS).x,
+                y: -get(PoitionCCS).y,
             };
             break;
 
         //Oś Y
         case 2:
             target = {
-                x: -get(position).x,
-                y: get(position).y,
+                x: -get(PoitionCCS).x,
+                y: get(PoitionCCS).y,
             };
             break;
 
         //Środek układu
         case 3:
             target = {
-                x: -get(position).x,
-                y: -get(position).y,
+                x: -get(PoitionCCS).x,
+                y: -get(PoitionCCS).y,
             };
             break;
     }
@@ -60,18 +62,42 @@ function ColorCell() {
 
 }
 
-const position = computed(() => {
+const PoitionCCS = computed(() => {
     let id = new Number(props.cellId);
     return CalculatePosition(id);
 });
 
+const PoitionBoard = computed(() => {
+    let id = new Number(props.cellId);
+    return CalculateBoardPosition(id);
+});
+
+const content = computed(() => {
+
+    switch (get(SelectedCellContentType)) {
+        //Brak
+        default:
+        case 0:
+            return '';
+
+        //Numeracja
+        case 1:
+            return props.cellId;
+
+        //Adresowanie
+        case 2:
+            return `${GetLetter(get(PoitionBoard).x)}${get(PoitionBoard).y}`;
+
+    }
+
+});
 
 </script>
 
 <template>
     <div class="squareOnBoard border-top border-dark border-start" @click="ColorCell()"
-        :style="{ backgroundColor: GetCellColor(props.cellId) }" v-bind="{ id: GetId(position) }">
-        <slot />
+        :style="{ backgroundColor: GetCellColor(props.cellId) }" v-bind="{ id: GetId(PoitionCCS) }">
+        {{ content }}
     </div>
 </template >
 
