@@ -19,13 +19,13 @@ const { EnableWelcome } = store;
         <div class="row">
             <div class="d-grid gap-1 col mx-auto">
 
-                <button class="btn btn-primary m-2 text-nowrap" type="button" data-bs-toggle="collapse"
+                <button class="btn btn-primary m-2 text-nowrap btn-sm" type="button" data-bs-toggle="collapse"
                     data-bs-target="#ColorPalette" aria-expanded="false" aria-controls="ColorPalette">
                     Kolory
                     <i class="bi-palette"></i>
                 </button>
 
-                <button class="btn btn-primary m-2 text-nowrap" type="button" data-bs-toggle="collapse"
+                <button class="btn btn-primary m-2 text-nowrap btn-sm" type="button" data-bs-toggle="collapse"
                     data-bs-target="#Drawing" aria-expanded="false" aria-controls="Drawing">
                     Rysowanie
                     <i class="bi-brush"></i>
@@ -34,13 +34,13 @@ const { EnableWelcome } = store;
             </div>
             <div class="d-grid gap-1 col mx-auto">
 
-                <button class="btn btn-primary m-2 text-nowrap" type="button" data-bs-toggle="collapse"
+                <button class="btn btn-primary m-2 text-nowrap btn-sm" type="button" data-bs-toggle="collapse"
                     data-bs-target="#Sharing" aria-expanded="false" aria-controls="Sharing">
                     Udostępnianie
                     <i class="bi-share"></i>
                 </button>
 
-                <button class="btn btn-primary m-2 text-nowrap" type="button" data-bs-toggle="collapse"
+                <button class="btn btn-primary m-2 text-nowrap btn-sm" type="button" data-bs-toggle="collapse"
                     data-bs-target="#Settings" aria-expanded="false" aria-controls="Settings">
                     Ustawienia
                     <i class="bi-gear"></i>

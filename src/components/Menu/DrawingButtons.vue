@@ -13,8 +13,8 @@ const { SelectedSymetry, SymetryTypes } = storeToRefs(store);
 <template>
 
     <div>
-        <InputSelect @action="(value) => SetSymetry(value)" :options="get(SymetryTypes)" :value="get(SelectedSymetry)"
-            ariaLabel="Wybór rodzaju symetrii">
+        <InputSelect @action="(value) => SetSymetry(value)" :options="get(SymetryTypes)"
+            :selected-value="get(SelectedSymetry)" ariaLabel="Wybór rodzaju symetrii">
             <i class="bi bi-symmetry-vertical"></i> <i class="bi bi-symmetry-horizontal"></i> | Wybór symetrii:
         </InputSelect>
 

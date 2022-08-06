@@ -34,13 +34,6 @@ export const useStore = defineStore('ColorManager', () => {
     */
     const BoardFill = ref(useLocalStorage("BoardFill", new Array(100).fill(SelectedColor.value)));
 
-    // const SymetryTypes = ref(new Map([
-    //     [0, 'Brak'],
-    //     [1, 'Oś X'],
-    //     [2, 'Oś Y'],
-    //     [3, 'Względem środka układu'],
-    // ]));
-
     const SymetryTypes = ref([
         {
             value: 0,

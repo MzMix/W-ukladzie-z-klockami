@@ -3,17 +3,15 @@ import { ref } from 'vue';
 
 const props = defineProps({
     options: Array,
-    value: Number,
+    selectedValue: Number,
     ariaLabel: String,
 });
 
 const emit = defineEmits(['action']);
+const seletedValue = ref(props.selectedValue);
 
-const selected = ref(props.options[props.value].value);
-console.log(selected.value);
 function handleChange() {
-    emit('action', selected.value);
-    console.log(selected.value);
+    emit('action', seletedValue.value);
 }
 
 </script>
@@ -24,10 +22,11 @@ function handleChange() {
             <slot />
         </label>
 
-        <select id="InputSelect" class="form-select" aria-label="{{props.ariaLabel}}" v-model="selected"
-            @input="handleChange()">
+        <select id="InputSelect" class="form-select" aria-label="{{props.ariaLabel}}" v-model="seletedValue"
+            @change="handleChange()">
             <option v-for="option in props.options" :key="option.value" :value="option.value">{{ option.text }}</option>
         </select>
+        <hr />
     </div>
 </template>
 
