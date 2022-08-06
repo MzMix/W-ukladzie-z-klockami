@@ -3,12 +3,17 @@ import { storeToRefs } from 'pinia';
 import { get } from '@vueuse/core';
 
 import InputSelectArray from '../General/InputSelectArray.vue';
-// import InputSelectMap from '../General/InputSelectMap.vue';
 
+import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
 import { useSymetryStore } from "../../stores/SymetryStore";
 import { useBoardStore } from "../../stores/BoardStore";
 import { useStoreAxes } from "../../stores/AxesStore";
 import { useCellStore } from "../../stores/CellStore";
+
+//Color & Palette
+const ColorPaletteStore = useColorPaletteStore();
+const { SetPalette } = ColorPaletteStore;
+const { ColorPalettes, SelectedPalette } = storeToRefs(ColorPaletteStore);
 
 //Symetry
 const SymetryStore = useSymetryStore();
@@ -56,10 +61,10 @@ const { CellContentTypes, SelectedCellContentType } = storeToRefs(CellStore);
 
         <!-- Select Color Palette -->
 
-        <!-- <InputSelectMap @action="(key) => ChangePalette(key)" :options="ColorPalettes" :selectedKey="SelectedPaletteKey"
-            aria-label="Wybór zawartości pól">
+        <InputSelectArray @action="(value) => SetPalette(value)" :options="get(ColorPalettes)"
+            :selected-value="get(SelectedPalette)" aria-label="Wybór palety kolorów">
             <i class="bi bi-palette"></i> | Zmiana palety kolorów
-        </InputSelectMap> -->
+        </InputSelectArray>
 
         <!-- Clear board -->
         <button class="btn btn-danger" @click="ClearBoard()">Wyczyść planszę</button>

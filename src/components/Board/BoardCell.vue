@@ -111,7 +111,6 @@ const content = computed(() => {
 
 const CellColor = computed(() => {
     let boardValue = GetCellValue(props.cellId);
-    console.log({ boardValue })
     return InterpreteColorValue(boardValue);
 });
 
