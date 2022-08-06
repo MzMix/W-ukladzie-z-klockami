@@ -1,16 +1,33 @@
 <script setup>
-import { computed } from "vue";
-import { get } from '@vueuse/core';
-
 import { storeToRefs } from "pinia";
-import { useStore } from "../../stores/DrawingStore";
+import { get } from '@vueuse/core';
+import { computed } from "vue";
+
+import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useSymetryStore } from "../../stores/SymetryStore";
+import { useBoardStore } from "../../stores/BoardStore";
+import { useCellStore } from "../../stores/CellStore";
 
 import { CalculatePosition, GetId, CalculateBoardPosition } from "../../utils/CalculatePositionAndId";
 import { GetLetter } from "../../utils/TextUtilities";
 
-const store = useStore();
-const { GetCellColor, SetCellColor_Selected } = store;
-const { SelectedSymetry, SelectedCellContentType } = storeToRefs(store);
+// const { GetCellColor, SetCellColor_Selected } = store;
+
+//Color & Palette
+const ColorPaletteStore = useColorPaletteStore();
+const { GetSelectedColor, InterpreteColorValue } = ColorPaletteStore;
+
+//Symetry
+const SymetryStore = useSymetryStore();
+const { SelectedSymetry } = storeToRefs(SymetryStore);
+
+//Board
+const BoardStore = useBoardStore();
+const { SaveToBoard, GetCellValue } = BoardStore;
+
+//Cell
+const CellStore = useCellStore();
+const { SelectedCellContentType } = storeToRefs(CellStore);
 
 const props = defineProps({
     cellId: Number,
@@ -19,8 +36,8 @@ const props = defineProps({
 function ColorCell() {
 
     let target = null;
+    let selectedColor = GetSelectedColor();
 
-    console.log(SelectedSymetry);
     switch (get(SelectedSymetry)) {
         //Brak
         default:
@@ -31,43 +48,43 @@ function ColorCell() {
         //Oś X
         case 1:
             target = {
-                x: get(PoitionCCS).x,
-                y: -get(PoitionCCS).y,
+                x: get(PositionCCS).x,
+                y: -get(PositionCCS).y,
             };
             break;
 
         //Oś Y
         case 2:
             target = {
-                x: -get(PoitionCCS).x,
-                y: get(PoitionCCS).y,
+                x: -get(PositionCCS).x,
+                y: get(PositionCCS).y,
             };
             break;
 
         //Środek układu
         case 3:
             target = {
-                x: -get(PoitionCCS).x,
-                y: -get(PoitionCCS).y,
+                x: -get(PositionCCS).x,
+                y: -get(PositionCCS).y,
             };
             break;
     }
 
-    SetCellColor_Selected(props.cellId);
+    SaveToBoard(props.cellId, selectedColor)
 
     if (target) {
         let targetId = document.getElementById(GetId(target)).getAttribute('pos');
-        SetCellColor_Selected(targetId);
+        SaveToBoard(targetId, selectedColor)
     }
 
 }
 
-const PoitionCCS = computed(() => {
+const PositionCCS = computed(() => {
     let id = new Number(props.cellId);
     return CalculatePosition(id);
 });
 
-const PoitionBoard = computed(() => {
+const PositionBoard = computed(() => {
     let id = new Number(props.cellId);
     return CalculateBoardPosition(id);
 });
@@ -86,17 +103,23 @@ const content = computed(() => {
 
         //Adresowanie
         case 2:
-            return `${GetLetter(get(PoitionBoard).x)}${get(PoitionBoard).y}`;
+            return `${GetLetter(get(PositionBoard).x)}${get(PositionBoard).y}`;
 
     }
 
+});
+
+const CellColor = computed(() => {
+    let boardValue = GetCellValue(props.cellId);
+    console.log({ boardValue })
+    return InterpreteColorValue(boardValue);
 });
 
 </script>
 
 <template>
     <div class="squareOnBoard border-top border-dark border-start" @click="ColorCell()"
-        :style="{ backgroundColor: GetCellColor(props.cellId) }" v-bind="{ id: GetId(PoitionCCS) }">
+        :style="{ backgroundColor: CellColor }" v-bind="{ id: GetId(PositionCCS) }">
         {{ content }}
     </div>
 </template >

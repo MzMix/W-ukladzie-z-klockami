@@ -8,10 +8,10 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['action']);
-const seletedValue = ref(props.selectedValue);
+const selectedValue = ref(props.selectedValue);
 
 function handleChange() {
-    emit('action', seletedValue.value);
+    emit('action', selectedValue.value);
 }
 
 </script>
@@ -22,7 +22,7 @@ function handleChange() {
             <slot />
         </label>
 
-        <select id="InputSelect" class="form-select" aria-label="{{props.ariaLabel}}" v-model="seletedValue"
+        <select id="InputSelect" class="form-select" aria-label="{{props.ariaLabel}}" v-model="selectedValue"
             @change="handleChange()">
             <option v-for="option in props.options" :key="option.value" :value="option.value">{{ option.text }}</option>
         </select>

@@ -1,22 +1,22 @@
 <script setup>
 import { computed } from "vue";
-import { useStore } from "../../stores/DrawingStore";
+import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
 
-const store = useStore();
-const { PickColor, UseColor } = store;
+const ColorPaletteStore = useColorPaletteStore();
+const { SetColorNumber, InterpreteColorValue } = ColorPaletteStore;
 
 const props = defineProps({
     color: Number
 });
 
 const fillColor = computed(() => {
-    return UseColor(props.color);
+    return InterpreteColorValue(props.color);
 });
 
 </script>
 
 <template>
-    <div @click="PickColor(props.color)" class="ratio-1x1 ColorSelectBTN fs-1 m-1"
+    <div @click="SetColorNumber(props.color)" class="ratio-1x1 ColorSelectBTN fs-1 m-1"
         :style="{ backgroundColor: fillColor }"></div>
 </template>
 

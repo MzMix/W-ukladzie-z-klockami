@@ -1,14 +1,14 @@
 <script setup>
 import BoardCell from './BoardCell.vue'
 import BoardIndex from './BoardIndex.vue'
+
 import { watch, ref, onMounted } from 'vue'
-import { useStore } from '../../stores/DrawingStore'
 import { storeToRefs } from 'pinia';
 
-// import { RandomInRange } from '../utils/MathUtilities';
+import { useStoreAxes } from '../../stores/AxesStore'
 
-const store = useStore();
-const { AxesShown } = storeToRefs(store);
+const AxesStore = useStoreAxes();
+const { AxesShown } = storeToRefs(AxesStore);
 
 const Board = ref(null);
 watch(AxesShown, () => {

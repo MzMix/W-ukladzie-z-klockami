@@ -1,13 +1,35 @@
 <script setup>
-import InputSelect from '../General/InputSelect.vue';
-import { get } from '@vueuse/core';
-import { useStore } from "../../stores/DrawingStore";
 import { storeToRefs } from 'pinia';
+import { get } from '@vueuse/core';
 
-const store = useStore();
-const { ClearBoard, SetSymetry, ToggleAxes, SetCellContentType } = store;
-const { SelectedSymetry, SymetryTypes, CellContentTypes, SelectedCellContentType } = storeToRefs(store);
+import InputSelectArray from '../General/InputSelectArray.vue';
+// import InputSelectMap from '../General/InputSelectMap.vue';
 
+import { useSymetryStore } from "../../stores/SymetryStore";
+import { useBoardStore } from "../../stores/BoardStore";
+import { useStoreAxes } from "../../stores/AxesStore";
+import { useCellStore } from "../../stores/CellStore";
+
+//Symetry
+const SymetryStore = useSymetryStore();
+const { SetSymetry } = SymetryStore;
+const { SelectedSymetry, SymetryTypes } = storeToRefs(SymetryStore);
+
+//Board
+const BoardStore = useBoardStore();
+const { ClearBoard } = BoardStore;
+
+// Axes
+const AxesStore = useStoreAxes();
+const { ToggleAxes } = AxesStore;
+
+//Cell
+const CellStore = useCellStore();
+const { SetCellContentType } = CellStore;
+const { CellContentTypes, SelectedCellContentType } = storeToRefs(CellStore);
+
+// ChangePalette
+// ColorPalettes, SelectedPaletteKey
 </script>
 
 <template>
@@ -20,17 +42,24 @@ const { SelectedSymetry, SymetryTypes, CellContentTypes, SelectedCellContentType
         <hr />
 
         <!-- Switch symetry type  -->
-        <InputSelect @action="(value) => SetSymetry(value)" :options="get(SymetryTypes)"
+        <InputSelectArray @action="(value) => SetSymetry(value)" :options="get(SymetryTypes)"
             :selected-value="get(SelectedSymetry)" ariaLabel="Wybór rodzaju symetrii">
             <i class="bi bi-symmetry-vertical"></i> <i class="bi bi-symmetry-horizontal"></i> | Wybór symetrii:
-        </InputSelect>
+        </InputSelectArray>
 
         <!-- Switch cell content -->
 
-        <InputSelect @action="(value) => SetCellContentType(value)" :options="get(CellContentTypes)"
+        <InputSelectArray @action="(value) => SetCellContentType(value)" :options="get(CellContentTypes)"
             :selected-value="get(SelectedCellContentType)" aria-label="Wybór zawartości pól">
             <i class="bi bi-1-square"></i> <i class="bi bi-2-square"></i> | Wybór zawartości pól
-        </InputSelect>
+        </InputSelectArray>
+
+        <!-- Select Color Palette -->
+
+        <!-- <InputSelectMap @action="(key) => ChangePalette(key)" :options="ColorPalettes" :selectedKey="SelectedPaletteKey"
+            aria-label="Wybór zawartości pól">
+            <i class="bi bi-palette"></i> | Zmiana palety kolorów
+        </InputSelectMap> -->
 
         <!-- Clear board -->
         <button class="btn btn-danger" @click="ClearBoard()">Wyczyść planszę</button>
