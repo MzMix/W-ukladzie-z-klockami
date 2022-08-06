@@ -5,8 +5,8 @@ import { useStore } from "../../stores/DrawingStore";
 import { storeToRefs } from 'pinia';
 
 const store = useStore();
-const { ClearBoard, SetSymetry, ToggleAxes } = store;
-const { SelectedSymetry, SymetryTypes } = storeToRefs(store);
+const { ClearBoard, SetSymetry, ToggleAxes, SetCellContentType } = store;
+const { SelectedSymetry, SymetryTypes, CellContentTypes, SelectedCellContentType } = storeToRefs(store);
 
 </script>
 
@@ -22,6 +22,13 @@ const { SelectedSymetry, SymetryTypes } = storeToRefs(store);
         <InputSelect @action="(value) => SetSymetry(value)" :options="get(SymetryTypes)"
             :selected-value="get(SelectedSymetry)" ariaLabel="Wybór rodzaju symetrii">
             <i class="bi bi-symmetry-vertical"></i> <i class="bi bi-symmetry-horizontal"></i> | Wybór symetrii:
+        </InputSelect>
+
+        <!-- Switch cell content -->
+
+        <InputSelect @action="(value) => SetCellContentType(value)" :options="get(CellContentTypes)"
+            :selected-value="get(SelectedCellContentType)" aria-label="Wybór zawartości pól">
+            <i class="bi bi-1-square"></i> <i class="bi bi-2-square"></i> | Wybór zawartości pól
         </InputSelect>
 
         <!-- Clear board -->
