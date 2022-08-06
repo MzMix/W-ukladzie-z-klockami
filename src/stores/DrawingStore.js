@@ -54,6 +54,23 @@ export const useStore = defineStore('ColorManager', () => {
 
     const SelectedSymetry = ref(useLocalStorage("SelectedSymetry", 0));
 
+    const CellContentTypes = ref([
+        {
+            value: 0,
+            text: 'Brak'
+        },
+        {
+            value: 1,
+            text: 'Numeracja'
+        },
+        {
+            value: 2,
+            text: 'Adresowanie'
+        }
+    ]);
+
+    const SelectedCellContentType = ref(useLocalStorage("SelectedSymetry", 0));
+
     // --------------------------
 
     /** 
@@ -130,6 +147,10 @@ export const useStore = defineStore('ColorManager', () => {
         SelectedSymetry.value = value;
     }
 
+    function SetCellContentType(value) {
+        SelectedCellContentType.value = value;
+    }
+
     // --------------------------
 
     ChangePalette('Kreatywny');
@@ -138,6 +159,8 @@ export const useStore = defineStore('ColorManager', () => {
         SelectedColor,
         SelectedPaletteKey,
         SelectedSymetry,
+        CellContentTypes,
+        SelectedCellContentType,
 
         AddPalette,
         RemovePalette,
@@ -152,6 +175,7 @@ export const useStore = defineStore('ColorManager', () => {
         SetCellColor,
         SetCellColor_Selected,
         SetSymetry,
+        SetCellContentType,
 
         ColorPalettes,
         SymetryTypes,

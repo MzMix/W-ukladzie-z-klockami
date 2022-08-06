@@ -1,6 +1,6 @@
 <script setup>
 import ColorSelectionArea from './ColorSelectionArea.vue'
-import DrawingButtons from './DrawingButtons.vue'
+import DrawingButtons from './DrawingMenu.vue'
 import { useStore } from "../../stores/WelcomeStore";
 
 const store = useStore();
