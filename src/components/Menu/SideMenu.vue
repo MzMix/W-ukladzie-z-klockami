@@ -1,6 +1,8 @@
 <script setup>
 import ColorSelectionArea from './ColorSelectionArea.vue'
-import DrawingButtons from './DrawingMenu.vue'
+import DrawingMenu from './DrawingMenu.vue'
+import SharingMenu from './SharingMenu.vue';
+
 import { useStoreWelcomeModal } from "../../stores/WelcomeStore";
 
 const store = useStoreWelcomeModal();
@@ -74,7 +76,7 @@ const { EnableWelcome } = store;
 
                 <h5 class="card-title">Rysowanie</h5>
 
-                <DrawingButtons />
+                <DrawingMenu />
 
 
             </div>
@@ -88,9 +90,7 @@ const { EnableWelcome } = store;
 
                 <h5 class="card-title">Udostępnianie</h5>
 
-                Some placeholder content for the collapse component. This panel is hidden by default but revealed when
-                the
-                user activates the relevant trigger.
+                <SharingMenu />
             </div>
 
         </div>
