@@ -6,6 +6,7 @@ import InputSelectArray from '../General/InputSelectArray.vue';
 
 import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
 import { useSymetryStore } from "../../stores/SymetryStore";
+import { useIndexStore } from "../../stores/IndexStore";
 import { useBoardStore } from "../../stores/BoardStore";
 import { useStoreAxes } from "../../stores/AxesStore";
 import { useCellStore } from "../../stores/CellStore";
@@ -19,6 +20,11 @@ const { ColorPalettes, SelectedPalette } = storeToRefs(ColorPaletteStore);
 const SymetryStore = useSymetryStore();
 const { SetSymetry } = SymetryStore;
 const { SelectedSymetry, SymetryTypes } = storeToRefs(SymetryStore);
+
+//Index
+const IndexStore = useIndexStore();
+const { SetIndexContentType } = IndexStore;
+const { SelectedIndexContentType, IndexContentTypes, } = storeToRefs(IndexStore);
 
 //Board
 const BoardStore = useBoardStore();
@@ -59,6 +65,14 @@ const { CellContentTypes, SelectedCellContentType } = storeToRefs(CellStore);
             <i class="bi bi-1-square"></i> <i class="bi bi-2-square"></i> | Wybór zawartości pól
         </InputSelectArray>
 
+        <!-- Switch index content -->
+
+        <InputSelectArray @action="(value) => SetIndexContentType(value)" :options="get(IndexContentTypes)"
+            :selected-value="get(SelectedIndexContentType)" aria-label="Wybór opisu pól">
+            <i class="bi" id="ALetter"></i> <i class="bi bi-1-square"></i> | Wybór opisu
+            pól
+        </InputSelectArray>
+
         <!-- Select Color Palette -->
 
         <InputSelectArray @action="(value) => SetPalette(value)" :options="get(ColorPalettes)"
@@ -78,5 +92,10 @@ div {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
+}
+
+#ALetter {
+    content: url('../../assets/A square.svg');
+    vertical-align: -0.125em;
 }
 </style>

@@ -34,13 +34,13 @@ onMounted(() => {
   <div id="BoardContainer">
 
     <div class=" index top-index">
-      <BoardIndex v-for="index in 9" :key="index" :cellId="index">{{ index }}</BoardIndex>
-      <BoardIndex :cellId="10" :key="10" class="border-dark border-end">10</BoardIndex>
+      <BoardIndex v-for="index in 9" :key="index" sector="horizontal"></BoardIndex>
+      <BoardIndex :cellId="10" :key="10" sector="horizontal" class="border-dark border-end">10</BoardIndex>
     </div>
 
     <div class="index left-index">
-      <BoardIndex v-for="index in 9" :key="index">{{ index }}</BoardIndex>
-      <BoardIndex :cellId="10" :key="10" class="border-dark border-bottom">10</BoardIndex>
+      <BoardIndex v-for="index in 9" :key="index" sector="vertical"></BoardIndex>
+      <BoardIndex :cellId="10" :key="10" sector="vertical" class="border-dark border-bottom">10</BoardIndex>
 
     </div>
 
@@ -49,14 +49,14 @@ onMounted(() => {
     </div>
 
     <div class="index right-index border-dark border-end">
-      <BoardIndex v-for="index in 9" :key="index">{{ index }}</BoardIndex>
-      <BoardIndex :cellId="10" :key="10" class="border-dark border-bottom">10</BoardIndex>
+      <BoardIndex v-for="index in 9" :key="index" sector="vertical"></BoardIndex>
+      <BoardIndex :cellId="10" :key="10" sector="vertical" class="border-dark border-bottom">10</BoardIndex>
 
     </div>
 
     <div class="index bottom-index border-dark border-bottom">
-      <BoardIndex v-for="index in 9" :key="index">{{ index }}</BoardIndex>
-      <BoardIndex :cellId="10" :key="10" class="border-dark border-end">10</BoardIndex>
+      <BoardIndex v-for="index in 9" :key="index" sector="horizontal"></BoardIndex>
+      <BoardIndex :cellId="10" :key="10" sector="horizontal" class="border-dark border-end">10</BoardIndex>
 
     </div>
 
