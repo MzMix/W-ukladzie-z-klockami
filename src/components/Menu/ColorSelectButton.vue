@@ -24,8 +24,8 @@ const fillColor = computed(() => {
 .ColorSelectBTN {
     transition: all 0.2s ease-in-out;
     cursor: pointer;
-    width: 5vw;
-    height: 5vw;
+    width: 4.5vw;
+    height: 4.5vw;
     border: 1px solid;
     border-radius: 10%;
 }
