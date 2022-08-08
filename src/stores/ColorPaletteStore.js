@@ -8,12 +8,14 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         {
             value: 0,
             text: 'Kreatywny',
-            colorSet: ['#188B18', '#18C4FD', '#8B188B', '#FDFD18', '#FD1818', '#B3FD42', '#000000', '#FDFDFD', '#1818FD', '#FD9618', '#D5D5D5']
+            colorSet: ['#188B18', '#18C4FD', '#8B188B', '#FDFD18', '#FD1818', '#B3FD42', '#000000', '#FDFDFD', '#1818FD', '#FD9618', '#D5D5D5'],
+            standard: true,
         },
         {
             value: 1,
             text: 'Matematyczny',
-            colorSet: ['#188B18', '#18C4FD', '#8B188B', '#f0e796', '#FD1818', '#B3FD42', '#000000', '#FDFDFD', '#955629', '#FD9618', '#D5D5D5']
+            colorSet: ['#188B18', '#18C4FD', '#8B188B', '#f0e796', '#FD1818', '#B3FD42', '#000000', '#FDFDFD', '#955629', '#FD9618', '#D5D5D5'],
+            standard: true,
         }
     ]));
 
@@ -27,7 +29,8 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         ColorPalettes.value.push({
             value: ColorPalettes.value.length,
             text: name,
-            colorSet: colors
+            colorSet: colors,
+            standard: false,
         });
     }
 

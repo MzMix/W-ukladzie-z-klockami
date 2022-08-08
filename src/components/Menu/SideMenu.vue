@@ -1,12 +1,8 @@
 <script setup>
 import ColorSelectionArea from './ColorSelectionArea.vue'
+import SettingsMenu from './SettingsMenu.vue';
 import DrawingMenu from './DrawingMenu.vue'
 import SharingMenu from './SharingMenu.vue';
-
-import { useStoreWelcomeModal } from "../../stores/WelcomeStore";
-
-const store = useStoreWelcomeModal();
-const { EnableWelcome } = store;
 
 </script>
 
@@ -102,7 +98,7 @@ const { EnableWelcome } = store;
 
                 <h5 class="card-title">Ustawienia</h5>
 
-                <button class="btn btn-outline-info" @click="EnableWelcome()">Pokazuj panel powitalny</button>
+                <SettingsMenu />
 
             </div>
 

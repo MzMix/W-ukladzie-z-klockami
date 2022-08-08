@@ -18,5 +18,6 @@ This app is part of a colection of simillar tools created to aid in teaching mat
 - [Vue.js](https://vuejs.org/): MIT
 - [Pinia](https://pinia.vuejs.org/): MIT
 - [VueUSe](https://vueuse.org/): MIT
+- [vue-color-kit](https://github.com/anish2690/vue-color-kit/): MIT
 - [Bootstrap](https://getbootstrap.com/): MIT
 - [Bootstrap Icons](https://icons.getbootstrap.com/): MIT
