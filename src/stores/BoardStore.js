@@ -4,11 +4,11 @@ import { ref } from 'vue'
 
 export const useBoardStore = defineStore('BoardManager', () => {
 
-    const BoardFill = ref(useLocalStorage("BoardFill", new Array(100).fill(0)));
+    const BoardFill = ref(useLocalStorage("BoardFill", new Array(100).fill(7)));
 
     function SaveToBoard(id, value) {
-        console.log({ id, value });
-        BoardFill.value[id--] = value;
+        let i = id - 1;
+        BoardFill.value[i] = value;
     }
 
     function ClearBoard() {
@@ -16,7 +16,8 @@ export const useBoardStore = defineStore('BoardManager', () => {
     }
 
     function GetCellValue(id) {
-        return BoardFill.value[id--];
+        let i = id - 1;
+        return BoardFill.value[i];
     }
 
     return {

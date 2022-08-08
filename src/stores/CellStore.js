@@ -19,7 +19,7 @@ export const useCellStore = defineStore('CellManager', () => {
         }
     ]);
 
-    const SelectedCellContentType = ref(useLocalStorage("SelectedCellContentType", 0));
+    const SelectedCellContentType = ref(useLocalStorage("SelectedCellContentType", 1));
 
     function SetCellContentType(value) {
         SelectedCellContentType.value = value;

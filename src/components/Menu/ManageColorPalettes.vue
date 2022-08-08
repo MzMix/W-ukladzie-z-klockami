@@ -1,5 +1,5 @@
 <script setup>
-// import { computed } from "vue";
+import { ref } from "vue";
 import { storeToRefs } from 'pinia'
 
 import AddCustomColorPalette from './AddCustomColorPalette.vue';
@@ -7,15 +7,36 @@ import AddCustomColorPalette from './AddCustomColorPalette.vue';
 import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
 
 const ColorPaletteStore = useColorPaletteStore();
-// const { AddPalette, RemovePalette } = ColorPaletteStore;
+const { RemovePalette } = ColorPaletteStore;
 
 const { ColorPalettes } = storeToRefs(ColorPaletteStore);
 
+const AddPaletteKey = ref(0);
+
+const PaletteToRemove = ref({
+    name: '',
+    value: 0
+});
+
+function TriggerPaletteRemoval(paletteValue) {
+    PaletteToRemove.value = {
+        name: ColorPalettes.value[paletteValue].text,
+        value: paletteValue
+    };
+}
+
+function HandleRemovePalette(paletteValue) {
+
+    const index = ColorPalettes.value.findIndex(object => {
+        return object.value === paletteValue;
+    });
+    RemovePalette(index);
+}
 </script>
 
 <template>
-    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="CustomPaletteModal" tabindex="-1"
-        aria-labelledby="CustomPaletteModalLabel" aria-hidden="true">
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ManageColorPalettesModal"
+        tabindex="-1" aria-labelledby="CustomPaletteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -36,28 +57,30 @@ const { ColorPalettes } = storeToRefs(ColorPaletteStore);
                         </div>
 
                         <div class="actionEntry">
-                            <button type="button" class="btn btn-info m-1" :disabled="!cp.standard">
+                            <button type="button" class="btn btn-info m-1" :disabled="cp.standard">
                                 <i class="bi bi-pencil"></i>
                             </button>
 
-                            <button type="button" class="btn btn-danger m-1" :disabled="!cp.standard">
+                            <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal"
+                                data-bs-target="#RemovePaletteModal" :disabled="cp.standard"
+                                @click="TriggerPaletteRemoval(cp.value)">
                                 <i class="bi bi-trash3"></i>
                             </button>
                         </div>
                     </div>
 
 
-                    <div class="d-flex flex-row-reverse m-1">
-                        <button type="button" class="btn btn-success m-1" data-bs-toggle="collapse"
+                    <div class="d-grid gap-2 col-6 mx-auto mt-4">
+                        <button type="button" class="btn btn-primary m-1" data-bs-toggle="collapse"
                             href="#addCustomPalette" role="button" aria-expanded="false"
-                            aria-controls="addCustomPalette">
-                            <i class="bi bi-plus-square"></i>
+                            aria-controls="addCustomPalette" @click="AddPaletteKey++">
+                            Otwórz kreator palet kolorów <i class="bi bi-palette"></i>
                         </button>
                     </div>
 
-                    <div class="collapse" id="addCustomPalette">
+                    <div class="collapse mt-4" id="addCustomPalette">
                         <div class="card card-body">
-                            <AddCustomColorPalette />
+                            <AddCustomColorPalette :key="AddPaletteKey" />
                         </div>
                     </div>
 
@@ -68,6 +91,30 @@ const { ColorPalettes } = storeToRefs(ColorPaletteStore);
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="RemovePaletteModal" tabindex=" -1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="RemovePaletteModalLabel">Czy na pewno chcesz usunąć paletę:
+                        {{ PaletteToRemove.name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tej akcji <strong>nie będzie</strong> można cofnąć! Aby potwierdzić operację kliknij poniższy
+                        przycisk:</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            @click="HandleRemovePalette(PaletteToRemove.value)"> <i class="bi bi-trash3"></i>
+                            Tak, usuń</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </template>
 
 <style scoped>
@@ -85,8 +132,11 @@ const { ColorPalettes } = storeToRefs(ColorPaletteStore);
 .colorEntry {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: start;
     column-gap: 0.5em;
+    row-gap: 0.5em;
+    padding-left: 1.5em;
 }
 
 .colorEntry div {
