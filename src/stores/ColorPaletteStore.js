@@ -28,12 +28,18 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
     }
 
     function AddPalette(name, colors) {
-        ColorPalettes.value.push({
-            value: ColorPalettes.value.length,
-            text: name,
-            colorSet: colors,
-            standard: false,
-        });
+
+        let available = ColorPalettes.value.filter(el => el.text == name).length <= 0;
+
+        if (available) {
+
+            ColorPalettes.value.push({
+                value: ColorPalettes.value.length,
+                text: name,
+                colorSet: colors,
+                standard: false,
+            });
+        }
     }
 
     function RemovePalette(id) {

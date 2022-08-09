@@ -4,9 +4,9 @@ import { storeToRefs } from 'pinia'
 
 import AddCustomColorPalette from './AddCustomColorPalette.vue';
 import EditColorPalette from './EditColorPalette.vue';
+import FileUpload from "./FileUpload.vue";
 
 import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
-import FileUpload from "./FileUpload.vue";
 
 const ColorPaletteStore = useColorPaletteStore();
 const { RemovePalette } = ColorPaletteStore;
