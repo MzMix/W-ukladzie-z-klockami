@@ -82,7 +82,6 @@ const { CellContentTypes, SelectedCellContentType } = storeToRefs(CellStore);
 
         <!-- Clear board -->
         <button class="btn btn-danger" @click="ClearBoard()">Wyczyść planszę</button>
-        <hr />
     </div>
 
 </template>
