@@ -4,7 +4,7 @@ import { ref } from 'vue'
 
 export const useBoardStore = defineStore('BoardManager', () => {
 
-    const BoardFill = ref(useLocalStorage("BoardFill", new Array(100).fill(7)));
+    const BoardFill = ref(useLocalStorage("BoardFill", new Array(100).fill(null)));
 
     function SaveToBoard(id, value) {
         let i = id - 1;

@@ -4,7 +4,6 @@ import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
 
 const ColorPaletteStore = useColorPaletteStore();
 const { SetColorNumber, InterpreteColorValue } = ColorPaletteStore;
-
 const props = defineProps({
     color: Number
 });
@@ -17,7 +16,7 @@ const fillColor = computed(() => {
 
 <template>
     <div @click="SetColorNumber(props.color)" class="ratio-1x1 ColorSelectBTN fs-1 m-1"
-        :style="{ backgroundColor: fillColor }"></div>
+        :style="{ backgroundColor: fillColor }"> </div>
 </template>
 
 <style scoped>
@@ -28,6 +27,7 @@ const fillColor = computed(() => {
     height: 3.5vw;
     border: 1px solid;
     border-radius: 10%;
+    font-size: 1rem !important;
 }
 
 .ColorSelectBTN:hover {

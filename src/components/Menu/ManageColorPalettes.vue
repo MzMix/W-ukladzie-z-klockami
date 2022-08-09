@@ -3,20 +3,27 @@ import { ref } from "vue";
 import { storeToRefs } from 'pinia'
 
 import AddCustomColorPalette from './AddCustomColorPalette.vue';
+import EditColorPalette from './EditColorPalette.vue';
 
 import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import FileUpload from "./FileUpload.vue";
 
 const ColorPaletteStore = useColorPaletteStore();
 const { RemovePalette } = ColorPaletteStore;
 
-const { ColorPalettes } = storeToRefs(ColorPaletteStore);
+const { ColorPalettes, BoardDefaultColor } = storeToRefs(ColorPaletteStore);
 
 const AddPaletteKey = ref(0);
+const EditColorPaletteKey = ref(0);
 
 const PaletteToRemove = ref({
     name: '',
     value: 0
 });
+
+function editable(element) {
+    return element != BoardDefaultColor.value;
+}
 
 function TriggerPaletteRemoval(paletteValue) {
     PaletteToRemove.value = {
@@ -52,8 +59,8 @@ function HandleRemovePalette(paletteValue) {
                         </div>
 
                         <div class="colorEntry">
-                            <div v-for="cl in cp.colorSet" :key="cl" class="border border-dark border-2"
-                                :style="{ backgroundColor: cl }"></div>
+                            <div v-for="cl in cp.colorSet.filter(editable)" :key="cl"
+                                class="border border-dark border-2" :style="{ backgroundColor: cl }"></div>
                         </div>
 
                         <div class="actionEntry">
@@ -70,17 +77,31 @@ function HandleRemovePalette(paletteValue) {
                     </div>
 
 
-                    <div class="d-grid gap-2 col-6 mx-auto mt-4">
-                        <button type="button" class="btn btn-primary m-1" data-bs-toggle="collapse"
-                            href="#addCustomPalette" role="button" aria-expanded="false"
-                            aria-controls="addCustomPalette" @click="AddPaletteKey++">
-                            Otwórz kreator palet kolorów <i class="bi bi-palette"></i>
-                        </button>
+                    <div class="inputAndOpenCreator mt-2 mb-2">
+                        <div>
+                            <FileUpload />
+                        </div>
+
+                        <div class="d-flex flex-column">
+                            <label for="paletteCreatorBtn" class="form-label col-auto">Dodaj własne palety kolorów:
+                            </label>
+                            <button type="button" class="btn btn-primary" id="paletteCreatorBtn"
+                                data-bs-toggle="collapse" href="#addCustomPalette" role="button" aria-expanded="false"
+                                aria-controls="addCustomPalette" @click="AddPaletteKey++">
+                                Otwórz kreator palet kolorów <i class="bi bi-palette"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="collapse mt-4" id="addCustomPalette">
                         <div class="card card-body">
                             <AddCustomColorPalette :key="AddPaletteKey" />
+                        </div>
+                    </div>
+
+                    <div class="collapse mt-4" id="editColorPalette">
+                        <div class="card card-body">
+                            <EditColorPalette :key="EditColorPaletteKey" />
                         </div>
                     </div>
 
@@ -148,5 +169,14 @@ function HandleRemovePalette(paletteValue) {
 
 .actionEntry {
     text-align: right;
+}
+
+.inputAndOpenCreator {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 1em;
+    justify-content: space-around;
+    align-items: flex-end;
 }
 </style>

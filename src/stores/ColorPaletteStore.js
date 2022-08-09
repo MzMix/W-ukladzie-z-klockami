@@ -8,16 +8,18 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         {
             value: 0,
             text: 'Kreatywny',
-            colorSet: ['#188B18', '#18C4FD', '#8B188B', '#FDFD18', '#FD1818', '#B3FD42', '#000000', '#FDFDFD', '#1818FD', '#FD9618', '#D5D5D5'],
+            colorSet: ['#188B18', '#18C4FD', '#8B188B', '#FDFD18', '#FD1818', '#B3FD42', '#000000', '#D5D5D5', '#1818FD', '#FD9618', '#FDFDFD'],
             standard: true,
         },
         {
             value: 1,
             text: 'Matematyczny',
-            colorSet: ['#188B18', '#18C4FD', '#8B188B', '#f0e796', '#FD1818', '#B3FD42', '#000000', '#FDFDFD', '#955629', '#FD9618', '#D5D5D5'],
+            colorSet: ['#188B18', '#18C4FD', '#8B188B', '#f0e796', '#FD1818', '#B3FD42', '#000000', '#D5D5D5', '#955629', '#FD9618', '#FDFDFD'],
             standard: true,
         }
     ]));
+
+    const BoardDefaultColor = ref(useLocalStorage('boardDefaultColor', '#FDFDFD'));
 
     const SelectedPalette = ref(useLocalStorage('SelectedPalette', 0));
 
@@ -41,7 +43,7 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         ColorPalettes.value.splice(id, 1);
     }
 
-    const SelectedColor = ref(useLocalStorage('SelectedColor', 0));
+    const SelectedColor = ref(useLocalStorage('SelectedColor', null));
 
     function SetColorNumber(colorNumber) {
         SelectedColor.value = colorNumber;
@@ -67,6 +69,7 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         SelectedPalette,
         ColorPalettes,
         SetPalette,
+        BoardDefaultColor,
         AddPalette,
         RemovePalette,
 

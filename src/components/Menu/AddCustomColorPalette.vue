@@ -9,7 +9,7 @@ import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
 
 const ColorPaletteStore = useColorPaletteStore();
 const { AddPalette } = ColorPaletteStore;
-const { ColorPalettes } = storeToRefs(ColorPaletteStore);
+const { ColorPalettes, BoardDefaultColor } = storeToRefs(ColorPaletteStore);
 
 const newPaletteColors = ref([...ColorPalettes.value[0].colorSet]);
 const paletteName = ref(`NowaPaleta-${get(ColorPalettes).length - 1}`);
@@ -33,6 +33,10 @@ function HandleSubmit() {
     AddPalette(get(paletteName), get(newPaletteColors));
 }
 
+function editable(element) {
+    return element != BoardDefaultColor.value;
+}
+
 </script>
 
 <template>
@@ -51,8 +55,9 @@ function HandleSubmit() {
                 </div>
 
                 <div class="mt-4 colorEntry p-2">
-                    <div v-for="cl in newPaletteColors" :key="cl" class="border border-dark border-2 position-relative"
-                        :style="{ backgroundColor: cl }" @click="openPicker(newPaletteColors.indexOf(cl))">
+                    <div v-for="cl in newPaletteColors.filter(editable)" :key="cl"
+                        class="border border-dark border-2 position-relative" :style="{ backgroundColor: cl }"
+                        @click="openPicker(newPaletteColors.indexOf(cl))">
                         <span v-if="editedColorId === newPaletteColors.indexOf(cl)"
                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                             :style="{ zIndex: 2 }"> <i class="bi bi-pencil-fill"></i>

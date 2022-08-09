@@ -38,6 +38,8 @@ function ColorCell() {
     let target = null;
     let selectedColor = GetSelectedColor();
 
+    if (!selectedColor) return;
+
     switch (get(SelectedSymetry)) {
         //Brak
         default:
