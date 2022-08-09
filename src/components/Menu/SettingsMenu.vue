@@ -14,6 +14,7 @@ function showModal() {
 
 function ClearData() {
     localStorage.clear();
+    document.location.reload(true);
 }
 
 </script>
