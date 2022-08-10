@@ -16,6 +16,8 @@ const { ColorPalettes, BoardDefaultColor } = storeToRefs(ColorPaletteStore);
 const AddPaletteKey = ref(0);
 const EditColorPaletteKey = ref(0);
 
+const PaletteToEdit = ref(null);
+
 const PaletteToRemove = ref({
     name: '',
     value: 0
@@ -39,6 +41,12 @@ function HandleRemovePalette(paletteValue) {
     });
     RemovePalette(index);
 }
+
+function HandleEditPalette(value) {
+    PaletteToEdit.value = value;
+    EditColorPaletteKey.value++;
+}
+
 </script>
 
 <template>
@@ -64,7 +72,9 @@ function HandleRemovePalette(paletteValue) {
                         </div>
 
                         <div class="actionEntry">
-                            <button type="button" class="btn btn-info m-1" :disabled="cp.standard">
+                            <button type="button" class="btn btn-info m-1" :disabled="cp.standard"
+                                data-bs-toggle="collapse" data-bs-target="#editColorPalette" aria-expanded="false"
+                                data-parent="#cpManager" @click="HandleEditPalette(ColorPalettes.indexOf(cp))">
                                 <i class="bi bi-pencil"></i>
                             </button>
 
@@ -86,7 +96,7 @@ function HandleRemovePalette(paletteValue) {
                             <label for="paletteCreatorBtn" class="form-label col-auto">Dodaj własne palety kolorów:
                             </label>
                             <button type="button" class="btn btn-primary" id="paletteCreatorBtn"
-                                data-bs-toggle="collapse" href="#addCustomPalette" role="button" aria-expanded="false"
+                                data-bs-toggle="collapse" data-bs-target="#addCustomPalette" aria-expanded=" false"
                                 aria-controls="addCustomPalette" @click="AddPaletteKey++">
                                 Otwórz kreator palet kolorów <i class="bi bi-palette"></i>
                             </button>
@@ -101,7 +111,7 @@ function HandleRemovePalette(paletteValue) {
 
                     <div class="collapse mt-4" id="editColorPalette">
                         <div class="card card-body">
-                            <EditColorPalette :key="EditColorPaletteKey" />
+                            <EditColorPalette :key="EditColorPaletteKey" :id="PaletteToEdit" />
                         </div>
                     </div>
 
