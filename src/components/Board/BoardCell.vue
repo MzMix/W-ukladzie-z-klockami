@@ -15,7 +15,7 @@ import { GetLetter } from "../../utils/TextUtilities";
 
 //Color & Palette
 const ColorPaletteStore = useColorPaletteStore();
-const { GetSelectedColor, InterpreteColorValue } = ColorPaletteStore;
+const { GetSelectedColor, InterpreteColorValue, GetBoardDefaultColorId } = ColorPaletteStore;
 
 //Symetry
 const SymetryStore = useSymetryStore();
@@ -113,6 +113,7 @@ const content = computed(() => {
 
 const CellColor = computed(() => {
     let boardValue = GetCellValue(props.cellId);
+    if (boardValue === null) boardValue = GetBoardDefaultColorId();
     return InterpreteColorValue(boardValue);
 });
 

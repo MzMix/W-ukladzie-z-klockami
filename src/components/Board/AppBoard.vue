@@ -31,7 +31,7 @@ onMounted(() => {
 
 <template>
 
-  <div id="BoardContainer">
+  <div id="BoardContainer" class="p-2">
 
     <div class=" index top-index">
       <BoardIndex v-for="index in 9" :key="index" sector="horizontal"></BoardIndex>

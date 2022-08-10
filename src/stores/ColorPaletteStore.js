@@ -71,6 +71,10 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         return SelectedColor.value;
     }
 
+    function GetBoardDefaultColorId() {
+        return GetSelectedPalette().findIndex(el => el == BoardDefaultColor.value);
+    }
+
     return {
         SelectedPalette,
         ColorPalettes,
@@ -82,6 +86,7 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         SelectedColor,
         SetColorNumber,
         GetSelectedColor,
+        GetBoardDefaultColorId,
 
         InterpreteColorValue,
         InterpreteSelectedColor
