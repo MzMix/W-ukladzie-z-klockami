@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { storeToRefs } from 'pinia'
 import { get } from '@vueuse/core';
 import { ColorPicker } from 'vue-color-kit'
@@ -8,29 +8,38 @@ import 'vue-color-kit/dist/vue-color-kit.css'
 import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
 
 const ColorPaletteStore = useColorPaletteStore();
-const { AddPalette } = ColorPaletteStore;
 const { ColorPalettes, BoardDefaultColor } = storeToRefs(ColorPaletteStore);
 
-const newPaletteColors = ref([...ColorPalettes.value[0].colorSet]);
-const paletteName = ref(`NowaPaleta-${get(ColorPalettes).length - 1}`);
+const props = defineProps({
+    id: {
+        type: Number,
+        default: 0
+    }
+});
+
+const paletteId = computed(() => {
+    if (props.id == null || props.id == undefined) {
+        return 0;
+    } else {
+        return props.id;
+    }
+});
+
+const PaletteColors = ref(ColorPalettes.value[paletteId.value].colorSet);
 const editedColorId = ref(0);
-const pickerColor = ref(newPaletteColors.value[0]);
+const pickerColor = ref(PaletteColors.value[0]);
 
 const pickerKey = ref(0);
 
 function openPicker(colorId) {
     editedColorId.value = colorId;
     pickerKey.value++;
-    pickerColor.value = get(newPaletteColors)[editedColorId.value];
+    pickerColor.value = get(PaletteColors)[editedColorId.value];
 }
 
 function changeColor(color) {
     const hex = color.hex;
-    newPaletteColors.value[get(editedColorId)] = hex;
-}
-
-function HandleSubmit() {
-    AddPalette(get(paletteName), get(newPaletteColors));
+    PaletteColors.value[get(editedColorId)] = hex;
 }
 
 function editable(element) {
@@ -41,7 +50,7 @@ function editable(element) {
 
 <template>
     <div>
-        <h4>Dodawanie nowej palety kolorów: </h4>
+        <h4>Edycja palety kolorów: </h4>
 
         <div class="paletteForm mt-4">
 
@@ -50,30 +59,25 @@ function editable(element) {
                     <div class="p-1"> <label for="paletteName" class="form-label">Nazwa palety kolorów:
                         </label>
                     </div>
-                    <div> <input type="text" class="form-control w-100" id="paletteName" v-model="paletteName">
+                    <div> <input type="text" class="form-control w-100" id="paletteName"
+                            v-model="ColorPalettes[paletteId].text">
                     </div>
                 </div>
 
                 <div class="mt-4 colorEntry p-2">
-                    <div v-for="cl in newPaletteColors.filter(editable)" :key="cl"
+                    <div v-for="cl in PaletteColors.filter(editable)" :key="cl"
                         class="border border-dark border-2 position-relative" :style="{ backgroundColor: cl }"
-                        @click="openPicker(newPaletteColors.indexOf(cl))">
-                        <span v-if="editedColorId === newPaletteColors.indexOf(cl)"
+                        @click="openPicker(PaletteColors.indexOf(cl))">
+                        <span v-if="editedColorId === PaletteColors.indexOf(cl)"
                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                             :style="{ zIndex: 2 }"> <i class="bi bi-pencil-fill"></i>
                         </span>
                     </div>
                 </div>
-
-                <div class="d-grid gap-2 col-6 mx-auto mt-4">
-                    <button type="submit" class="btn btn-primary " @click="HandleSubmit"><i
-                            class="bi bi-plus-square"></i> Dodaj paletę</button>
-                </div>
-
             </form>
 
             <div>
-                <ColorPicker theme="light" :color="pickerColor" :sucker-hide="true" :colors-default="newPaletteColors"
+                <ColorPicker theme="light" :color="pickerColor" :sucker-hide="true" :colors-default="PaletteColors"
                     @changeColor="changeColor" :key="pickerKey" />
             </div>
         </div>

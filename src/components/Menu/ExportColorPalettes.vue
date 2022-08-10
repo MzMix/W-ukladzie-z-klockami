@@ -12,7 +12,7 @@ const { ColorPalettes, SelectedPalette } = storeToRefs(ColorPaletteStore);
 function ExportColorPalettes() {
 
     let customPaletes = ColorPalettes.value.slice(2);
-    let out = JSON.stringify({ ColorPalettes: customPaletes, SelectedPalette: SelectedPalette.value });
+    let out = JSON.stringify({ ColorPalettes: customPaletes, SelectedPalette: SelectedPalette.value }, null, 4);
 
     DonloadContent(out, 'palety-eksport.json', 'text/plain');
 }
