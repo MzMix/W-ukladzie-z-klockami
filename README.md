@@ -1,18 +1,17 @@
 
 # Description
 
-This app was created to help with conductong math classes using bricks as a tool. It is a interactive board that can be filled with diferent colors.
+This app was created to help with conducting math classes using bricks. It is an interactive board that can be filled with different colors to represent bricks.
 
-This app is part of a colection of simillar tools created to aid in teaching math using bricks.
+This app is part of a collection of similar tools created to aid in teaching STEAM related subjects.
 
-[All the apps](https://mzmix.github.io/)
+[All of the apps](https://mzmix.github.io/)
 
 ## Credits
 - Coding: Mikołaj Zuziak
 - Meritoric and didactic value: Wojciech Zuziak
-- Testing: Mikołaj & Wojciech Zuziak
+- Testing: Mikołaj Zuziak & Wojciech Zuziak
   
-
 ## Licenses
 
 - [Vue.js](https://vuejs.org/): MIT
