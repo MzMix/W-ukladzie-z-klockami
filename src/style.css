@@ -5,6 +5,17 @@
     user-select: none;
 
     --cell-size: 3rem;
+
+    --CustomPurple: #7430fa;
+
+}
+
+.text-purple{
+    color: var(--CustomPurple) !important;
+}
+
+.bg-purple{
+    background-color: var(--CustomPurple) !important;
 }
 
 .squareOnBoard {

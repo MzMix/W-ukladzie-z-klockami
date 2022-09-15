@@ -14,15 +14,19 @@ function SaveBoard() {
 </script>
 
 <template>
-    <div>
-        <hr />
+    <div class="d-flex flex-column text-center h-100 pb-4 gap-4">
+
+        <h3 class="mb-4">Udostępnianie <i class="bi bi-share"></i></h3>
+
         <ExportColorPalettes />
+
         <hr />
+
         <button type="button" class="btn btn-outline-primary" @click="SaveBoard()">Zapis planszy do pliku</button>
-        <hr />
 
     </div>
 </template>
 
 <style scoped>
+
 </style>

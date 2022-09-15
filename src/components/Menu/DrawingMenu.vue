@@ -45,8 +45,8 @@ const { CellContentTypes, SelectedCellContentType } = storeToRefs(CellStore);
 
 <template>
 
-    <div>
-        <hr />
+    <div class="d-flex flex-column text-center h-100 pb-4 gap-4 justify-content-between">
+        <h3 class="mb-4">Rysowanie <i class="bi bi-brush"></i></h3>
 
         <!-- Show axes -->
         <button class="btn btn-outline-info" @click="(ToggleAxes())">Przełącz osie</button>
@@ -81,7 +81,7 @@ const { CellContentTypes, SelectedCellContentType } = storeToRefs(CellStore);
         </InputSelectArray>
 
         <!-- Clear board -->
-        <button class="btn btn-danger" @click="ClearBoard()">Wyczyść planszę</button>
+        <button class="btn btn-danger mb-4" @click="ClearBoard()">Wyczyść planszę</button>
     </div>
 
 </template>
