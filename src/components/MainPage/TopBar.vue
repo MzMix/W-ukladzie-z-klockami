@@ -23,7 +23,7 @@ const icons = ['palette', 'brush', 'share', 'gear'];
 
         <div :class="TopBarElement">Board name Component</div>
 
-        <div :class="TopBarElement">W układzie z klockami</div>
+        <div :class="TopBarElement">W układzie z klockami <i class="bi bi-bricks"></i></div>
 
     </div>
 </template>
