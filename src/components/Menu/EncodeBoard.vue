@@ -1,27 +1,39 @@
 <script setup>
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
+import { get } from '@vueuse/core';
 
 import BoardPositionEntry from './BoardPositionEntry.vue'
+import InputSelectArray from '../General/InputSelectArray.vue';
 
 import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useIndexStore } from "../../stores/IndexStore";
 import { useBoardStore } from "../../stores/BoardStore";
 
 import { CalculateBoardPosition } from "../../utils/CalculatePositionAndId";
 
+import { DownloadCanvas, GetDateForFileName } from '../../utils/SharingUtilities';
+import html2canvas from 'html2canvas';
 
+//Color Palettes
 const ColorPaletteStore = useColorPaletteStore();
 const { InterpreteColorValue, GetBoardDefaultColorId } = ColorPaletteStore;
 
+//Board
 const BoardStore = useBoardStore();
 const { GetCellValue } = BoardStore;
 const { BoardName, BoardFill } = storeToRefs(BoardStore);
+
+//Index
+const IndexStore = useIndexStore();
+const { SetIndexContentType } = IndexStore;
+const { SelectedIndexContentType, IndexContentTypes, } = storeToRefs(IndexStore);
 
 const EncodedBoard = computed(() => {
 
     let result = {};
 
-    for (let i = 0; i < BoardFill.value.length; i++) {
+    for (let i = 0; i < get(BoardFill).length; i++) {
 
         let cellValue = GetCellValue(i);
 
@@ -30,8 +42,6 @@ const EncodedBoard = computed(() => {
         else {
 
             let target = CalculateBoardPosition(i);
-            console.log(target)
-
             if (result[cellValue]) {
                 result[cellValue].push({
                     x: target.x + 1,
@@ -48,10 +58,21 @@ const EncodedBoard = computed(() => {
         }
 
     }
-    console.log(result)
     return result;
 }
 )
+
+function SaveEncodedBoard() {
+    html2canvas(document.getElementById('EncodedBoard'), {
+        onclone: function (cloneDoc) {
+            cloneDoc.getElementById('EncodedBoard').insertAdjacentHTML("afterbegin",
+                `<div style="width: 100%; color: #101010; display: inline-block; text-align: center; font-size: 2em;">${get(BoardName)}</div><br/>`);
+        }
+    }).then(function (canvas) {
+        DownloadCanvas(canvas, `zakodowana-plansza-${GetDateForFileName()}`);
+    });
+}
+
 </script >
 
 <template>
@@ -60,36 +81,54 @@ const EncodedBoard = computed(() => {
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="CustomPaletteModalLabel">Zakoduj rysunek</h5>
+                    <h5 class="modal-title" id="CustomPaletteModalLabel">Zakoduj rysunek: {{BoardName}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
-                    <h4>{{BoardName}}</h4>
+                    <div class="d-flex flex-row gap-1 w-50 m-auto justify-content-evenly align-items-center">
+                        <InputSelectArray @action=" (value)=> SetIndexContentType(value)"
+                            :options="get(IndexContentTypes)" :selected-value="get(SelectedIndexContentType)"
+                            aria-label="Wybór opisu pól" class="flex-grow-1"><span class="mb-3"><i class="bi"
+                                    id="ALetter"></i> <i class="bi bi-1-square"></i> | Wybór opisu pól</span>
+                        </InputSelectArray>
 
-                    <hr />
+                    </div>
 
-                    <div class="d-flex flex-column p-3">
+                    <div id="EncodedBoard" class="w-75 m-auto">
 
-                        <div v-for="(key, index) in Object.keys(EncodedBoard)" :key="index"
-                            class="d-flex flex-row flex-wrap gap-1 align-items-center justify-content-start">
+                        <div v-if="get(SelectedIndexContentType) != 3 && Object.keys(EncodedBoard).length != 0"
+                            class="d-flex flex-column p-3">
 
-                            <div :style="{backgroundColor: InterpreteColorValue(key)}"
-                                class="d-block border border-dark colorBox-LineDsc">
+                            <div v-for="(key, index) in Object.keys(EncodedBoard)" :key="index"
+                                class="d-flex flex-row flex-wrap gap-1 align-items-center justify-content-start">
+
+                                <div :style="{backgroundColor: InterpreteColorValue(key)}"
+                                    class="d-block border border-dark colorBox-LineDsc">
+                                </div>
+
+                                <span class="mb-1">:</span>
+
+                                <BoardPositionEntry v-for="(pos, index) in EncodedBoard[new Number(key)]" :key="index"
+                                    :x="pos.x" :y="pos.y" />
+
                             </div>
 
-                            <span class="mb-1">:</span>
+                        </div>
 
-                            <BoardPositionEntry v-for="(pos, index) in EncodedBoard[new Number(key)]" :key="index"
-                                :x="pos.x" :y="pos.y" />
-
+                        <div v-else>
+                            <h6>Brak zawartości</h6>
+                            <p>Sprawdź czy plansza posiada zawartość i wybrano sposób opisu inny niż
+                                <strong>Brak</strong>
+                            </p>
                         </div>
 
                     </div>
 
                 </div>
+
                 <div class="modal-footer d-flex flex-row justify-content-around">
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Zapis do pliku</button>
+                    <button type="button" class="btn btn-success" @click="SaveEncodedBoard()">Zapis do pliku</button>
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zamknij</button>
                 </div>
             </div>
@@ -101,10 +140,5 @@ const EncodedBoard = computed(() => {
 .colorBox-LineDsc {
     width: 2em;
     height: 2em;
-}
-
-.colorBox {
-    width: 1.5em;
-    height: 1.5em;
 }
 </style>

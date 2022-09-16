@@ -1,9 +1,11 @@
 <script setup>
-import { computed } from "vue";
 import { storeToRefs } from "pinia";
+import { get } from '@vueuse/core';
 
 import { useIndexStore } from "../../stores/IndexStore";
 import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+
+import { GetLetter } from '../../utils/TextUtilities'
 
 const ColorPaletteStore = useColorPaletteStore();
 const { InterpreteColorValue } = ColorPaletteStore;
@@ -22,29 +24,20 @@ const props = defineProps({
     }
 })
 
-//1 - Text
-//2 - color
-//3 - None
-const DispalyMode = computed(() => {
-
-    if (SelectedIndexContentType.value == 0 || SelectedIndexContentType.value == 1) {
-        return 1;
-    } else if (SelectedIndexContentType.value == 2) {
-        return 2;
-    }
-
-    return 3;
-})
-
 </script>
 
 <template>
 
-    <div v-if="DispalyMode == 1" class="fs-4 mb-1">
+    <div v-if="get(SelectedIndexContentType) == 0" class="fs-4 mb-1 positionEntry">
         ({{props.x}},{{props.y}})
     </div>
 
-    <div v-if="DispalyMode == 2" class="d-flex flex-row justify-content-start align-items-center fs-5 pb-1">
+    <div v-if="get(SelectedIndexContentType) == 1" class="fs-4 mb-1 positionEntry">
+        {{GetLetter(props.x)}}{{props.y}}
+    </div>
+
+    <div v-if="get(SelectedIndexContentType) == 2"
+        class="d-flex flex-row justify-content-start align-items-center fs-5 pb-1 positionEntry">
         <span>(</span>
         <div :style="{backgroundColor: InterpreteColorValue(props.x-1)}" class="colorBox"></div>
         <span>,</span>
