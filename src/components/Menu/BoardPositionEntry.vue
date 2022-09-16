@@ -46,9 +46,9 @@ const DispalyMode = computed(() => {
 
     <div v-if="DispalyMode == 2" class="d-flex flex-row justify-content-start align-items-center fs-5 pb-1">
         <span>(</span>
-        <div :style="{backgroundColor: InterpreteColorValue(props.x)}" class="colorBox"></div>
+        <div :style="{backgroundColor: InterpreteColorValue(props.x-1)}" class="colorBox"></div>
         <span>,</span>
-        <div :style="{backgroundColor: InterpreteColorValue(props.x)}" class="colorBox"></div>
+        <div :style="{backgroundColor: InterpreteColorValue(props.y-1)}" class="colorBox"></div>
         <span>)</span>
     </div>
 
