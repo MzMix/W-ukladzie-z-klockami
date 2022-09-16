@@ -2,10 +2,22 @@
 import ExportColorPalettes from './ExportColorPalettes.vue';
 import { DownloadCanvas, GetDateForFileName } from '../../utils/SharingUtilities';
 import html2canvas from 'html2canvas';
+import { storeToRefs } from "pinia";
+import { useBoardStore } from "../../stores/BoardStore";
 
-function SaveBoard() {
-    html2canvas(document.getElementById('BoardContainer'), {
-        backgroundColor: null
+const BoardStore = useBoardStore();
+const { BoardName } = storeToRefs(BoardStore);
+
+function SaveBoard(includeTitle = true) {
+    html2canvas(document.getElementById('BoardOuterContainer'), {
+        backgroundColor: null,
+        onclone: function (cloneDoc) {
+
+            if (!includeTitle) return;
+
+            cloneDoc.getElementById('BoardOuterContainer').insertAdjacentHTML("afterbegin",
+                `<div style="width: 100%; color: #fff; display: inline-block; text-align: center; font-size: 2em;">${BoardName.value}</div><br/>`);
+        }
     }).then(function (canvas) {
         DownloadCanvas(canvas, `plansza-${GetDateForFileName()}`);
     });
@@ -22,7 +34,22 @@ function SaveBoard() {
 
         <hr />
 
-        <button type="button" class="btn btn-outline-primary" @click="SaveBoard()">Zapis planszy do pliku</button>
+        <div class="btn-group">
+
+            <button class="btn btn-outline-primary" type="button" @click="SaveBoard(true)">
+                Zapis zdjęcia planszy do pliku
+            </button>
+
+            <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" @click="SaveBoard(false)">Zapisz zdjęcie planszy bez tytułu</a></li>
+            </ul>
+
+        </div>
 
     </div>
 </template>

@@ -38,7 +38,7 @@ function ColorCell() {
     let target = null;
     let selectedColor = GetSelectedColor();
 
-    if (!selectedColor) return;
+    if (selectedColor == undefined || selectedColor == null) return;
 
     switch (get(SelectedSymetry)) {
         //Brak
@@ -121,7 +121,7 @@ const CellColor = computed(() => {
 
 <template>
     <div class="squareOnBoard border-top border-dark border-start" @click="ColorCell()"
-        :style="{ backgroundColor: CellColor }" v-bind="{ id: GetId(PositionCCS) }">
+        :style="{ backgroundColor: CellColor }" :id="GetId(PositionCCS)">
         {{ content }}
     </div>
 </template >

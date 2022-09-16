@@ -32,36 +32,36 @@ onMounted(() => {
 <template>
 
   <div class="d-grid" style="place-content: center;">
+    <div id="BoardOuterContainer">
+      <div id="BoardContainer" class="p-2">
+        <div class=" index top-index">
+          <BoardIndex v-for="index in 9" :key="index" sector="horizontal"></BoardIndex>
+          <BoardIndex :cellId="10" :key="10" sector="horizontal" class="border-dark border-end">10</BoardIndex>
+        </div>
 
-    <div id="BoardContainer" class="p-2">
+        <div class="index left-index">
+          <BoardIndex v-for="index in 9" :key="index" sector="vertical"></BoardIndex>
+          <BoardIndex :cellId="10" :key="10" sector="vertical" class="border-dark border-bottom">10</BoardIndex>
 
-      <div class=" index top-index">
-        <BoardIndex v-for="index in 9" :key="index" sector="horizontal"></BoardIndex>
-        <BoardIndex :cellId="10" :key="10" sector="horizontal" class="border-dark border-end">10</BoardIndex>
+        </div>
+
+        <div id="Board" ref="Board">
+          <BoardCell v-for="i in 100" :key="i" :cellId="i" v-bind="{ pos: i }" />
+        </div>
+
+        <div class="index right-index border-dark border-end">
+          <BoardIndex v-for="index in 9" :key="index" sector="vertical"></BoardIndex>
+          <BoardIndex :cellId="10" :key="10" sector="vertical" class="border-dark border-bottom">10</BoardIndex>
+
+        </div>
+
+        <div class="index bottom-index border-dark border-bottom">
+          <BoardIndex v-for="index in 9" :key="index" sector="horizontal"></BoardIndex>
+          <BoardIndex :cellId="10" :key="10" sector="horizontal" class="border-dark border-end">10</BoardIndex>
+
+        </div>
+
       </div>
-
-      <div class="index left-index">
-        <BoardIndex v-for="index in 9" :key="index" sector="vertical"></BoardIndex>
-        <BoardIndex :cellId="10" :key="10" sector="vertical" class="border-dark border-bottom">10</BoardIndex>
-
-      </div>
-
-      <div id="Board" ref="Board">
-        <BoardCell v-for="i in 100" :key="i" :cellId="i" v-bind="{ pos: i }" />
-      </div>
-
-      <div class="index right-index border-dark border-end">
-        <BoardIndex v-for="index in 9" :key="index" sector="vertical"></BoardIndex>
-        <BoardIndex :cellId="10" :key="10" sector="vertical" class="border-dark border-bottom">10</BoardIndex>
-
-      </div>
-
-      <div class="index bottom-index border-dark border-bottom">
-        <BoardIndex v-for="index in 9" :key="index" sector="horizontal"></BoardIndex>
-        <BoardIndex :cellId="10" :key="10" sector="horizontal" class="border-dark border-end">10</BoardIndex>
-
-      </div>
-
     </div>
   </div>
 </template>
