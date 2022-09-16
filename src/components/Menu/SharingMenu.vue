@@ -14,9 +14,9 @@ function SaveBoard() {
 </script>
 
 <template>
-    <div class="d-flex flex-column text-center h-100 pb-4 gap-4">
+    <div class="text-center p-2 w-100 ps-3">
 
-        <h3 class="mb-4">Udostępnianie <i class="bi bi-share"></i></h3>
+        <h3 class="mt-2 mb-4">Udostępnianie <i class="bi bi-share"></i></h3>
 
         <ExportColorPalettes />
 

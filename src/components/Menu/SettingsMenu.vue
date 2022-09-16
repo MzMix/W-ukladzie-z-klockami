@@ -20,21 +20,19 @@ function ClearData() {
 </script>
 
 <template>
-    <div>
-        <div class="d-flex flex-column text-center h-100 pb-4 gap-4">
-            <h3 class="mb-4">Ustawienia <i class="bi bi-gear"></i></h3>
-            
-            <button class="btn btn-outline-info" @click="showModal()">Zarządzaj paletami kolorów</button>
+    <div class="text-center p-2 w-100 ps-3">
+        <h3 class="mt-2 mb-4">Ustawienia <i class="bi bi-gear"></i></h3>
 
-            <hr />
+        <button class="btn btn-outline-info" @click="showModal()">Zarządzaj paletami kolorów</button>
 
-            <button class="btn btn-outline-info" @click="EnableWelcome()">Pokazuj panel powitalny</button>
+        <hr />
 
-            <hr />
+        <button class="btn btn-outline-info" @click="EnableWelcome()">Pokazuj panel powitalny</button>
 
-            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#ClearDataModal">Usuń dane
-                aplikacji</button>
-        </div>
+        <hr />
+
+        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#ClearDataModal">Usuń dane
+            aplikacji</button>
 
         <ManageColorPalettesModal />
 
@@ -42,7 +40,8 @@ function ClearData() {
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="ClearDataModalLabel">Czy na pewno chcesz wyczyścić dane aplikacji
+                        <h5 class="modal-title" id="ClearDataModalLabel">Czy na pewno chcesz wyczyścić dane
+                            aplikacji
                             zapisane w pamięci przeglądarki?</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -53,7 +52,8 @@ function ClearData() {
                             kolorów,
                             ustawienia, obecny stan planszy).
                         </p>
-                        <p>Tej akcji <strong>nie będzie</strong> można cofnąć! Aby potwierdzić operację kliknij poniższy
+                        <p>Tej akcji <strong>nie będzie</strong> można cofnąć! Aby potwierdzić operację kliknij
+                            poniższy
                             przycisk:</p>
                     </div>
                     <div class="modal-footer">
