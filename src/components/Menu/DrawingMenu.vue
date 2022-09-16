@@ -49,7 +49,7 @@ const { CellContentTypes, SelectedCellContentType } = storeToRefs(CellStore);
         <h3 class="mt-2 mb-4">Rysowanie <i class="bi bi-brush"></i></h3>
 
         <!-- Show axes -->
-        <button class="btn btn-outline-info" @click="(ToggleAxes())">Przełącz osie</button>
+        <button class="btn btn-outline-primary" @click="(ToggleAxes())">Przełącz osie</button>
         <hr />
 
         <!-- Switch symetry type  -->
