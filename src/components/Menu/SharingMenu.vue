@@ -2,10 +2,22 @@
 import ExportColorPalettes from './ExportColorPalettes.vue';
 import { DownloadCanvas, GetDateForFileName } from '../../utils/SharingUtilities';
 import html2canvas from 'html2canvas';
+import { storeToRefs } from "pinia";
+import { useBoardStore } from "../../stores/BoardStore";
+
+const BoardStore = useBoardStore();
+const { BoardName } = storeToRefs(BoardStore);
 
 function SaveBoard() {
-    html2canvas(document.getElementById('BoardContainer'), {
-        backgroundColor: null
+    html2canvas(document.getElementById('BoardOuterContainer'), {
+        backgroundColor: null,
+        onclone: function (cloneDoc) {
+            console.log(BoardName.value)
+            console.log(cloneDoc.getElementById('BoardOuterContainer'))
+            cloneDoc.getElementById('BoardOuterContainer').insertAdjacentHTML("afterbegin",
+                `<div style="width: 100%; color: #fff; display: inline-block; text-align: center; font-size: 2em;">${BoardName.value}</div><br/>`);
+            console.log(cloneDoc.getElementById('BoardOuterContainer'))
+        }
     }).then(function (canvas) {
         DownloadCanvas(canvas, `plansza-${GetDateForFileName()}`);
     });
