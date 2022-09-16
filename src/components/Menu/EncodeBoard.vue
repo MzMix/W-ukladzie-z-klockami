@@ -7,6 +7,9 @@ import BoardPositionEntry from './BoardPositionEntry.vue'
 import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
 import { useBoardStore } from "../../stores/BoardStore";
 
+import { CalculateBoardPosition } from "../../utils/CalculatePositionAndId";
+
+
 const ColorPaletteStore = useColorPaletteStore();
 const { InterpreteColorValue, GetBoardDefaultColorId } = ColorPaletteStore;
 
@@ -16,46 +19,36 @@ const { BoardName, BoardFill } = storeToRefs(BoardStore);
 
 const EncodedBoard = computed(() => {
 
-    // let result = new Map();
+    let result = {};
 
-    // for (let i = 0; i < BoardFill.value.length; i++) {
+    for (let i = 0; i < BoardFill.value.length; i++) {
 
-    //     let cellValue = GetCellValue(i);
+        let cellValue = GetCellValue(i);
 
-    //     if (cellValue == GetBoardDefaultColorId()) continue;
+        if (cellValue == GetBoardDefaultColorId() || cellValue == undefined) continue;
 
-    //     else {
-    //         result[cellValue].pos.push({
-    //             x: 1,
-    //             y: 1,
-    //         })
-    //     }
+        else {
 
-    // }
+            let target = CalculateBoardPosition(i);
+            console.log(target)
 
-    let result = [{
-        color: 0,
-        pos: [
-            {
-                x: 1,
-                y: 1
-            }, {
-                x: 2,
-                y: 2
-            }, {
-                x: 3,
-                y: 3
-            }, {
-                x: 4,
-                y: 4
-            }, {
-                x: 5,
-                y: 6
-            },
-        ]
-    }];
+            if (result[cellValue]) {
+                result[cellValue].push({
+                    x: target.x + 1,
+                    y: target.y
+                })
+            }
+            else {
+                result[cellValue] = [{
+                    x: target.x + 1,
+                    y: target.y
+                }];
+            }
 
+        }
 
+    }
+    console.log(result)
     return result;
 }
 )
@@ -78,17 +71,17 @@ const EncodedBoard = computed(() => {
 
                     <div class="d-flex flex-column p-3">
 
-                        <div v-for="(entry, index) in EncodedBoard" :key="index"
+                        <div v-for="(key, index) in Object.keys(EncodedBoard)" :key="index"
                             class="d-flex flex-row flex-wrap gap-1 align-items-center justify-content-start">
 
-                            <div :style="{backgroundColor: InterpreteColorValue(entry.color)}"
+                            <div :style="{backgroundColor: InterpreteColorValue(key)}"
                                 class="d-block border border-dark colorBox-LineDsc">
                             </div>
 
                             <span class="mb-1">:</span>
 
-                            <BoardPositionEntry v-for="(pair, index) in entry.pos" :key="index" :x="pair.x"
-                                :y="pair.y" />
+                            <BoardPositionEntry v-for="(pos, index) in EncodedBoard[new Number(key)]" :key="index"
+                                :x="pos.x" :y="pos.y" />
 
                         </div>
 
