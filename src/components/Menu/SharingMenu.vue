@@ -1,5 +1,8 @@
 <script setup>
 import ExportColorPalettes from './ExportColorPalettes.vue';
+import EncodeBoardModal from './EncodeBoard.vue';
+import Modal from 'bootstrap/js/src/modal'
+
 import { DownloadCanvas, GetDateForFileName } from '../../utils/SharingUtilities';
 import html2canvas from 'html2canvas';
 import { storeToRefs } from "pinia";
@@ -23,12 +26,23 @@ function SaveBoard(includeTitle = true) {
     });
 }
 
+function showModal() {
+    var EncodeBoardModal = new Modal(document.getElementById('EncodeBoardModal'))
+    EncodeBoardModal.show();
+}
+
 </script>
 
 <template>
     <div class="text-center p-2 w-100 ps-3">
 
         <h3 class="mt-2 mb-4">Udostępnianie <i class="bi bi-share"></i></h3>
+
+        <button class="btn btn-outline-primary" type="button" @click="showModal()">
+            Zakoduj planszę
+        </button>
+
+        <hr />
 
         <ExportColorPalettes />
 
@@ -50,6 +64,8 @@ function SaveBoard(includeTitle = true) {
             </ul>
 
         </div>
+
+        <EncodeBoardModal />
 
     </div>
 </template>
