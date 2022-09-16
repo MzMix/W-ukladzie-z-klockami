@@ -12,7 +12,7 @@ export const useBoardStore = defineStore('BoardManager', () => {
     }
 
     function ClearBoard() {
-        BoardFill.value.fill(7);
+        BoardFill.value.fill(10);
     }
 
     function GetCellValue(id) {
