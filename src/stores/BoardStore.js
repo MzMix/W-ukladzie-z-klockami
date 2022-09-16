@@ -6,6 +6,8 @@ export const useBoardStore = defineStore('BoardManager', () => {
 
     const BoardFill = ref(useLocalStorage("BoardFill", new Array(100).fill(null)));
 
+    const BoardName = ref(useLocalStorage("BoardName", "Nowa Plansza"));
+
     function SaveToBoard(id, value) {
         let i = id - 1;
         BoardFill.value[i] = value;
@@ -22,8 +24,10 @@ export const useBoardStore = defineStore('BoardManager', () => {
 
     return {
         BoardFill,
-        ClearBoard,
+        BoardName,
+
         SaveToBoard,
+        ClearBoard,
         GetCellValue
     };
 
