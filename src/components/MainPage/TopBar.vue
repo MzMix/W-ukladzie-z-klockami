@@ -1,18 +1,18 @@
 <script setup>
 import { useMenuStore } from "../../stores/MenuStore";
+import BoardName from "./BoardName.vue";
 
 const MenuStore = useMenuStore();
 const { SwitchMenu } = MenuStore;
 
-const TopBarElement = "m-2 align-self-center fs-4";
+const TopBarElement = "align-self-center fs-4";
 
 const icons = ['palette', 'brush', 'share', 'gear'];
 
 </script>
 
 <template>
-    <div
-        class="col-12 d-flex flex-row flex-nowrap justify-content-between align-items-center bg-purple text-white pt-1 pb-1">
+    <div class="col-12 d-flex flex-row flex-nowrap justify-content-between bg-purple text-white pt-1 pb-1">
 
         <div :class="TopBarElement" class="d-flex flex-row gap-2">
             <button v-for="(icon, index) in icons" :key="index" @click="SwitchMenu(index)"
@@ -21,9 +21,11 @@ const icons = ['palette', 'brush', 'share', 'gear'];
             </button>
         </div>
 
-        <div :class="TopBarElement">Board name Component</div>
+        <div :class="TopBarElement">
+            <BoardName />
+        </div>
 
-        <div :class="TopBarElement">W układzie z klockami <i class="bi bi-bricks"></i></div>
+        <div :class="TopBarElement" class="me-3">W układzie z klockami <i class="bi bi-bricks"></i></div>
 
     </div>
 </template>

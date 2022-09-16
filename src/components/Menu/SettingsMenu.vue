@@ -23,11 +23,11 @@ function ClearData() {
     <div class="text-center p-2 w-100 ps-3">
         <h3 class="mt-2 mb-4">Ustawienia <i class="bi bi-gear"></i></h3>
 
-        <button class="btn btn-outline-info" @click="showModal()">Zarządzaj paletami kolorów</button>
+        <button class="btn btn-outline-primary" @click="showModal()">Zarządzaj paletami kolorów</button>
 
         <hr />
 
-        <button class="btn btn-outline-info" @click="EnableWelcome()">Pokazuj panel powitalny</button>
+        <button class="btn btn-outline-primary" @click="EnableWelcome()">Pokazuj panel powitalny</button>
 
         <hr />
 
