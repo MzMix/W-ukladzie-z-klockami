@@ -8,15 +8,15 @@ import { useBoardStore } from "../../stores/BoardStore";
 const BoardStore = useBoardStore();
 const { BoardName } = storeToRefs(BoardStore);
 
-function SaveBoard() {
+function SaveBoard(includeTitle = true) {
     html2canvas(document.getElementById('BoardOuterContainer'), {
         backgroundColor: null,
         onclone: function (cloneDoc) {
-            console.log(BoardName.value)
-            console.log(cloneDoc.getElementById('BoardOuterContainer'))
+
+            if (!includeTitle) return;
+
             cloneDoc.getElementById('BoardOuterContainer').insertAdjacentHTML("afterbegin",
                 `<div style="width: 100%; color: #fff; display: inline-block; text-align: center; font-size: 2em;">${BoardName.value}</div><br/>`);
-            console.log(cloneDoc.getElementById('BoardOuterContainer'))
         }
     }).then(function (canvas) {
         DownloadCanvas(canvas, `plansza-${GetDateForFileName()}`);
@@ -34,7 +34,22 @@ function SaveBoard() {
 
         <hr />
 
-        <button type="button" class="btn btn-outline-primary" @click="SaveBoard()">Zapis planszy do pliku</button>
+        <div class="btn-group">
+
+            <button class="btn btn-outline-primary" type="button" @click="SaveBoard(true)">
+                Zapis zdjęcia planszy do pliku
+            </button>
+
+            <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" @click="SaveBoard(false)">Zapisz zdjęcie planszy bez tytułu</a></li>
+            </ul>
+
+        </div>
 
     </div>
 </template>
