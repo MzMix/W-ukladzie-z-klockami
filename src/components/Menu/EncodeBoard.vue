@@ -67,6 +67,10 @@ function SaveEncodedBoard() {
         onclone: function (cloneDoc) {
             cloneDoc.getElementById('EncodedBoard').insertAdjacentHTML("afterbegin",
                 `<div style="width: 100%; color: #101010; display: inline-block; text-align: center; font-size: 2em;">${get(BoardName)}</div><br/>`);
+
+            cloneDoc.getElementById('EncodedBoard').insertAdjacentHTML("beforeend",
+                `<div style="width: 100%; color: #101010; display: inline-block; text-align: center; font-size: 0.75em;">Grafika stworzona w aplikacji "W układzie z klockami" | ${GetDateForFileName()}</div><br/>`);
+
         }
     }).then(function (canvas) {
         DownloadCanvas(canvas, `zakodowana-plansza-${GetDateForFileName()}`);

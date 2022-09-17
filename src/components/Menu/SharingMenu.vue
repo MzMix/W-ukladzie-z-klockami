@@ -16,6 +16,9 @@ function SaveBoard(includeTitle = true) {
         backgroundColor: null,
         onclone: function (cloneDoc) {
 
+            cloneDoc.getElementById('BoardOuterContainer').insertAdjacentHTML("beforeend",
+                `<div style="width: 100%; color: #fff; display: inline-block; text-align: center; font-size: 0.75em;">Grafika stworzona w aplikacji "W układzie z klockami" | ${GetDateForFileName()}</div><br/>`);
+
             if (!includeTitle) return;
 
             cloneDoc.getElementById('BoardOuterContainer').insertAdjacentHTML("afterbegin",
