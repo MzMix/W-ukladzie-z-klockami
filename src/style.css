@@ -49,6 +49,10 @@
     transition: all 0.2s ease-in-out;
 }
 
+.cellOnHover{
+    filter: invert(20%);
+}
+
 .positionEntry::after{
     content: ',';
 }

@@ -1,11 +1,19 @@
 <script setup>
-import Modal from 'bootstrap/js/src/modal'
+import { storeToRefs } from "pinia";
 
+import Modal from 'bootstrap/js/src/modal'
 import ManageColorPalettesModal from "./ManageColorPalettes.vue";
+
 import { useStoreWelcomeModal } from "../../stores/WelcomeStore";
+import { useBoardStore } from "../../stores/BoardStore";
 
 const store = useStoreWelcomeModal();
 const { EnableWelcome } = store;
+
+//Board
+const BoardStore = useBoardStore();
+const { ToogleBoardHighlight } = BoardStore;
+const { UseBoardHighlight } = storeToRefs(BoardStore);
 
 function showModal() {
     var CustomPaletteModal = new Modal(document.getElementById('ManageColorPalettesModal'))
@@ -28,6 +36,14 @@ function ClearData() {
         <hr />
 
         <button class="btn btn-outline-primary" @click="EnableWelcome()">Pokazuj panel powitalny</button>
+
+        <hr />
+
+        <button class="btn btn-outline-primary" @click="ToogleBoardHighlight()">
+            <span v-if="UseBoardHighlight">Wyłącz podświetlanie komórek</span>
+            <span v-if="!UseBoardHighlight">Włącz podświetlanie komórek</span>
+        </button>
+
 
         <hr />
 

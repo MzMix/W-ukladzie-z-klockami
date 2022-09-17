@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { get } from '@vueuse/core';
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 
 import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
 import { useSymetryStore } from "../../stores/SymetryStore";
@@ -24,6 +24,7 @@ const { SelectedSymetry } = storeToRefs(SymetryStore);
 //Board
 const BoardStore = useBoardStore();
 const { SaveToBoard, GetCellValue } = BoardStore;
+const { UseBoardHighlight } = storeToRefs(BoardStore);
 
 //Cell
 const CellStore = useCellStore();
@@ -32,6 +33,8 @@ const { SelectedCellContentType } = storeToRefs(CellStore);
 const props = defineProps({
     cellId: Number,
 });
+
+const Hover = ref(false);
 
 function ColorCell() {
 
@@ -117,11 +120,36 @@ const CellColor = computed(() => {
     return InterpreteColorValue(boardValue);
 });
 
+watch(Hover, () => {
+
+    if (!get(UseBoardHighlight)) return;
+
+    if (get(Hover)) {
+        let indexX = document.getElementsByClassName(`x${get(PositionBoard).x + 1}`);
+        let indexY = document.getElementsByClassName(`y${get(PositionBoard).y}`);
+
+        for (let i = 0; i < 2; i++) {
+            indexX[i].classList.add('cellOnHover');
+            indexY[i].classList.add('cellOnHover');
+        }
+    } else {
+        let indexX = document.getElementsByClassName(`x${get(PositionBoard).x + 1}`);
+        let indexY = document.getElementsByClassName(`y${get(PositionBoard).y}`);
+
+        for (let i = 0; i < 2; i++) {
+            indexX[i].classList.remove('cellOnHover');
+            indexY[i].classList.remove('cellOnHover');
+        }
+    }
+})
+
+
 </script>
 
 <template>
     <div class="squareOnBoard border-top border-dark border-start" @click="ColorCell()"
-        :style="{ backgroundColor: CellColor }" :id="GetId(PositionCCS)">
+        :style="{ backgroundColor: CellColor }" :id="GetId(PositionCCS)" @mouseover="Hover = true"
+        @mouseleave="Hover = false">
         {{ content }}
     </div>
 </template >
