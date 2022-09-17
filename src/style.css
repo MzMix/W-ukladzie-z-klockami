@@ -48,3 +48,11 @@
 .animateChange{
     transition: all 0.2s ease-in-out;
 }
+
+.positionEntry::after{
+    content: ',';
+}
+
+.positionEntry:last-child:after{
+    content: '';
+}
