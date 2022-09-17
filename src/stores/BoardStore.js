@@ -8,6 +8,8 @@ export const useBoardStore = defineStore('BoardManager', () => {
 
     const BoardName = ref(useLocalStorage("BoardName", "Nowa Plansza"));
 
+    const UseBoardHighlight = ref(useLocalStorage("Highlight", true));
+
     function SaveToBoard(id, value) {
         let i = id - 1;
         BoardFill.value[i] = value;
@@ -22,13 +24,20 @@ export const useBoardStore = defineStore('BoardManager', () => {
         return BoardFill.value[i];
     }
 
+    function ToogleBoardHighlight() {
+        UseBoardHighlight.value = !UseBoardHighlight.value
+    }
+
+
     return {
         BoardFill,
         BoardName,
+        UseBoardHighlight,
 
         SaveToBoard,
         ClearBoard,
-        GetCellValue
+        GetCellValue,
+        ToogleBoardHighlight
     };
 
 });

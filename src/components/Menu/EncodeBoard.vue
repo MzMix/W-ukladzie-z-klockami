@@ -131,8 +131,9 @@ function SaveEncodedBoard() {
 
                 </div>
 
-                <div class="modal-footer d-flex flex-row justify-content-around">
-                    <button type="button" class="btn btn-success" @click="SaveEncodedBoard()">Zapis do pliku</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success me-5" @click="SaveEncodedBoard()">Zapis do
+                        pliku</button>
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zamknij</button>
                 </div>
             </div>
