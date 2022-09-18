@@ -9,7 +9,7 @@ This app is part of a collection of similar tools created to aid in teaching STE
 
 ## Credits
 - Coding: Mikołaj Zuziak
-- Meritoric and didactic value: Wojciech Zuziak
+- Didactic support: Wojciech Zuziak
 - Testing: Mikołaj Zuziak & Wojciech Zuziak
   
 ## Licenses
