@@ -64,6 +64,9 @@ const EncodedBoard = computed(() => {
 
 function SaveEncodedBoard() {
     html2canvas(document.getElementById('EncodedBoard'), {
+        scale: 4,
+        imageTimeout: 0,
+        windowWidth: 1444,
         onclone: function (cloneDoc) {
             cloneDoc.getElementById('EncodedBoard').insertAdjacentHTML("afterbegin",
                 `<div style="width: 100%; color: #101010; display: inline-block; text-align: center; font-size: 2em;">${get(BoardName)}</div><br/>`);
