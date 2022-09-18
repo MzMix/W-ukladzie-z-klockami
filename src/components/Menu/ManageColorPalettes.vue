@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { storeToRefs } from 'pinia'
 
+import ExportColorPalettes from './ExportColorPalettes.vue';
 import AddCustomColorPalette from './AddCustomColorPalette.vue';
 import EditColorPalette from './EditColorPalette.vue';
 import FileUpload from "./FileUpload.vue";
@@ -52,7 +53,7 @@ function HandleEditPalette(value) {
 <template>
     <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ManageColorPalettesModal"
         tabindex="-1" aria-labelledby="CustomPaletteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="CustomPaletteModalLabel">Zarządzaj paletami kolorów</h5>
@@ -90,6 +91,14 @@ function HandleEditPalette(value) {
                     <div class="inputAndOpenCreator mt-2 mb-2">
                         <div>
                             <FileUpload />
+                        </div>
+
+                        <div>
+                            <label for="ExportPaletteBtn" class="form-label col-auto">Eksportuj własne palety kolorów:
+                            </label>
+                            <div id="ExportPaletteBtn">
+                                <ExportColorPalettes :UseIcon="true" />
+                            </div>
                         </div>
 
                         <div class="d-flex flex-column">

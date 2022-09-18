@@ -9,6 +9,14 @@ import { DonloadContent } from '../../utils/SharingUtilities';
 const ColorPaletteStore = useColorPaletteStore();
 const { ColorPalettes, SelectedPalette } = storeToRefs(ColorPaletteStore);
 
+const props = defineProps({
+    UseIcon: {
+        default: false,
+        require: false,
+        type: Boolean
+    }
+})
+
 function ExportColorPalettes() {
 
     let customPaletes = ColorPalettes.value.slice(2);
@@ -21,8 +29,9 @@ function ExportColorPalettes() {
 
 <template>
     <button type="button" class="btn btn-outline-primary" @click="ExportColorPalettes()">Eksportuj palety
-        kolorów</button>
+        kolorów <i class="bi bi-download" v-if="props.UseIcon"></i></button>
 </template>
 
 <style scoped>
+
 </style>>

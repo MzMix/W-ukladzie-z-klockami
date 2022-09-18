@@ -60,7 +60,7 @@ function ClearData() {
 
         <hr />
 
-        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#ClearDataModal">Usuń dane
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ClearDataModal">Usuń dane
             aplikacji</button>
 
         <ManageColorPalettesModal />
