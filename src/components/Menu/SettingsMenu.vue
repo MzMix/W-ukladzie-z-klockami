@@ -6,9 +6,16 @@ import ManageColorPalettesModal from "./ManageColorPalettes.vue";
 
 import { useStoreWelcomeModal } from "../../stores/WelcomeStore";
 import { useBoardStore } from "../../stores/BoardStore";
+import { useMenuStore } from '../../stores/MenuStore'
 
+//Welcome modal
 const store = useStoreWelcomeModal();
 const { EnableWelcome } = store;
+
+//Menu
+const MenuStore = useMenuStore();
+const { ShowLeaveWarn } = storeToRefs(MenuStore);
+const { ToogleLeaveWarn } = MenuStore;
 
 //Board
 const BoardStore = useBoardStore();
@@ -44,6 +51,12 @@ function ClearData() {
             <span v-if="!UseBoardHighlight">Włącz podświetlanie komórek</span>
         </button>
 
+        <hr>
+
+        <button class="btn btn-outline-primary" @click="ToogleLeaveWarn()">
+            <span v-if="ShowLeaveWarn">Wyłącz ostrzeżenie przed wyjściem</span>
+            <span v-if="!ShowLeaveWarn">Włącz ostrzeżenie przed wyjściem</span>
+        </button>
 
         <hr />
 
