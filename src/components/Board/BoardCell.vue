@@ -9,7 +9,7 @@ import { useBoardStore } from "../../stores/BoardStore";
 import { useCellStore } from "../../stores/CellStore";
 
 import { CalculatePosition, GetId, CalculateBoardPosition } from "../../utils/CalculatePositionAndId";
-import { GetLetter } from "../../utils/TextUtilities";
+import { GetLetter, GetTextColorOnBackground } from "../../utils/TextUtilities";
 
 // const { GetCellColor, SetCellColor_Selected } = store;
 
@@ -120,6 +120,10 @@ const CellColor = computed(() => {
     return InterpreteColorValue(boardValue);
 });
 
+const TextColor = computed(() => {
+    return GetTextColorOnBackground(CellColor.value);
+})
+
 watch(Hover, () => {
 
     if (!get(UseBoardHighlight)) return;
@@ -148,7 +152,7 @@ watch(Hover, () => {
 
 <template>
     <div class="squareOnBoard border-top border-dark border-start" @click="ColorCell()"
-        :style="{ backgroundColor: CellColor }" :id="GetId(PositionCCS)" @mouseover="Hover = true"
+        :style="{ backgroundColor: CellColor, color: TextColor }" :id="GetId(PositionCCS)" @mouseover="Hover = true"
         @mouseleave="Hover = false">
         {{ content }}
     </div>
