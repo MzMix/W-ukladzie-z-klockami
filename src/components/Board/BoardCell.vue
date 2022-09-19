@@ -11,11 +11,9 @@ import { useCellStore } from "../../stores/CellStore";
 import { CalculatePosition, GetId, CalculateBoardPosition } from "../../utils/CalculatePositionAndId";
 import { GetLetter, GetTextColorOnBackground } from "../../utils/TextUtilities";
 
-// const { GetCellColor, SetCellColor_Selected } = store;
-
 //Color & Palette
 const ColorPaletteStore = useColorPaletteStore();
-const { GetSelectedColor, InterpreteColorValue, GetBoardDefaultColorId } = ColorPaletteStore;
+const { GetSelectedColor, InterpreteColorValue, GetBoardDefaultColorId, BoardDefaultColor } = ColorPaletteStore;
 
 //Symetry
 const SymetryStore = useSymetryStore();
@@ -73,6 +71,10 @@ function ColorCell() {
                 y: -get(PositionCCS).y,
             };
             break;
+    }
+
+    if (GetCellValue(props.cellId) === selectedColor) {
+        selectedColor = BoardDefaultColor;
     }
 
     SaveToBoard(props.cellId, selectedColor)
