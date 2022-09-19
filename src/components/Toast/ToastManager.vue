@@ -59,7 +59,7 @@ const { ClearBoard } = BoardStore;
         <div class="toast-container bottom-0 end-0 p-3">
 
             <bsToast Theme="danger" Name="ClearBoard">
-                <template #header>Potwierdź wyczyszczenie planszy!</template>
+                <template #header>Potwierdź akcję!</template>
                 <template #time>Teraz</template>
                 <template #body>
                     <div class="w-100 text-center">
