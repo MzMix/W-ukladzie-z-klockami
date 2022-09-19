@@ -1,16 +1,26 @@
 <script setup>
+// Import Components
 import SideMenu from './components/MainPage/SideMenu.vue'
 import WelcomeModal from './components/General/WelcomeModal.vue'
 import AppBoard from './components/Board/AppBoard.vue'
 import TopBar from './components/MainPage/TopBar.vue'
-import { onMounted } from 'vue';
+import ToastManager from './components/Toast/ToastManager.vue'
 
+//Import from Bootstrap
+import { Toast } from 'bootstrap'
+
+//Import from Vue
+import { onMounted, provide } from 'vue';
+
+//Import from Pinia - Menu Store
 import { useMenuStore } from './stores/MenuStore'
 import { storeToRefs } from 'pinia';
 
+//Setup Menu Store
 const MenuStore = useMenuStore();
 const { ShowLeaveWarn } = storeToRefs(MenuStore);
 
+//Add warning on leaving
 onMounted(() => {
 
   if (!ShowLeaveWarn.value) return;
@@ -19,6 +29,20 @@ onMounted(() => {
     return 'Are you sure you want to leave?';
   };
 })
+
+//Provide function for triggering toasts
+provide('ToastTrigger', (querry, animation = true, autohide = true, delay = 5000) => {
+  const toastElList = document.querySelectorAll(querry)
+  const toastList = [...toastElList].map(toastEl => new Toast(toastEl, {
+    animation: animation,
+    autohide: autohide,
+    delay: delay
+  }))
+
+  toastList.forEach(toast => {
+    toast.show()
+  })
+});
 
 </script>
 
@@ -41,6 +65,8 @@ onMounted(() => {
       </div>
 
     </div>
+
+    <ToastManager />
 
   </div>
 
