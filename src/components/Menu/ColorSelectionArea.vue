@@ -1,17 +1,20 @@
 <script setup>
-import ColorSelectButton from './ColorSelectButton.vue'
+//Import from Pinia, Vue
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 
+//Import components
+import ColorSelectButton from './ColorSelectButton.vue'
+
+//Import Color Palette Store
 import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
-import { useBoardStore } from "../../stores/BoardStore";
 
+//Color Palette Store
 const ColorPaletteStore = useColorPaletteStore();
 const { ColorPalettes, SelectedPalette } = storeToRefs(ColorPaletteStore);
 
-//Board
-const BoardStore = useBoardStore();
-const { ClearBoard } = BoardStore;
+//Inject Toast trigger
+const ShowToast = inject('ToastTrigger');
 
 const colorSet = computed(() => {
     return ColorPalettes.value[SelectedPalette.value].colorSet;
@@ -30,7 +33,8 @@ const colorSet = computed(() => {
         </div>
 
         <!-- Clear board -->
-        <button class="btn btn-danger mt-4 w-75" @click="ClearBoard()">Wyczyść planszę <i class="bi bi-trash"></i></button>
+        <button class="btn btn-danger mt-4 w-75" @click="ShowToast(`#ClearBoard`, { autohide: false })
+        ">Wyczyść planszę <i class="bi bi-trash"></i></button>
     </div>
 
 </template>
