@@ -21,8 +21,8 @@ const Theme = computed(() => {
 
     let result = `bg-${props.Theme} `;
 
-    if (props.Theme === 'white') {
-        result += 'text-black';
+    if (['white', 'info'].includes(props.Theme)) {
+        result += 'text-dark';
     } else {
         result += 'text-white'
     }

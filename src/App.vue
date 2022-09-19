@@ -31,13 +31,14 @@ onMounted(() => {
 })
 
 //Provide function for triggering toasts
-provide('ToastTrigger', (querry, animation = true, autohide = true, delay = 5000) => {
+provide('ToastTrigger', (querry, options = {
+  animation: true,
+  autohide: true,
+  delay: 5000
+}) => {
+
   const toastElList = document.querySelectorAll(querry)
-  const toastList = [...toastElList].map(toastEl => new Toast(toastEl, {
-    animation: animation,
-    autohide: autohide,
-    delay: delay
-  }))
+  const toastList = [...toastElList].map(toastEl => new Toast(toastEl, options))
 
   toastList.forEach(toast => {
     toast.show()

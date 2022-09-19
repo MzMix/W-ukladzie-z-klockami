@@ -1,13 +1,16 @@
 <script setup>
+//Import from Pinia, Vueuse, Vue
 import { storeToRefs } from 'pinia';
 import { get } from '@vueuse/core';
+import { inject } from 'vue';
 
+//Import component
 import InputSelectArray from '../General/InputSelectArray.vue';
 
+//Import stores from Pinia
 import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
 import { useSymetryStore } from "../../stores/SymetryStore";
 import { useIndexStore } from "../../stores/IndexStore";
-import { useBoardStore } from "../../stores/BoardStore";
 import { useStoreAxes } from "../../stores/AxesStore";
 import { useCellStore } from "../../stores/CellStore";
 
@@ -26,10 +29,6 @@ const IndexStore = useIndexStore();
 const { SetIndexContentType } = IndexStore;
 const { SelectedIndexContentType, IndexContentTypes, } = storeToRefs(IndexStore);
 
-//Board
-const BoardStore = useBoardStore();
-const { ClearBoard } = BoardStore;
-
 // Axes
 const AxesStore = useStoreAxes();
 const { ToggleAxes } = AxesStore;
@@ -39,8 +38,15 @@ const CellStore = useCellStore();
 const { SetCellContentType } = CellStore;
 const { CellContentTypes, SelectedCellContentType } = storeToRefs(CellStore);
 
-// ChangePalette
-// ColorPalettes, SelectedPaletteKey
+//Inject Toast trigger
+const ShowToast = inject('ToastTrigger');
+
+function ChangeSymetryType(value) {
+    SetSymetry(value);
+
+    ShowToast(`#SymetryChanged${value}`, { delay: 1500 })
+}
+
 </script>
 
 <template>
@@ -53,7 +59,7 @@ const { CellContentTypes, SelectedCellContentType } = storeToRefs(CellStore);
         <hr />
 
         <!-- Switch symetry type  -->
-        <InputSelectArray @action="(value) => SetSymetry(value)" :options="get(SymetryTypes)"
+        <InputSelectArray @action="(value) => ChangeSymetryType(value)" :options="get(SymetryTypes)"
             :selected-value="get(SelectedSymetry)" ariaLabel="Wybór rodzaju symetrii">
             <i class="bi bi-symmetry-vertical"></i> <i class="bi bi-symmetry-horizontal"></i> | Wybór symetrii:
         </InputSelectArray>
@@ -81,11 +87,12 @@ const { CellContentTypes, SelectedCellContentType } = storeToRefs(CellStore);
         </InputSelectArray>
 
         <!-- Clear board -->
-        <button class="btn btn-danger mb-4 w-75 m-auto" @click="ClearBoard()">Wyczyść planszę</button>
+        <button class="btn btn-danger m-auto w-75" @click="ShowToast(`#ClearBoard`, { autohide: false })
+        ">Wyczyść planszę <i class="bi bi-trash"></i></button>
     </div>
 
 </template>
-
+        
 <style scoped>
 div {
     display: grid;
@@ -98,3 +105,4 @@ div {
     vertical-align: -0.125em;
 }
 </style>
+        
