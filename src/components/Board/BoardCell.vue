@@ -154,6 +154,7 @@ watch(Hover, () => {
 
 <template>
     <div class="squareOnBoard border-top border-dark border-start" @click="ColorCell()"
+        @contextmenu.prevent="SaveToBoard(props.cellId, GetBoardDefaultColorId())"
         :style="{ backgroundColor: CellColor, color: TextColor }" :id="GetId(PositionCCS)" @mouseover="Hover = true"
         @mouseleave="Hover = false">
         {{ content }}
