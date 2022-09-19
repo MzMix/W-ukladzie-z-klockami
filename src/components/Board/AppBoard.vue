@@ -97,7 +97,7 @@ onMounted(() => {
   content: "";
 
   position: absolute;
-  right: calc(50% - 2px);
+  right: calc(50% - 3px);
   top: 1px;
 
   height: 100%;
@@ -105,7 +105,7 @@ onMounted(() => {
   -webkit-box-align: center;
   align-items: center;
 
-  border-right: 4px solid var(--axes-color);
+  border-right: 5px solid var(--axes-color);
   z-index: 2;
 
   opacity: var(--display-axes)
@@ -123,7 +123,7 @@ onMounted(() => {
   -webkit-box-align: center;
   align-items: center;
 
-  border-top: 4px solid red;
+  border-top: 5px solid red;
   z-index: 2;
 
   opacity: var(--display-axes)
