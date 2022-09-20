@@ -4,18 +4,22 @@ import { ref } from 'vue'
 
 export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
 
+    const AppName = ref('WUZK');
+
     const ColorPalettes = ref(useLocalStorage('ColorPalettes', [
         {
             value: 0,
             text: 'Kreatywny',
             colorSet: ['#188B18', '#18C4FD', '#8B188B', '#FDFD18', '#FD1818', '#B3FD42', '#000000', '#D5D5D5', '#1818FD', '#FD9618', 'white'],
             standard: true,
+            appOrigin: AppName.value,
         },
         {
             value: 1,
             text: 'Matematyczny',
             colorSet: ['#188B18', '#18C4FD', '#8B188B', '#f0e796', '#FD1818', '#B3FD42', '#000000', '#D5D5D5', '#955629', '#FD9618', 'white'],
             standard: true,
+            appOrigin: AppName.value,
         }
     ]));
 
@@ -27,7 +31,7 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         SelectedPalette.value = id;
     }
 
-    function AddPalette(name, colors) {
+    function AddPalette(name, colors, origin = AppName.value) {
 
         let available = ColorPalettes.value.filter(el => el.text == name).length <= 0;
 
@@ -38,6 +42,7 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
                 text: name,
                 colorSet: colors,
                 standard: false,
+                appOrigin: origin,
             });
         }
     }
@@ -59,6 +64,10 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         return ColorPalettes.value[SelectedPalette.value].colorSet;
     }
 
+    function GetSelectedPaletteOrigin() {
+        return ColorPalettes.value[SelectedPalette.value].appOrigin;
+    }
+
     function InterpreteColorValue(colorValue) {
         return GetSelectedPalette()[colorValue];
     }
@@ -76,12 +85,14 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
     }
 
     return {
+        AppName,
         SelectedPalette,
         ColorPalettes,
         SetPalette,
         BoardDefaultColor,
         AddPalette,
         RemovePalette,
+        GetSelectedPaletteOrigin,
 
         SelectedColor,
         SetColorNumber,
