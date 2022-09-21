@@ -15,8 +15,8 @@ const { ToogleWelcome } = WelcomeModalStore;
 
 //Menu
 const MenuStore = useMenuStore();
-const { ShowLeaveWarn } = storeToRefs(MenuStore);
-const { ToogleLeaveWarn } = MenuStore;
+const { ShowLeaveWarn, UseColorIndicator } = storeToRefs(MenuStore);
+const { ToogleLeaveWarn, ToogleColorIndicator } = MenuStore;
 
 //Board
 const BoardStore = useBoardStore();
@@ -52,6 +52,13 @@ function ClearData() {
         <button class="btn btn-outline-primary" @click="ToogleBoardHighlight()">
             <span v-if="UseBoardHighlight">Wyłącz podświetlanie komórek</span>
             <span v-if="!UseBoardHighlight">Włącz podświetlanie komórek</span>
+        </button>
+
+        <hr />
+
+        <button class="btn btn-outline-primary" @click="ToogleColorIndicator()">
+            <span v-if="UseColorIndicator">Wyłącz podgląd koloru</span>
+            <span v-if="!UseColorIndicator">Włącz podgląd koloru</span>
         </button>
 
         <hr>

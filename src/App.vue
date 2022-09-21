@@ -10,16 +10,16 @@ import ColorIndicator from '@General/ColorIndicator.vue';
 //Import from Bootstrap
 import { Toast } from 'bootstrap';
 
-//Import from Vue
+//Import from Vue, Pinia
 import { onMounted, provide } from 'vue';
+import { storeToRefs } from 'pinia';
 
 //Import from Pinia - Menu Store
 import { useMenuStore } from '@Stores/MenuStore';
-import { storeToRefs } from 'pinia';
 
 //Setup Menu Store
 const MenuStore = useMenuStore();
-const { ShowLeaveWarn } = storeToRefs(MenuStore);
+const { ShowLeaveWarn, UseColorIndicator } = storeToRefs(MenuStore);
 
 //Add warning on leaving
 onMounted(() => {
@@ -48,6 +48,9 @@ provide('ToastTrigger', (querry, options = {
 
 //Provide function to show Color Indicator
 provide('ShowColorIndicator', () => {
+
+  if (!UseColorIndicator.value) return;
+
   let classList = document.getElementById('Colorindicator').classList;
 
   classList.remove('d-none');
@@ -84,7 +87,7 @@ provide('ShowColorIndicator', () => {
 
     <ToastManager />
 
-    <ColorIndicator />
+    <ColorIndicator v-if="UseColorIndicator" />
 
   </div>
 
