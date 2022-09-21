@@ -3,16 +3,16 @@ import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { get } from '@vueuse/core';
 
-import BoardPositionEntry from './BoardPositionEntry.vue'
-import InputSelectArray from '../General/InputSelectArray.vue';
+import BoardPositionEntry from '@Menu/BoardPositionEntry.vue'
+import InputSelectArray from '@General/InputSelectArray.vue';
 
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
-import { useIndexStore } from "../../stores/IndexStore";
-import { useBoardStore } from "../../stores/BoardStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
+import { useIndexStore } from "@Stores/IndexStore";
+import { useBoardStore } from "@Stores/BoardStore";
 
-import { CalculateBoardPosition } from "../../utils/CalculatePositionAndId";
+import { CalculateBoardPosition } from "@Utils/CalculatePositionAndId";
 
-import { DownloadCanvas, GetDateForFileName } from '../../utils/SharingUtilities';
+import { DownloadCanvas, GetDateForFileName } from '@Utils/SharingUtilities';
 import html2canvas from 'html2canvas';
 
 //Color Palettes

@@ -1,11 +1,11 @@
 <script setup>
-import BoardCell from './BoardCell.vue'
-import BoardIndex from './BoardIndex.vue'
+import BoardCell from '@Board/BoardCell.vue'
+import BoardIndex from '@Board/BoardIndex.vue'
 
 import { watch, ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia';
 
-import { useStoreAxes } from '../../stores/AxesStore'
+import { useStoreAxes } from '@Stores/AxesStore'
 
 const AxesStore = useStoreAxes();
 const { AxesShown } = storeToRefs(AxesStore);

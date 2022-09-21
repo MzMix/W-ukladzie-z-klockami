@@ -2,13 +2,13 @@
 import { ref } from "vue";
 import { storeToRefs } from 'pinia'
 
-import ExportColorPalettes from './ExportColorPalettes.vue';
-import AddCustomColorPalette from './AddCustomColorPalette.vue';
-import EditColorPalette from './EditColorPalette.vue';
-import FileUpload from "./FileUpload.vue";
-import bsTooltip from '../General/bsTooltip.vue';
+import ExportColorPalettes from '@Menu/ExportColorPalettes.vue';
+import AddCustomColorPalette from '@Menu/AddCustomColorPalette.vue';
+import EditColorPalette from '@Menu/EditColorPalette.vue';
+import FileUpload from "@Menu/FileUpload.vue";
+import bsTooltip from '@General/bsTooltip.vue';
 
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
 const ColorPaletteStore = useColorPaletteStore();
 const { RemovePalette } = ColorPaletteStore;

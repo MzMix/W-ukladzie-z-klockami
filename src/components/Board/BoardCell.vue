@@ -3,13 +3,13 @@ import { storeToRefs } from "pinia";
 import { get } from '@vueuse/core';
 import { computed, ref, watch } from "vue";
 
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
-import { useSymetryStore } from "../../stores/SymetryStore";
-import { useBoardStore } from "../../stores/BoardStore";
-import { useCellStore } from "../../stores/CellStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
+import { useSymetryStore } from "@Stores/SymetryStore";
+import { useBoardStore } from "@Stores/BoardStore";
+import { useCellStore } from "@Stores/CellStore";
 
-import { CalculatePosition, GetId, CalculateBoardPosition } from "../../utils/CalculatePositionAndId";
-import { GetLetter, GetTextColorOnBackground } from "../../utils/TextUtilities";
+import { CalculatePosition, GetId, CalculateBoardPosition } from "@Utils/CalculatePositionAndId";
+import { GetLetter, GetTextColorOnBackground } from "@Utils/TextUtilities";
 
 //Color & Palette
 const ColorPaletteStore = useColorPaletteStore();

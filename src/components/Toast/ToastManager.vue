@@ -4,11 +4,11 @@
 import { storeToRefs } from 'pinia';
 
 //Import Component
-import bsToast from './bsToast.vue';
+import bsToast from '@Toast/bsToast.vue';
 
 //Import Symetry Store form Pinia
-import { useSymetryStore } from "../../stores/SymetryStore";
-import { useBoardStore } from "../../stores/BoardStore";
+import { useSymetryStore } from "@Stores/SymetryStore";
+import { useBoardStore } from "@Stores/BoardStore";
 
 //Symetry Store
 const SymetryStore = useSymetryStore();

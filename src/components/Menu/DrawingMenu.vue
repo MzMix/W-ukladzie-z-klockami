@@ -5,15 +5,15 @@ import { get } from '@vueuse/core';
 import { inject } from 'vue';
 
 //Import component
-import InputSelectArray from '../General/InputSelectArray.vue';
-import bsTooltip from '../General/bsTooltip.vue';
+import InputSelectArray from '@General/InputSelectArray.vue';
+import bsTooltip from '@General/bsTooltip.vue';
 
 //Import stores from Pinia
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
-import { useSymetryStore } from "../../stores/SymetryStore";
-import { useIndexStore } from "../../stores/IndexStore";
-import { useStoreAxes } from "../../stores/AxesStore";
-import { useCellStore } from "../../stores/CellStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
+import { useSymetryStore } from "@Stores/SymetryStore";
+import { useIndexStore } from "@Stores/IndexStore";
+import { useStoreAxes } from "@Stores/AxesStore";
+import { useCellStore } from "@Stores/CellStore";
 
 //Color & Palette
 const ColorPaletteStore = useColorPaletteStore();

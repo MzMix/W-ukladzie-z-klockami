@@ -2,10 +2,10 @@
 import { storeToRefs } from "pinia";
 import { get } from '@vueuse/core';
 
-import { useIndexStore } from "../../stores/IndexStore";
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useIndexStore } from "@Stores/IndexStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
-import { GetLetter } from '../../utils/TextUtilities'
+import { GetLetter } from '@Utils/TextUtilities'
 
 const ColorPaletteStore = useColorPaletteStore();
 const { InterpreteColorValue } = ColorPaletteStore;
