@@ -11,8 +11,8 @@
         "@MainPage/*": ["./src/components/MainPage/*"],
         "@Menu/*": ["./src/components/Menu/*"],
         "@Toast/*": ["./src/components/Toast/*"],
-        "@Stores/*": ["./src/stores/*"],
-        "@Utils/*": ["./src/utils/*"],
+        "@Stores/*": ["src/Stores/*"],
+        "@Utils/*": ["src/Utils/*"],
       }
     }
   }
