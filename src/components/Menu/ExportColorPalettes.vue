@@ -3,10 +3,10 @@
 import { storeToRefs } from 'pinia';
 
 //Import Store
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
 //Import Utils
-import { DonloadContent } from '../../utils/SharingUtilities';
+import { DonloadContent } from '@Utils/SharingUtilities';
 
 //Color & Palette
 const ColorPaletteStore = useColorPaletteStore();

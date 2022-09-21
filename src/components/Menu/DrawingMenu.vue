@@ -5,19 +5,20 @@ import { get } from '@vueuse/core';
 import { inject } from 'vue';
 
 //Import component
-import InputSelectArray from '../General/InputSelectArray.vue';
+import InputSelectArray from '@General/InputSelectArray.vue';
+import bsTooltip from '@General/bsTooltip.vue';
 
 //Import stores from Pinia
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
-import { useSymetryStore } from "../../stores/SymetryStore";
-import { useIndexStore } from "../../stores/IndexStore";
-import { useStoreAxes } from "../../stores/AxesStore";
-import { useCellStore } from "../../stores/CellStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
+import { useSymetryStore } from "@Stores/SymetryStore";
+import { useIndexStore } from "@Stores/IndexStore";
+import { useStoreAxes } from "@Stores/AxesStore";
+import { useCellStore } from "@Stores/CellStore";
 
 //Color & Palette
 const ColorPaletteStore = useColorPaletteStore();
-const { SetPalette } = ColorPaletteStore;
-const { ColorPalettes, SelectedPalette } = storeToRefs(ColorPaletteStore);
+const { SetPalette, GetSelectedPaletteOrigin } = ColorPaletteStore;
+const { ColorPalettes, SelectedPalette, AppName } = storeToRefs(ColorPaletteStore);
 
 //Symetry
 const SymetryStore = useSymetryStore();
@@ -27,7 +28,7 @@ const { SelectedSymetry, SymetryTypes } = storeToRefs(SymetryStore);
 //Index
 const IndexStore = useIndexStore();
 const { SetIndexContentType } = IndexStore;
-const { SelectedIndexContentType, IndexContentTypes, } = storeToRefs(IndexStore);
+const { SelectedIndexContentType, IndexContentTypes } = storeToRefs(IndexStore);
 
 // Axes
 const AxesStore = useStoreAxes();
@@ -84,6 +85,9 @@ function ChangeSymetryType(value) {
         <InputSelectArray @action="(value) => SetPalette(value)" :options="get(ColorPalettes)"
             :selected-value="get(SelectedPalette)" aria-label="Wybór palety kolorów">
             <i class="bi bi-palette"></i> | Zmiana palety kolorów
+            <bsTooltip v-if="GetSelectedPaletteOrigin() != AppName" title="Ta paleta pochodzi z innej aplikacji!">
+                <i class="bi bi-exclamation-triangle-fill" :style="{color: 'red'}"></i>
+            </bsTooltip>
         </InputSelectArray>
 
         <!-- Clear board -->

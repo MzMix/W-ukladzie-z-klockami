@@ -49,6 +49,10 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
 
     function RemovePalette(id) {
 
+        if (ColorPalettes.value[id].standard) {
+            return;
+        }
+
         if (SelectedPalette.value === id) SelectedPalette.value = 0;
 
         ColorPalettes.value.splice(id, 1);

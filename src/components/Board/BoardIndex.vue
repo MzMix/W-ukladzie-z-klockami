@@ -3,10 +3,10 @@ import { storeToRefs } from "pinia";
 import { get } from '@vueuse/core';
 import { getCurrentInstance, computed, ref } from "vue";
 
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
-import { useIndexStore } from "../../stores/IndexStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
+import { useIndexStore } from "@Stores/IndexStore";
 
-import { GetLetter } from "../../utils/TextUtilities";
+import { GetLetter } from "@Utils/TextUtilities";
 
 //Color & Palette
 const ColorPaletteStore = useColorPaletteStore();
@@ -79,4 +79,5 @@ const content = computed(() => {
 </template>
 
 <style scoped>
+
 </style>

@@ -1,14 +1,14 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { storeToRefs } from 'pinia'
-import { Tooltip } from 'bootstrap'
 
-import ExportColorPalettes from './ExportColorPalettes.vue';
-import AddCustomColorPalette from './AddCustomColorPalette.vue';
-import EditColorPalette from './EditColorPalette.vue';
-import FileUpload from "./FileUpload.vue";
+import ExportColorPalettes from '@Menu/ExportColorPalettes.vue';
+import AddCustomColorPalette from '@Menu/AddCustomColorPalette.vue';
+import EditColorPalette from '@Menu/EditColorPalette.vue';
+import FileUpload from "@Menu/FileUpload.vue";
+import bsTooltip from '@General/bsTooltip.vue';
 
-import { useColorPaletteStore } from "../../stores/ColorPaletteStore";
+import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
 const ColorPaletteStore = useColorPaletteStore();
 const { RemovePalette } = ColorPaletteStore;
@@ -23,12 +23,6 @@ const PaletteToRemove = ref({
     name: '',
     value: 0
 });
-
-onMounted(() => {
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    // eslint-disable-next-line no-unused-vars
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
-})
 
 function editable(element) {
     return element != BoardDefaultColor.value;
@@ -70,10 +64,10 @@ function HandleEditPalette(value) {
                     <div v-for="cp in ColorPalettes" :key="cp.value" class="list-group-item colorPaletteEntry">
 
                         <div class="descriptionEntry">
-                            <span v-if="cp.appOrigin != AppName" class="me-1" :style="{color: 'red'}"
-                                data-bs-toggle="tooltip" data-bs-placement="right"
-                                data-bs-title="Ta paleta pochodzi z innej aplikacji!"><i
-                                    class="bi bi-exclamation-triangle-fill"></i></span>{{ cp.text }}:
+                            <bsTooltip v-if="cp.appOrigin != AppName" title="Ta paleta pochodzi z innej aplikacji!">
+                                <i class="bi bi-exclamation-triangle-fill" :style="{color: 'red'}"></i>
+                            </bsTooltip>
+                            {{ cp.text }}:
                         </div>
 
                         <div class="colorEntry">
