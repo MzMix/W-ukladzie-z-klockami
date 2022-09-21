@@ -5,7 +5,7 @@ import { get } from '@vueuse/core';
 import { useIndexStore } from "@Stores/IndexStore";
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
-import { GetLetter } from '@Utils/TextUtilities'
+import { GetLetter } from '@Utils/TextUtilities';
 
 const ColorPaletteStore = useColorPaletteStore();
 const { InterpreteColorValue } = ColorPaletteStore;
@@ -22,8 +22,7 @@ const props = defineProps({
         type: Number,
         required: true
     }
-})
-
+});
 </script>
 
 <template>

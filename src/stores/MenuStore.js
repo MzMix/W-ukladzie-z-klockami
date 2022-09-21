@@ -1,12 +1,12 @@
 import { useLocalStorage } from '@vueuse/core';
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 export const useMenuStore = defineStore('MenuMenager', () => {
 
     const MenuOpened = ref(0);
 
-    const ShowLeaveWarn = ref(useLocalStorage("ShowLeaveWarn", true))
+    const ShowLeaveWarn = ref(useLocalStorage("ShowLeaveWarn", true));
 
     const UseColorIndicator = ref(useLocalStorage('UseColorIndicator', true));
 

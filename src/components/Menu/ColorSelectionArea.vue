@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia';
 import { computed, inject, onMounted } from 'vue';
 
 //Import components
-import ColorSelectButton from '@Menu/ColorSelectButton.vue'
+import ColorSelectButton from '@Menu/ColorSelectButton.vue';
 
 //Import Color Palette Store
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
@@ -29,7 +29,7 @@ onMounted(() => {
 
         if (event.deltaY < 0) {
             //Up
-            let newVal = (SelectedColor.value + 1) % GetSelectedPaletteLength()
+            let newVal = (SelectedColor.value + 1) % GetSelectedPaletteLength();
             SetColorNumber(newVal);
         } else if (event.deltaY > 0) {
             //Down
@@ -39,9 +39,9 @@ onMounted(() => {
 
         ShowColorIndicator();
 
-    })
+    });
 
-})
+});
 
 </script>
 

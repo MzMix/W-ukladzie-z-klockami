@@ -18,11 +18,11 @@ const position = ref({
 const onMouseMove = (e) => {
     position.value.left = e.pageX + 'px';
     position.value.top = e.pageY + 'px';
-}
+};
 
 onMounted(() => {
     document.addEventListener('mousemove', onMouseMove);
-})
+});
 
 </script>
 

@@ -77,11 +77,11 @@ function ColorCell() {
         selectedColor = BoardDefaultColor;
     }
 
-    SaveToBoard(props.cellId, selectedColor)
+    SaveToBoard(props.cellId, selectedColor);
 
     if (target) {
         let targetId = document.getElementById(GetId(target)).getAttribute('pos');
-        SaveToBoard(targetId, selectedColor)
+        SaveToBoard(targetId, selectedColor);
     }
 
 }
@@ -124,7 +124,7 @@ const CellColor = computed(() => {
 
 const TextColor = computed(() => {
     return GetTextColorOnBackground(CellColor.value);
-})
+});
 
 watch(Hover, () => {
 
@@ -147,7 +147,7 @@ watch(Hover, () => {
             indexY[i].classList.remove('cellOnHover');
         }
     }
-})
+});
 
 
 </script>

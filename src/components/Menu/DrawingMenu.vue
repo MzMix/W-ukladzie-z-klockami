@@ -46,7 +46,7 @@ const ShowToast = inject('ToastTrigger');
 function ChangeSymetryType(value) {
     SetSymetry(value);
 
-    ShowToast(`#SymetryChanged${value}`, { delay: 1500 })
+    ShowToast(`#SymetryChanged${value}`, { delay: 1500 });
 }
 
 </script>
