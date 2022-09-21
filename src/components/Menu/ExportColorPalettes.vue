@@ -18,7 +18,7 @@ const props = defineProps({
         require: false,
         type: Boolean
     }
-})
+});
 
 function ExportColorPalettes() {
 
@@ -26,7 +26,7 @@ function ExportColorPalettes() {
 
     customPaletes.forEach(palette => {
         palette.appOrigin = AppName.value;
-    })
+    });
 
     let out = JSON.stringify({ ColorPalettes: customPaletes, SelectedPalette: SelectedPalette.value }, null, 4);
 

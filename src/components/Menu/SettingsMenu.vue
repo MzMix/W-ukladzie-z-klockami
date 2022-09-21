@@ -1,12 +1,12 @@
 <script setup>
 import { storeToRefs } from "pinia";
 
-import Modal from 'bootstrap/js/src/modal'
+import Modal from 'bootstrap/js/src/modal';
 import ManageColorPalettesModal from "@Menu/ManageColorPalettes.vue";
 
 import { useStoreWelcomeModal } from "@Stores/WelcomeStore";
 import { useBoardStore } from "@Stores/BoardStore";
-import { useMenuStore } from '@Stores/MenuStore'
+import { useMenuStore } from '@Stores/MenuStore';
 
 //Welcome modal
 const WelcomeModalStore = useStoreWelcomeModal();
@@ -24,7 +24,7 @@ const { ToogleBoardHighlight } = BoardStore;
 const { UseBoardHighlight } = storeToRefs(BoardStore);
 
 function showModal() {
-    var CustomPaletteModal = new Modal(document.getElementById('ManageColorPalettesModal'))
+    var CustomPaletteModal = new Modal(document.getElementById('ManageColorPalettesModal'));
     CustomPaletteModal.show();
 }
 

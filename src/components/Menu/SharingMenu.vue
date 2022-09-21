@@ -1,7 +1,7 @@
 <script setup>
 import ExportColorPalettes from './ExportColorPalettes.vue';
 import EncodeBoardModal from './EncodeBoard.vue';
-import Modal from 'bootstrap/js/src/modal'
+import Modal from 'bootstrap/js/src/modal';
 
 import { DownloadCanvas, GetDateForFileName } from '@Utils/SharingUtilities';
 import html2canvas from 'html2canvas';
@@ -35,7 +35,7 @@ function SaveBoard(includeTitle = true) {
 }
 
 function showModal() {
-    var EncodeBoardModal = new Modal(document.getElementById('EncodeBoardModal'))
+    var EncodeBoardModal = new Modal(document.getElementById('EncodeBoardModal'));
     EncodeBoardModal.show();
 }
 

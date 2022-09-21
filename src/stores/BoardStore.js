@@ -1,6 +1,6 @@
 import { useLocalStorage } from '@vueuse/core';
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 export const useBoardStore = defineStore('BoardManager', () => {
 
@@ -25,7 +25,7 @@ export const useBoardStore = defineStore('BoardManager', () => {
     }
 
     function ToogleBoardHighlight() {
-        UseBoardHighlight.value = !UseBoardHighlight.value
+        UseBoardHighlight.value = !UseBoardHighlight.value;
     }
 
 

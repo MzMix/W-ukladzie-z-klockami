@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { get } from '@vueuse/core';
 
-import BoardPositionEntry from '@Menu/BoardPositionEntry.vue'
+import BoardPositionEntry from '@Menu/BoardPositionEntry.vue';
 import InputSelectArray from '@General/InputSelectArray.vue';
 
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
@@ -46,7 +46,7 @@ const EncodedBoard = computed(() => {
                 result[cellValue].push({
                     x: target.x + 1,
                     y: target.y
-                })
+                });
             }
             else {
                 result[cellValue] = [{
@@ -60,7 +60,7 @@ const EncodedBoard = computed(() => {
     }
     return result;
 }
-)
+);
 
 function SaveEncodedBoard() {
     html2canvas(document.getElementById('EncodedBoard'), {
