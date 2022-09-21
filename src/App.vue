@@ -5,6 +5,7 @@ import WelcomeModal from '@General/WelcomeModal.vue'
 import AppBoard from '@Board/AppBoard.vue'
 import TopBar from '@MainPage/TopBar.vue'
 import ToastManager from '@Toast/ToastManager.vue'
+import ColorIndicator from '@General/ColorIndicator.vue';
 
 //Import from Bootstrap
 import { Toast } from 'bootstrap'
@@ -30,7 +31,7 @@ onMounted(() => {
   };
 })
 
-//Provide function for triggering toasts
+//Provide function to trigger toasts
 provide('ToastTrigger', (querry, options = {
   animation: true,
   autohide: true,
@@ -44,6 +45,20 @@ provide('ToastTrigger', (querry, options = {
     toast.show()
   })
 });
+
+//Provide function to show Color Indicator
+provide('ShowColorIndicator', () => {
+  let classList = document.getElementById('Colorindicator').classList;
+
+  classList.remove('d-none')
+  classList.add('d-block')
+
+  setTimeout(() => {
+    classList.remove('d-block')
+    classList.add('d-none')
+  }, 3000)
+
+})
 
 </script>
 
@@ -68,6 +83,8 @@ provide('ToastTrigger', (querry, options = {
     </div>
 
     <ToastManager />
+
+    <ColorIndicator />
 
   </div>
 

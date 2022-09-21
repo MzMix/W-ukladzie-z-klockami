@@ -21,6 +21,8 @@ const colorSet = computed(() => {
     return ColorPalettes.value[SelectedPalette.value].colorSet;
 });
 
+const ShowColorIndicator = inject('ShowColorIndicator');
+
 onMounted(() => {
 
     document.addEventListener('wheel', (event) => {
@@ -34,6 +36,8 @@ onMounted(() => {
             let newVal = (SelectedColor.value - 1) >= 0 ? (SelectedColor.value - 1) : GetSelectedPaletteLength() - 1;
             SetColorNumber(newVal);
         }
+
+        ShowColorIndicator();
 
     })
 
@@ -54,8 +58,8 @@ onMounted(() => {
         <!-- Clear board -->
         <button class="btn btn-danger mt-4 w-75" @click="ShowToast(`#ClearBoard`, { autohide: false })
         ">Wyczyść planszę <i class="bi bi-trash"></i></button>
-    </div>
 
+    </div>
 </template>
 
 <style scoped>

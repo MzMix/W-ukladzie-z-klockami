@@ -33,6 +33,7 @@ const { SelectedIndexContentType, IndexContentTypes } = storeToRefs(IndexStore);
 // Axes
 const AxesStore = useStoreAxes();
 const { ToggleAxes } = AxesStore;
+const { AxesShown } = storeToRefs(AxesStore);
 
 //Cell
 const CellStore = useCellStore();
@@ -56,7 +57,10 @@ function ChangeSymetryType(value) {
         <h3 class="mt-2 mb-4">Rysowanie <i class="bi bi-brush"></i></h3>
 
         <!-- Show axes -->
-        <button class="btn btn-outline-primary" @click="(ToggleAxes())">Przełącz osie</button>
+        <button class="btn btn-outline-primary" @click="(ToggleAxes())">
+            <span v-if="!AxesShown">Pokaż osie</span>
+            <span v-if="AxesShown">Ukryj osie</span>
+        </button>
         <hr />
 
         <!-- Switch symetry type  -->
