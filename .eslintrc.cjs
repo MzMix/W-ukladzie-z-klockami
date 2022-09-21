@@ -18,6 +18,7 @@ module.exports = {
     "rules": {
         "no-console": ["error", { allow: ["warn", "error"] }],
         "no-extra-semi": ["error"],
-        "semi": ["error", "always"]
+        "semi": ["error", "always"],
+        "camelcase": ["error", { "properties": "always" }]
     }
 };
