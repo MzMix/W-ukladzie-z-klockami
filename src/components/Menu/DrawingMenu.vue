@@ -46,7 +46,7 @@ const ShowToast = inject('ToastTrigger');
 function ChangeSymetryType(value) {
     SetSymetry(value);
 
-    ShowToast(`#SymetryChanged${value}`, { delay: 1500 });
+    ShowToast('#SymetryChanged', { delay: 2500 });
 }
 
 </script>
@@ -54,7 +54,7 @@ function ChangeSymetryType(value) {
 <template>
 
     <div class="text-center p-2 w-100 ps-3">
-        <h3 class="mt-2 mb-4">Rysowanie <i class="bi bi-brush"></i></h3>
+        <h4 class="mt-2 mb-4">Rysowanie <i class="bi bi-brush"></i></h4>
 
         <!-- Show axes -->
         <button class="btn btn-outline-primary" @click="(ToggleAxes())">

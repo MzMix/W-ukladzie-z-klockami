@@ -48,7 +48,7 @@ onMounted(() => {
 <template>
     <div class="text-center p-2 ps-3 w-100">
 
-        <h3 class="mt-2 mb-4">Kolory <i class="bi bi-palette"></i></h3>
+        <h4 class="mt-2 mb-4">Kolory <i class="bi bi-palette"></i></h4>
         <div class="d-flex flex-wrap">
             <div class="d-flex flex-wrap justify-content-around w-75 m-auto">
                 <ColorSelectButton v-for="cl in colorSet" :key="colorSet.indexOf(cl)" :color="colorSet.indexOf(cl)" />

@@ -1,6 +1,6 @@
 <script setup>
 //Import from Vue
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 //Import Color Palette Store
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
@@ -22,6 +22,10 @@ const onMouseMove = (e) => {
 
 onMounted(() => {
     document.addEventListener('mousemove', onMouseMove);
+});
+
+onUnmounted(() => {
+    document.removeEventListener('mousemove', onMouseMove);
 });
 
 </script>

@@ -11,7 +11,7 @@ export const useMenuStore = defineStore('MenuMenager', () => {
     const UseColorIndicator = ref(useLocalStorage('UseColorIndicator', true));
 
     function SwitchMenu(value) {
-        if (value >= 0 && value <= 3) MenuOpened.value = value;
+        if (value >= 0 && value <= 4) MenuOpened.value = value;
         else console.warn("Attempt of opening non existing menu!");
     }
 
