@@ -7,7 +7,7 @@ const { SwitchMenu } = MenuStore;
 
 const TopBarElement = "align-self-center fs-4";
 
-const icons = ['palette', 'brush', 'share', 'gear'];
+const icons = ['palette', 'brush', 'share', 'gear', 'keyboard'];
 
 </script>
 
@@ -17,7 +17,7 @@ const icons = ['palette', 'brush', 'share', 'gear'];
         <div :class="TopBarElement" class="d-flex flex-row gap-2">
             <button v-for="(icon, index) in icons" :key="index" @click="SwitchMenu(index)"
                 class="btn btn-lg text-white">
-                <i :class="'bi-'+icon"></i>
+                <i :class="'bi-'+icon" class="fs-4"></i>
             </button>
         </div>
 

@@ -29,10 +29,21 @@ export const useIndexStore = defineStore('IndexManager', () => {
         SelectedIndexContentType.value = value;
     }
 
+    function NextIndex() {
+        let value = (SelectedIndexContentType.value + 1) % IndexContentTypes.value.length;
+        SetIndexContentType(value);
+    }
+
+    function GetSelectedIndexTypeName() {
+        return IndexContentTypes.value[SelectedIndexContentType.value].text;
+    }
+
     return {
         IndexContentTypes,
         SelectedIndexContentType,
         SetIndexContentType,
+        NextIndex,
+        GetSelectedIndexTypeName
     };
 
 });

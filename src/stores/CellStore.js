@@ -22,13 +22,25 @@ export const useCellStore = defineStore('CellManager', () => {
     const SelectedCellContentType = ref(useLocalStorage("SelectedCellContentType", 1));
 
     function SetCellContentType(value) {
+        if (value == undefined || value == null) return;
         SelectedCellContentType.value = value;
+    }
+
+    function NextCellContent() {
+        let value = (SelectedCellContentType.value + 1) % CellContentTypes.value.length;
+        SetCellContentType(value);
+    }
+
+    function GetSelectedCellTypeName() {
+        return CellContentTypes.value[SelectedCellContentType.value].text;
     }
 
     return {
         CellContentTypes,
         SelectedCellContentType,
         SetCellContentType,
+        NextCellContent,
+        GetSelectedCellTypeName
     };
 
 });

@@ -7,36 +7,97 @@ import TopBar from '@MainPage/TopBar.vue';
 import ToastManager from '@Toast/ToastManager.vue';
 import ColorIndicator from '@General/ColorIndicator.vue';
 
-//Import from Bootstrap
-import { Toast } from 'bootstrap';
-
-//Import from Vue, Pinia
+//Import from Vue, Pinia, Bootstrap
 import { onMounted, provide } from 'vue';
 import { storeToRefs } from 'pinia';
+import { Toast } from 'bootstrap';
 
-//Import from Pinia - Menu Store
+//Import Utils
+import { ShortcutManager } from '@Utils/ShortcutManager';
+
+//Import Stores
 import { useMenuStore } from '@Stores/MenuStore';
+import { useColorPaletteStore } from '@Stores/ColorPaletteStore';
+import { useIndexStore } from '@Stores/IndexStore';
+import { useCellStore } from "@Stores/CellStore";
+import { useSymetryStore } from "@Stores/SymetryStore";
+import { useBoardStore } from "@Stores/BoardStore";
 
-//Setup Menu Store
+//Menu Store
 const MenuStore = useMenuStore();
 const { ShowLeaveWarn, UseColorIndicator } = storeToRefs(MenuStore);
 
-//Add warning on leaving
-onMounted(() => {
+//Palette Store
+const ColorPaletteStore = useColorPaletteStore();
+const { NextPalette } = ColorPaletteStore;
 
+//Index Store
+const IndexStore = useIndexStore();
+const { NextIndex } = IndexStore;
+
+//Cell Store
+const CellStore = useCellStore();
+const { NextCellContent } = CellStore;
+
+//Symetry
+const SymetryStore = useSymetryStore();
+const { NextSymetry } = SymetryStore;
+
+//Board Store
+const BoardStore = useBoardStore();
+const { ClearBoard } = BoardStore;
+
+//Add warning on leaving
+function LeaveWarn() {
   if (!ShowLeaveWarn.value) return;
 
   window.onbeforeunload = function () {
     return 'Are you sure you want to leave?';
   };
+}
+
+onMounted(() => {
+
+  // eslint-disable-next-line no-unused-vars
+  const Shortcuts = [
+    new ShortcutManager('Alt', 'P', () => {
+      NextPalette();
+      ToastTrigger('#PaletteChanged');
+    }),
+
+    new ShortcutManager('Alt', 'O', () => {
+      NextIndex();
+      ToastTrigger('#IndexChanged');
+    }),
+
+    new ShortcutManager('Alt', 'Z', () => {
+      NextCellContent();
+      ToastTrigger('#CellContentChanged');
+    }),
+
+    new ShortcutManager('Alt', 'S', () => {
+      NextSymetry();
+      ToastTrigger('#SymetryChanged');
+    }),
+
+    new ShortcutManager('Alt', 'C', () => {
+      ToastTrigger('#ClearBoard');
+    }),
+
+    new ShortcutManager('Alt', '/', () => {
+      ClearBoard();
+    }),
+
+  ];
+
+  LeaveWarn();
 });
 
-//Provide function to trigger toasts
-provide('ToastTrigger', (querry, options = {
+function ToastTrigger(querry, options = {
   animation: true,
   autohide: true,
   delay: 5000
-}) => {
+}) {
 
   const toastElList = document.querySelectorAll(querry);
   const toastList = [...toastElList].map(toastEl => new Toast(toastEl, options));
@@ -44,7 +105,10 @@ provide('ToastTrigger', (querry, options = {
   toastList.forEach(toast => {
     toast.show();
   });
-});
+}
+
+//Provide function to trigger toasts
+provide('ToastTrigger', ToastTrigger);
 
 //Provide function to show Color Indicator
 provide('ShowColorIndicator', () => {

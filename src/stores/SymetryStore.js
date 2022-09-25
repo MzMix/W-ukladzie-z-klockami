@@ -25,13 +25,25 @@ export const useSymetryStore = defineStore('SymetryManager', () => {
     const SelectedSymetry = ref(useLocalStorage("SelectedSymetry", 0));
 
     function SetSymetry(value) {
+        if (value == undefined || value == null) return;
         SelectedSymetry.value = value;
+    }
+
+    function NextSymetry() {
+        let value = (SelectedSymetry.value + 1) % SymetryTypes.value.length;
+        SetSymetry(value);
+    }
+
+    function GetSelectedSymetryName() {
+        return SymetryTypes.value[SelectedSymetry.value].text;
     }
 
     return {
         SymetryTypes,
         SelectedSymetry,
-        SetSymetry
+        SetSymetry,
+        NextSymetry,
+        GetSelectedSymetryName,
     };
 
 });
