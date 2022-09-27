@@ -6,7 +6,7 @@ import { Tooltip } from 'bootstrap';
 onMounted(() => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     // eslint-disable-next-line no-unused-vars
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl));
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl)); //This could be changed to forEach loop
 });
 
 const props = defineProps({

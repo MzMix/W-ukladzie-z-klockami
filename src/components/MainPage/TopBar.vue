@@ -1,6 +1,7 @@
 <script setup>
 import { useMenuStore } from "@Stores/MenuStore";
 import BoardName from "@MainPage/BoardName.vue";
+import BoardDescription from "./BoardDescription.vue";
 
 const MenuStore = useMenuStore();
 const { SwitchMenu } = MenuStore;
@@ -23,6 +24,8 @@ const icons = ['palette', 'brush', 'share', 'gear', 'keyboard'];
 
         <div :class="TopBarElement">
             <BoardName />
+
+            <BoardDescription />
         </div>
 
         <div :class="TopBarElement" class="me-3">W układzie z klockami <i class="bi bi-bricks"></i></div>
