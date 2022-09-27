@@ -22,7 +22,8 @@ import { useIndexStore } from '@Stores/IndexStore';
 import { useCellStore } from "@Stores/CellStore";
 import { useSymetryStore } from "@Stores/SymetryStore";
 import { useBoardStore } from "@Stores/BoardStore";
-import { useStoreShortcuts } from '@Stores/ShortcurStore';
+import { useStoreShortcuts } from '@Stores/ShortcutStore';
+import { useStoreAxes } from '@Stores/AxesStore';
 
 //Menu Store
 const MenuStore = useMenuStore();
@@ -52,6 +53,9 @@ const { ClearBoard } = BoardStore;
 const ShortcutStore = useStoreShortcuts();
 const { UseShortcuts, AvaliableShortcuts } = storeToRefs(ShortcutStore);
 
+//Axes Store
+const AxesStore = useStoreAxes();
+const { ToggleAxes } = AxesStore;
 
 //Add warning on leaving
 function LeaveWarn() {
@@ -110,6 +114,12 @@ onMounted(() => {
       case 5:
         fn = () => {
           ClearBoard();
+        };
+        break;
+
+      case 6:
+        fn = () => {
+          ToggleAxes();
         };
         break;
 

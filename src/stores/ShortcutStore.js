@@ -34,6 +34,13 @@ export const useStoreShortcuts = defineStore('ShortcutManager', () => {
             active: true,
         },
         {
+            id: 6,
+            name: 'Przełącz widoczność osi',
+            modifier: 'Alt',
+            key: 'Y',
+            active: true,
+        },
+        {
             id: 4,
             name: 'Wyczysć planszę (z powiadomieniem)',
             modifier: 'Alt',
@@ -46,7 +53,8 @@ export const useStoreShortcuts = defineStore('ShortcutManager', () => {
             modifier: 'Alt',
             key: '/',
             active: true,
-        }]));
+        }
+    ]));
 
     const UseShortcuts = ref(useLocalStorage('UseShortcuts', true));
 

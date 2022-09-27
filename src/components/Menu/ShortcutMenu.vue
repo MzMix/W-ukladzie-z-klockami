@@ -1,43 +1,11 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 
-import { useStoreShortcuts } from '@Stores/ShortcurStore';
+import { useStoreShortcuts } from '@Stores/ShortcutStore';
 import { watch } from 'vue';
 const ShortcutStore = useStoreShortcuts();
 const { SetAllshortcuts } = ShortcutStore;
 const { UseShortcuts, AvaliableShortcuts } = storeToRefs(ShortcutStore);
-
-const ListContent = [
-    {
-        name: 'Następna paleta kolorów',
-        modifier: 'Alt',
-        key: 'P'
-    },
-    {
-        name: 'Następny opis pól',
-        modifier: 'Alt',
-        key: 'O'
-    }, {
-        name: 'Następna symetria',
-        modifier: 'Alt',
-        key: 'S'
-    },
-    {
-        name: 'Następna zawartość pól',
-        modifier: 'Alt',
-        key: 'Z'
-    },
-    {
-        name: 'Wyczysć planszę (z powiadomieniem)',
-        modifier: 'Alt',
-        key: 'C'
-    },
-    {
-        name: 'Wyczysć planszę (bez powiadomienia)',
-        modifier: 'Alt',
-        key: '/'
-    }
-];
 
 watch(UseShortcuts, () => {
     SetAllshortcuts();
@@ -59,7 +27,7 @@ watch(UseShortcuts, () => {
         <ul class="list-group text-start">
 
             <li class="list-group-item d-flex flex-column flex-wrap justify-content-between gap-1"
-                v-for="(entry, index) in ListContent" :key="index">
+                v-for="(entry, index) in AvaliableShortcuts" :key="index">
 
                 <div class="w-100">{{entry.name}}:</div>
                 <div class="w-100 text-end"><kbd><kbd>{{entry.modifier}}</kbd> + {{entry.key}}</kbd></div>
