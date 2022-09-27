@@ -22,6 +22,7 @@ import { useIndexStore } from '@Stores/IndexStore';
 import { useCellStore } from "@Stores/CellStore";
 import { useSymetryStore } from "@Stores/SymetryStore";
 import { useBoardStore } from "@Stores/BoardStore";
+import { useStoreShortcuts } from '@Stores/ShortcurStore';
 
 //Menu Store
 const MenuStore = useMenuStore();
@@ -47,6 +48,11 @@ const { NextSymetry } = SymetryStore;
 const BoardStore = useBoardStore();
 const { ClearBoard } = BoardStore;
 
+//ShortcutStore
+const ShortcutStore = useStoreShortcuts();
+const { UseShortcuts, AvaliableShortcuts } = storeToRefs(ShortcutStore);
+
+
 //Add warning on leaving
 function LeaveWarn() {
   if (!ShowLeaveWarn.value) return;
@@ -58,37 +64,68 @@ function LeaveWarn() {
 
 onMounted(() => {
 
-  // eslint-disable-next-line no-unused-vars
-  const Shortcuts = [
-    new ShortcutManager('Alt', 'P', () => {
-      NextPalette();
-      ToastTrigger('#PaletteChanged');
-    }),
+  let Shortcuts = [];
 
-    new ShortcutManager('Alt', 'O', () => {
-      NextIndex();
-      ToastTrigger('#IndexChanged');
-    }),
+  //Create ShortcutManager objects for all shortcuts in array
+  AvaliableShortcuts.value.forEach((sc, index) => {
 
-    new ShortcutManager('Alt', 'Z', () => {
-      NextCellContent();
-      ToastTrigger('#CellContentChanged');
-    }),
+    let fn;
 
-    new ShortcutManager('Alt', 'S', () => {
-      NextSymetry();
-      ToastTrigger('#SymetryChanged');
-    }),
+    switch (sc.id) {
 
-    new ShortcutManager('Alt', 'C', () => {
-      ToastTrigger('#ClearBoard');
-    }),
+      case 0:
+        fn = () => {
+          NextPalette();
+          ToastTrigger('#PaletteChanged');
+        };
+        break;
 
-    new ShortcutManager('Alt', '/', () => {
-      ClearBoard();
-    }),
+      case 1:
+        fn = () => {
+          NextIndex();
+          ToastTrigger('#IndexChanged');
+        };
+        break;
 
-  ];
+      case 2:
+        fn = () => {
+          NextSymetry();
+          ToastTrigger('#SymetryChanged');
+        };
+        break;
+
+      case 3:
+        fn = () => {
+          NextCellContent();
+          ToastTrigger('#CellContentChanged');
+        };
+        break;
+
+      case 4:
+        fn = () => {
+          ToastTrigger('#ClearBoard');
+        };
+        break;
+
+      case 5:
+        fn = () => {
+          ClearBoard();
+        };
+        break;
+
+      default:
+        fn = () => { };
+        break;
+
+    }
+
+    Shortcuts.push(
+      new ShortcutManager(sc.modifier, sc.key, fn, [() => {
+        return AvaliableShortcuts.value[index].active && UseShortcuts.value;
+      }])
+    );
+
+  });
 
   LeaveWarn();
 });
