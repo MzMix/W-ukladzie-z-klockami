@@ -2,10 +2,10 @@
 import { ref } from "vue";
 import { storeToRefs } from 'pinia';
 
-import ExportColorPalettes from '@Menu/ExportColorPalettes.vue';
-import AddCustomColorPalette from '@Menu/AddCustomColorPalette.vue';
-import EditColorPalette from '@Menu/EditColorPalette.vue';
-import FileUpload from "@Menu/FileUpload.vue";
+import ExportColorPalettes from '@ColorManager/ExportColorPalettes.vue';
+import AddCustomColorPalette from '@ColorManager/AddCustomColorPalette.vue';
+import EditColorPalette from '@ColorManager/EditColorPalette.vue';
+import FileUpload from "@ColorManager/FileUpload.vue";
 import bsTooltip from '@General/bsTooltip.vue';
 
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";

@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia';
 import { computed, inject, onMounted } from 'vue';
 
 //Import components
-import ColorSelectButton from '@Menu/ColorSelectButton.vue';
+import ColorSelectButton from '@ColorManager/ColorSelectButton.vue';
 
 //Import Color Palette Store
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";

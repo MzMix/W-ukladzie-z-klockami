@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { get } from '@vueuse/core';
 
-import BoardPositionEntry from '@Menu/BoardPositionEntry.vue';
+import BoardPositionEntry from '@EncodeBoard/BoardPositionEntry.vue';
 import InputSelectArray from '@General/InputSelectArray.vue';
 
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";

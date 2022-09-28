@@ -1,6 +1,6 @@
 <script setup>
-import ExportColorPalettes from './ExportColorPalettes.vue';
-import EncodeBoardModal from './EncodeBoard.vue';
+import ExportColorPalettes from '@ColorManager/ExportColorPalettes.vue';
+import EncodeBoardModal from '@EncodeBoard/EncodeBoard.vue';
 import Modal from 'bootstrap/js/src/modal';
 
 import { DownloadCanvas, GetDateForFileName } from '@Utils/SharingUtilities';

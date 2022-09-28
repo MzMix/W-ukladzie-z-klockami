@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia";
 
 import Modal from 'bootstrap/js/src/modal';
-import ManageColorPalettesModal from "@Menu/ManageColorPalettes.vue";
+import ManageColorPalettesModal from "@ColorManager/ManageColorPalettes.vue";
 
 import { useStoreWelcomeModal } from "@Stores/WelcomeStore";
 import { useBoardStore } from "@Stores/BoardStore";

@@ -7,9 +7,12 @@
       "baseUrl": "./",
       "paths": {
         "@Board/*": ["./src/components/Board/*"],
+        "@ColorManager/*": ["./src/components/ColorManager/*"],
+        "@EncodeBoard/*": ["./src/components/EncodeBoard/*"],
         "@General/*": ["./src/components/General/*"],
         "@MainPage/*": ["./src/components/MainPage/*"],
         "@Menu/*": ["./src/components/Menu/*"],
+        "@ModalManager/*": ["./src/components/ModalManager/*"],
         "@Toast/*": ["./src/components/Toast/*"],
         "@Stores/*": ["src/Stores/*"],
         "@Utils/*": ["src/Utils/*"],
