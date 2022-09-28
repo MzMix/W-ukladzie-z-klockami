@@ -4,7 +4,7 @@ import { ref } from 'vue';
 
 export const useStoreShortcuts = defineStore('ShortcutManager', () => {
 
-    const AvaliableShortcuts = ref(useLocalStorage('AvaliableShortcuts', [
+    const AvaliableShortcuts = ref(useLocalStorage('WUZK-AvaliableShortcuts', [
         {
             id: 0,
             name: 'Następna paleta kolorów',
@@ -56,7 +56,7 @@ export const useStoreShortcuts = defineStore('ShortcutManager', () => {
         }
     ]));
 
-    const UseShortcuts = ref(useLocalStorage('UseShortcuts', true));
+    const UseShortcuts = ref(useLocalStorage('WUZK-UseShortcuts', true));
 
 
     function SetAllshortcuts() {

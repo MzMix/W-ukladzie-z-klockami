@@ -50,7 +50,7 @@ body{
 }
 
 .animateChange{
-    transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out !important;
 }
 
 .cellOnHover{
@@ -63,4 +63,9 @@ body{
 
 .positionEntry:last-child:after{
     content: '';
+}
+
+.ALetter {
+    content: url('@assets/A square.svg');
+    vertical-align: -0.125em;
 }

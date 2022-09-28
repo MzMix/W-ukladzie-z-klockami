@@ -4,11 +4,11 @@ import { ref } from 'vue';
 
 export const useBoardStore = defineStore('BoardManager', () => {
 
-    const BoardFill = ref(useLocalStorage("BoardFill", new Array(100).fill(null)));
+    const BoardFill = ref(useLocalStorage("WUZK-BoardFill", new Array(100).fill(null)));
 
-    const BoardName = ref(useLocalStorage("BoardName", "Nowa Plansza"));
+    const BoardName = ref(useLocalStorage("WUZK-BoardName", "Nowa Plansza"));
 
-    const UseBoardHighlight = ref(useLocalStorage("Highlight", true));
+    const UseBoardHighlight = ref(useLocalStorage("WUZK-Highlight", true));
 
     function SaveToBoard(id, value) {
         let i = id - 1;

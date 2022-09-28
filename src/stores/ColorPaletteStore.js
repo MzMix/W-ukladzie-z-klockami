@@ -6,7 +6,7 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
 
     const AppName = ref('WUZK');
 
-    const ColorPalettes = ref(useLocalStorage('ColorPalettes', [
+    const ColorPalettes = ref(useLocalStorage('WUZK-ColorPalettes', [
         {
             value: 0,
             text: 'Kreatywny',
@@ -23,9 +23,9 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         }
     ]));
 
-    const BoardDefaultColor = ref(useLocalStorage('boardDefaultColor', 'white'));
+    const BoardDefaultColor = ref(useLocalStorage('WUZK-BoardDefaultColor', 'white'));
 
-    const SelectedPalette = ref(useLocalStorage('SelectedPalette', 0));
+    const SelectedPalette = ref(useLocalStorage('WUZK-SelectedPalette', 0));
 
     function SetPalette(id) {
         if (id == undefined || id == null) return;
@@ -59,7 +59,7 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
         ColorPalettes.value.splice(id, 1);
     }
 
-    const SelectedColor = ref(useLocalStorage('SelectedColor', null));
+    const SelectedColor = ref(useLocalStorage('WUZK-SelectedColor', null));
 
     function SetColorNumber(colorNumber) {
         SelectedColor.value = colorNumber;

@@ -1,11 +1,11 @@
 <script setup>
 // Import Components
 import SideMenu from '@MainPage/SideMenu.vue';
-import WelcomeModal from '@General/WelcomeModal.vue';
 import AppBoard from '@Board/AppBoard.vue';
 import TopBar from '@MainPage/TopBar.vue';
 import ToastManager from '@Toast/ToastManager.vue';
 import ColorIndicator from '@General/ColorIndicator.vue';
+import ModalManager from '@ModalManager/ModalManager.vue';
 
 //Import from Vue, Pinia, Bootstrap
 import { onMounted, provide } from 'vue';
@@ -27,7 +27,7 @@ import { useStoreAxes } from '@Stores/AxesStore';
 
 //Menu Store
 const MenuStore = useMenuStore();
-const { ShowLeaveWarn, UseColorIndicator } = storeToRefs(MenuStore);
+const { ShowLeaveWarn, UseColorIndicator, ModalOpened } = storeToRefs(MenuStore);
 
 //Palette Store
 const ColorPaletteStore = useColorPaletteStore();
@@ -131,7 +131,7 @@ onMounted(() => {
 
     Shortcuts.push(
       new ShortcutManager(sc.modifier, sc.key, fn, [() => {
-        return AvaliableShortcuts.value[index].active && UseShortcuts.value;
+        return AvaliableShortcuts.value[index].active && UseShortcuts.value && !ModalOpened.value;
       }])
     );
 
@@ -160,7 +160,7 @@ provide('ToastTrigger', ToastTrigger);
 //Provide function to show Color Indicator
 provide('ShowColorIndicator', () => {
 
-  if (!UseColorIndicator.value) return;
+  if (!UseColorIndicator.value || ModalOpened.value) return;
 
   let classList = document.getElementById('Colorindicator').classList;
 
@@ -198,11 +198,11 @@ provide('ShowColorIndicator', () => {
 
     <ToastManager />
 
+    <ModalManager />
+
     <ColorIndicator v-if="UseColorIndicator" />
 
   </div>
-
-  <WelcomeModal />
 
 </template>
 
