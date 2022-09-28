@@ -1,14 +1,18 @@
 <script setup>
 //Import from Vue
 import { onMounted, onUnmounted, ref } from 'vue';
+import { storeToRefs } from 'pinia';
 
-//Import Color Palette Store
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
+import { useMenuStore } from '@Stores/MenuStore';
 
 //Color Palette Store
 const ColorPaletteStore = useColorPaletteStore();
 const { InterpreteSelectedColor } = ColorPaletteStore;
 
+//Menu Store
+const MenuStore = useMenuStore();
+const { UseColorIndicator, ModalOpened } = storeToRefs(MenuStore);
 
 const position = ref({
     top: 0,
@@ -16,6 +20,9 @@ const position = ref({
 });
 
 const onMouseMove = (e) => {
+
+    if (!UseColorIndicator.value || ModalOpened.value) return;
+
     position.value.left = e.pageX + 'px';
     position.value.top = e.pageY + 'px';
 };

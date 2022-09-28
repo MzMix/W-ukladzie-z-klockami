@@ -16,7 +16,7 @@ export const useBoardStore = defineStore('BoardManager', () => {
         {
             BoardFill: BoardFill.value,
             BoardName: BoardName.value,
-            BoardDesciprion: 'Opis planszy...'
+            BoardDescription: BoardDescription.value
         }
     ]));
 
@@ -49,7 +49,7 @@ export const useBoardStore = defineStore('BoardManager', () => {
 
         BoardArray.value[SelectedBoard.value].BoardName = BoardName.value;
         BoardArray.value[SelectedBoard.value].BoardFill = BoardFill.value;
-        BoardArray.value[SelectedBoard.value].BoardDesciprion = BoardDescription.value;
+        BoardArray.value[SelectedBoard.value].BoardDescription = BoardDescription.value;
 
         SelectedBoard.value = id;
 
@@ -70,10 +70,14 @@ export const useBoardStore = defineStore('BoardManager', () => {
         BoardArray.value.push({
             BoardFill: new Array(100).fill(null),
             BoardName: `Nowa Plansza ${BoardArray.value.length}`,
-            BoardDesciprion: 'Opis planszy...'
+            BoardDescription: 'Opis planszy...'
         });
 
         SwitchBoard(BoardArray.value.length - 1);
+    }
+
+    function SelectCurrentBoard() {
+        return BoardArray.value[SelectedBoard.value];
     }
 
     return {
@@ -90,7 +94,8 @@ export const useBoardStore = defineStore('BoardManager', () => {
         ToogleBoardHighlight,
         NextBoard,
         PreviousBoard,
-        AddEmptyBoard
+        AddEmptyBoard,
+        SelectCurrentBoard
     };
 
 });

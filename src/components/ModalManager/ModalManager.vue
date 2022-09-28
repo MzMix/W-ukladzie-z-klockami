@@ -6,6 +6,7 @@ import Modal from 'bootstrap/js/src/modal';
 import bsModal from '@ModalManager/bsModal.vue';
 import EncodeBoard from '@EncodeBoard/EncodeBoard.vue';
 import ManageColorPalettesModal from "@ColorManager/ManageColorPalettes.vue";
+import ManageBoardsModal from '@Board/ManageBoardsModal.vue';
 
 import { useStoreWelcomeModal } from "@Stores/WelcomeStore";
 import { useBoardStore } from "@Stores/BoardStore";
@@ -169,6 +170,8 @@ onBeforeMount(() => {
         </template>
 
     </bsModal>
+
+    <ManageBoardsModal />
 
 </template>
 

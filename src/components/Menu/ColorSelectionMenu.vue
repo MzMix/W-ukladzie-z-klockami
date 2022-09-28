@@ -6,13 +6,17 @@ import { computed, inject, onMounted } from 'vue';
 //Import components
 import ColorSelectButton from '@ColorManager/ColorSelectButton.vue';
 
-//Import Color Palette Store
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
+import { useMenuStore } from '@Stores/MenuStore';
 
 //Color Palette Store
 const ColorPaletteStore = useColorPaletteStore();
 const { SetColorNumber, GetSelectedPaletteLength } = ColorPaletteStore;
 const { ColorPalettes, SelectedPalette, SelectedColor } = storeToRefs(ColorPaletteStore);
+
+//Menu Store
+const MenuStore = useMenuStore();
+const { UseColorIndicator, ModalOpened } = storeToRefs(MenuStore);
 
 //Inject Toast trigger
 const ShowToast = inject('ToastTrigger');
@@ -26,6 +30,8 @@ const ShowColorIndicator = inject('ShowColorIndicator');
 onMounted(() => {
 
     document.addEventListener('wheel', (event) => {
+
+        if (!UseColorIndicator.value || ModalOpened.value) return;
 
         if (event.deltaY < 0) {
             //Up

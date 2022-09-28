@@ -1,15 +1,14 @@
 <script setup>
-import { storeToRefs } from "pinia";
 import { useBoardStore } from "@Stores/BoardStore";
 
 const BoardStore = useBoardStore();
-const { BoardName } = storeToRefs(BoardStore);
+const { SelectCurrentBoard } = BoardStore;
 
 </script>
 
 <template>
-        <input type="text" v-model="BoardName" maxlength="32" minlength="4" aria-label="Nazwa Planszy"
-            aria-describedby="editName" class="text-center text-white bg-transparent m-0 border-bottom" />
+    <input type="text" v-model="SelectCurrentBoard().BoardName" maxlength="32" minlength="4" aria-label="Nazwa Planszy"
+        aria-describedby="editName" class="text-center text-white bg-transparent m-0 border-bottom" />
 </template>
 
 <style scoped>

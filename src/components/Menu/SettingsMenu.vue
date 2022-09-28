@@ -26,8 +26,15 @@ const { UseBoardHighlight } = storeToRefs(BoardStore);
     <div class="text-center p-2 w-100 ps-3">
         <h4 class="mt-2 mb-4">Ustawienia <i class="bi bi-gear"></i></h4>
 
-        <button class="btn btn-outline-primary" data-bs-toggle="modal"
-            data-bs-target="#ManageColorPalettesModal">Zarządzaj paletami kolorów</button>
+        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ManageColorPalettesModal">
+            Zarządzaj paletami kolorów
+        </button>
+
+        <hr />
+
+        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ManageBoardsModal">
+            Zarządzaj planszami
+        </button>
 
         <hr />
 
