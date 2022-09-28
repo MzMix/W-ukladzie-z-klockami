@@ -19,7 +19,7 @@ export const useCellStore = defineStore('CellManager', () => {
         }
     ]);
 
-    const SelectedCellContentType = ref(useLocalStorage("SelectedCellContentType", 1));
+    const SelectedCellContentType = ref(useLocalStorage("WUZK-SelectedCellContentType", 1));
 
     function SetCellContentType(value) {
         if (value == undefined || value == null) return;

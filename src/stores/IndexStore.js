@@ -23,7 +23,7 @@ export const useIndexStore = defineStore('IndexManager', () => {
         }
     ]);
 
-    const SelectedIndexContentType = ref(useLocalStorage("SelectedIndexContentType", 0));
+    const SelectedIndexContentType = ref(useLocalStorage("WUZK-SelectedIndexContentType", 0));
 
     function SetIndexContentType(value) {
         SelectedIndexContentType.value = value;

@@ -22,7 +22,7 @@ export const useSymetryStore = defineStore('SymetryManager', () => {
         }
     ]);
 
-    const SelectedSymetry = ref(useLocalStorage("SelectedSymetry", 0));
+    const SelectedSymetry = ref(useLocalStorage("WUZK-SelectedSymetry", 0));
 
     function SetSymetry(value) {
         if (value == undefined || value == null) return;

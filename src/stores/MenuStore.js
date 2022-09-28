@@ -6,9 +6,9 @@ export const useMenuStore = defineStore('MenuMenager', () => {
 
     const MenuOpened = ref(0);
 
-    const ShowLeaveWarn = ref(useLocalStorage("ShowLeaveWarn", true));
+    const ShowLeaveWarn = ref(useLocalStorage("WUZK-ShowLeaveWarn", true));
 
-    const UseColorIndicator = ref(useLocalStorage('UseColorIndicator', true));
+    const UseColorIndicator = ref(useLocalStorage('WUZK-UseColorIndicator', true));
 
     const ModalOpened = ref(false);
 

@@ -4,7 +4,7 @@ import { useLocalStorage } from '@vueuse/core';
 
 export const useStoreWelcomeModal = defineStore('WelcomeMenager', () => {
 
-    const ShowWelcome = ref(useLocalStorage("ShowWelcome", true));
+    const ShowWelcome = ref(useLocalStorage("WUZK-ShowWelcome", true));
 
     function DesibleWelcome() {
         ShowWelcome.value = false;

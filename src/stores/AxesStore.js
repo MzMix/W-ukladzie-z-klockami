@@ -4,7 +4,7 @@ import { ref } from 'vue';
 
 export const useStoreAxes = defineStore('AxesManager', () => {
 
-    const AxesShown = ref(useLocalStorage('showAxes', true));
+    const AxesShown = ref(useLocalStorage('WUZK-showAxes', true));
 
     function ToggleAxes() {
         AxesShown.value = !AxesShown.value;
