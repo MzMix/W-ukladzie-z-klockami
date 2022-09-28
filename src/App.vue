@@ -27,6 +27,7 @@ import { useStoreAxes } from '@Stores/AxesStore';
 
 //Menu Store
 const MenuStore = useMenuStore();
+const { ToogleColorIndicator } = MenuStore;
 const { ShowLeaveWarn, UseColorIndicator, ModalOpened } = storeToRefs(MenuStore);
 
 //Palette Store
@@ -47,7 +48,7 @@ const { NextSymetry } = SymetryStore;
 
 //Board Store
 const BoardStore = useBoardStore();
-const { ClearBoard, PreviousBoard, NextBoard, AddEmptyBoard } = BoardStore;
+const { ClearBoard, PreviousBoard, NextBoard, AddEmptyBoard, ToogleBoardHighlight } = BoardStore;
 
 //ShortcutStore
 const ShortcutStore = useStoreShortcuts();
@@ -138,6 +139,18 @@ onMounted(() => {
       case 9:
         fn = () => {
           AddEmptyBoard();
+        };
+        break;
+
+      case 10:
+        fn = () => {
+          ToogleBoardHighlight();
+        };
+        break;
+
+      case 11:
+        fn = () => {
+          ToogleColorIndicator();
         };
         break;
 

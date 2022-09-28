@@ -62,6 +62,20 @@ export const useStoreShortcuts = defineStore('ShortcutManager', () => {
             active: true,
         },
         {
+            id: 10,
+            name: 'Przełącz podświetlanie komórek',
+            modifier: 'Alt',
+            key: 'H',
+            active: true,
+        },
+        {
+            id: 11,
+            name: 'Przełącz podgląd koloru',
+            modifier: 'Alt',
+            key: 'I',
+            active: true,
+        },
+        {
             id: 4,
             name: 'Wyczysć planszę (z powiadomieniem)',
             modifier: 'Alt',

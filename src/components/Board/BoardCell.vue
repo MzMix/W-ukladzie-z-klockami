@@ -138,6 +138,7 @@ watch(Hover, () => {
             indexX[i].classList.add('cellOnHover');
             indexY[i].classList.add('cellOnHover');
         }
+
     } else {
         let indexX = document.getElementsByClassName(`x${get(PositionBoard).x + 1}`);
         let indexY = document.getElementsByClassName(`y${get(PositionBoard).y}`);
@@ -149,6 +150,17 @@ watch(Hover, () => {
     }
 });
 
+watch(UseBoardHighlight, () => {
+    if (!UseBoardHighlight.value) {
+        let indexX = document.getElementsByClassName(`x${get(PositionBoard).x + 1}`);
+        let indexY = document.getElementsByClassName(`y${get(PositionBoard).y}`);
+
+        for (let i = 0; i < 2; i++) {
+            indexX[i].classList.remove('cellOnHover');
+            indexY[i].classList.remove('cellOnHover');
+        }
+    }
+});
 
 </script>
 
