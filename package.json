@@ -1,5 +1,5 @@
 {
-  "name": "w-ukladzie-z-klockami-vue3-alfa",
+  "name": "w-ukladzie-z-klockami",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -15,8 +15,8 @@
     "bootstrap": "^5.2.1",
     "bootstrap-icons": "^1.9.1",
     "html2canvas": "^1.4.1",
-    "pinia": "^2.0.17",
-    "vue": "^3.2.37",
+    "pinia": "^2.0.22",
+    "vue": "^3.2.40",
     "vue-color-kit": "^1.0.5"
   },
   "devDependencies": {

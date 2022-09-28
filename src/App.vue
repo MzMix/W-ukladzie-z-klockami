@@ -47,7 +47,7 @@ const { NextSymetry } = SymetryStore;
 
 //Board Store
 const BoardStore = useBoardStore();
-const { ClearBoard } = BoardStore;
+const { ClearBoard, PreviousBoard, NextBoard, AddEmptyBoard } = BoardStore;
 
 //ShortcutStore
 const ShortcutStore = useStoreShortcuts();
@@ -120,6 +120,24 @@ onMounted(() => {
       case 6:
         fn = () => {
           ToggleAxes();
+        };
+        break;
+
+      case 7:
+        fn = () => {
+          PreviousBoard();
+        };
+        break;
+
+      case 8:
+        fn = () => {
+          NextBoard();
+        };
+        break;
+
+      case 9:
+        fn = () => {
+          AddEmptyBoard();
         };
         break;
 

@@ -18,7 +18,7 @@ const { ShowWelcome, DesibleWelcome } = store;
 
 //Board
 const BoardStore = useBoardStore();
-const { BoardName } = storeToRefs(BoardStore);
+const { BoardName, BoardDescription } = storeToRefs(BoardStore);
 
 function ClearData() {
     localStorage.clear();
@@ -157,6 +157,18 @@ onBeforeMount(() => {
     </bsModal>
 
     <ManageColorPalettesModal />
+
+    <bsModal id="ShowBoardDescriptionModal">
+
+        <template #modalTitle>
+            Opis planszy: {{BoardName}}
+        </template>
+
+        <template #modalBody>
+            {{BoardDescription}}
+        </template>
+
+    </bsModal>
 
 </template>
 

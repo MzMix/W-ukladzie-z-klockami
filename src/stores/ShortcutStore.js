@@ -41,6 +41,27 @@ export const useStoreShortcuts = defineStore('ShortcutManager', () => {
             active: true,
         },
         {
+            id: 7,
+            name: 'Poprzednia plansza',
+            modifier: 'Alt',
+            key: '[',
+            active: true,
+        },
+        {
+            id: 8,
+            name: 'Następna plansza',
+            modifier: 'Alt',
+            key: ']',
+            active: true,
+        },
+        {
+            id: 9,
+            name: 'Nowa plansza',
+            modifier: 'Alt',
+            key: 'N',
+            active: true,
+        },
+        {
             id: 4,
             name: 'Wyczysć planszę (z powiadomieniem)',
             modifier: 'Alt',

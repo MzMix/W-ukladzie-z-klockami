@@ -5,8 +5,9 @@ import bsTooltip from '@General/bsTooltip.vue';
 <template>
 
     <KeepAlive>
-        <button class="btn text-white fs-3 ms-1">
-            <bsTooltip title="Dodaj opis planszy" placement="bottom">
+        <button class="btn text-white fs-3 ms-1" type="button" data-bs-toggle="modal"
+            data-bs-target="#ShowBoardDescriptionModal">
+            <bsTooltip title="Wyświetl opis planszy" placement="bottom">
                 <i class="bi bi-blockquote-left"></i>
             </bsTooltip>
         </button>
