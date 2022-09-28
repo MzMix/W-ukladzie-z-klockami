@@ -1,5 +1,11 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
+
+import { useMenuStore } from '@Stores/MenuStore';
+import { storeToRefs } from 'pinia';
+
+const MenuStore = useMenuStore();
+const { ModalOpened } = storeToRefs(MenuStore);
 
 const props = defineProps({
     id: {
@@ -64,6 +70,21 @@ const dataBackdrop = computed(() => {
 
 const dataKeyboard = computed(() => {
     return props.static ? 'false' : 'true';
+});
+
+onMounted(() => {
+    const myModalEl = document.getElementById(props.id);
+
+    //Modal shown
+    myModalEl.addEventListener('shown.bs.modal', () => {
+        ModalOpened.value = true;
+    });
+
+    //Modal hidden
+    myModalEl.addEventListener('hide.bs.modal', () => {
+        ModalOpened.value = false;
+    });
+
 });
 
 //Prevents a bug when closing second modal leaves the backdrop

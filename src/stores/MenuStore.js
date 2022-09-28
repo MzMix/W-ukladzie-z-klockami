@@ -10,6 +10,8 @@ export const useMenuStore = defineStore('MenuMenager', () => {
 
     const UseColorIndicator = ref(useLocalStorage('UseColorIndicator', true));
 
+    const ModalOpened = ref(false);
+
     function SwitchMenu(value) {
         if (value >= 0 && value <= 4) MenuOpened.value = value;
         else console.warn("Attempt of opening non existing menu!");
@@ -36,6 +38,7 @@ export const useMenuStore = defineStore('MenuMenager', () => {
         MenuOpened,
         ShowLeaveWarn,
         UseColorIndicator,
+        ModalOpened,
 
         SwitchMenu,
         ToogleLeaveWarn,

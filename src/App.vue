@@ -27,7 +27,7 @@ import { useStoreAxes } from '@Stores/AxesStore';
 
 //Menu Store
 const MenuStore = useMenuStore();
-const { ShowLeaveWarn, UseColorIndicator } = storeToRefs(MenuStore);
+const { ShowLeaveWarn, UseColorIndicator, ModalOpened } = storeToRefs(MenuStore);
 
 //Palette Store
 const ColorPaletteStore = useColorPaletteStore();
@@ -131,7 +131,7 @@ onMounted(() => {
 
     Shortcuts.push(
       new ShortcutManager(sc.modifier, sc.key, fn, [() => {
-        return AvaliableShortcuts.value[index].active && UseShortcuts.value;
+        return AvaliableShortcuts.value[index].active && UseShortcuts.value && !ModalOpened.value;
       }])
     );
 
@@ -160,7 +160,7 @@ provide('ToastTrigger', ToastTrigger);
 //Provide function to show Color Indicator
 provide('ShowColorIndicator', () => {
 
-  if (!UseColorIndicator.value) return;
+  if (!UseColorIndicator.value || ModalOpened.value) return;
 
   let classList = document.getElementById('Colorindicator').classList;
 
