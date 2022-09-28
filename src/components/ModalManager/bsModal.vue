@@ -1,0 +1,114 @@
+<script setup>
+import { computed } from 'vue';
+
+const props = defineProps({
+    id: {
+        required: false,
+        type: String,
+        default: `exampleModal-${Date.now()}`
+    },
+    size: {
+        required: false,
+        type: String,
+        default: '',
+        validator(value) {
+            return ['', 'sm', 'lg', 'xl'].includes(value);
+        }
+    },
+    fullscreen: {
+        required: false,
+        type: String,
+        default: '',
+        validator(value) {
+            return ['', 'fullscreen', 'fullscreen-sm-down', 'fullscreen-md-down', 'fullscreen-lg-down', 'fullscreen-xl-down', 'fullscreen-xxl-down'].includes(value);
+        }
+    },
+    scrollable: {
+        required: false,
+        type: Boolean,
+        default: false
+    },
+    centered: {
+        required: false,
+        type: Boolean,
+        default: false
+    },
+    static: {
+        required: false,
+        type: Boolean,
+        default: false
+    }
+});
+
+const modalSize = computed(() => {
+    if (props.size === '') return '';
+    return `modal-${props.size}`;
+});
+
+const modalFullscreen = computed(() => {
+    if (props.fullscreen === '') return '';
+    return `modal-${props.fullscreen}`;
+});
+
+const modalScrollable = computed(() => {
+    return props.scrollable ? 'modal-dialog-scrollable' : '';
+});
+
+const modalCentered = computed(() => {
+    return props.centered ? 'modal-dialog-centered' : '';
+});
+
+const dataBackdrop = computed(() => {
+    return props.static ? 'static' : 'true';
+});
+
+const dataKeyboard = computed(() => {
+    return props.static ? 'false' : 'true';
+});
+
+//Prevents a bug when closing second modal leaves the backdrop
+function RemoveBackdrop() {
+    let modalBackdrops = document.getElementsByClassName('modal-backdrop fade show');
+
+    for (let element of modalBackdrops) {
+        element.remove();
+    }
+
+}
+
+</script>
+    
+<template>
+
+    <div class="modal fade" :id="props.id" :data-bs-backdrop="dataBackdrop" :data-bs-keyboard="dataKeyboard"
+        tabindex="-1" :aria-labelledby="props.id+'Label'" aria-hidden="true">
+        <div class="modal-dialog" :class="[modalSize, modalFullscreen, modalScrollable, modalCentered]">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" :id="props.id+'Label'">
+                        <slot :name="'modalTitle'">Modal Title</slot>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        @click="RemoveBackdrop()"></button>
+                </div>
+
+                <div class=" modal-body">
+                    <slot :name="'modalBody'">Modal Body</slot>
+                </div>
+
+                <div class="modal-footer">
+                    <slot :name="'modalFooter'" />
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        @click="RemoveBackdrop()">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</template>
+    
+<style scoped>
+
+</style>

@@ -16,6 +16,7 @@
         "@Toast/*": ["./src/components/Toast/*"],
         "@Stores/*": ["src/Stores/*"],
         "@Utils/*": ["src/Utils/*"],
+        "@assets/*": ["src/assets/*"],
       }
     }
   }

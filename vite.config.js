@@ -23,6 +23,7 @@ export default defineConfig({
       '@Toast/': `${path.resolve(__dirname, 'src/components/Toast')}/`,
       '@Stores/': `${path.resolve(__dirname, 'src/Stores')}/`,
       '@Utils/': `${path.resolve(__dirname, 'src/Utils')}/`,
+      '@assets/': `${path.resolve(__dirname, 'src/assets')}/`,
     }
   },
   plugins: [vue()],

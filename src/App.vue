@@ -1,11 +1,11 @@
 <script setup>
 // Import Components
 import SideMenu from '@MainPage/SideMenu.vue';
-import WelcomeModal from '@General/WelcomeModal.vue';
 import AppBoard from '@Board/AppBoard.vue';
 import TopBar from '@MainPage/TopBar.vue';
 import ToastManager from '@Toast/ToastManager.vue';
 import ColorIndicator from '@General/ColorIndicator.vue';
+import ModalManager from '@ModalManager/ModalManager.vue';
 
 //Import from Vue, Pinia, Bootstrap
 import { onMounted, provide } from 'vue';
@@ -198,11 +198,11 @@ provide('ShowColorIndicator', () => {
 
     <ToastManager />
 
+    <ModalManager />
+
     <ColorIndicator v-if="UseColorIndicator" />
 
   </div>
-
-  <WelcomeModal />
 
 </template>
 

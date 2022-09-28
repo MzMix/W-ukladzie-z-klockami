@@ -80,7 +80,7 @@ function ChangeSymetryType(value) {
 
         <InputSelectArray @action="(value) => SetIndexContentType(value)" :options="get(IndexContentTypes)"
             :selected-value="get(SelectedIndexContentType)" aria-label="Wybór opisu pól">
-            <i class="bi" id="ALetter"></i> <i class="bi bi-1-square"></i> | Wybór opisu
+            <i class="bi ALetter"></i> <i class="bi bi-1-square"></i> | Wybór opisu
             pól
         </InputSelectArray>
 
@@ -106,11 +106,6 @@ div {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
-}
-
-#ALetter {
-    content: url('../../assets/A square.svg');
-    vertical-align: -0.125em;
 }
 </style>
         

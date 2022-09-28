@@ -7,6 +7,7 @@ import AddCustomColorPalette from '@ColorManager/AddCustomColorPalette.vue';
 import EditColorPalette from '@ColorManager/EditColorPalette.vue';
 import FileUpload from "@ColorManager/FileUpload.vue";
 import bsTooltip from '@General/bsTooltip.vue';
+import bsModal from '@ModalManager/bsModal.vue';
 
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
@@ -51,112 +52,101 @@ function HandleEditPalette(value) {
 </script>
 
 <template>
-    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="ManageColorPalettesModal"
-        tabindex="-1" aria-labelledby="CustomPaletteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="CustomPaletteModalLabel">Zarządzaj paletami kolorów</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <bsModal id="ManageColorPalettesModal" :static="true" :size="'xl'">
+
+        <template #modalTitle>
+            Zarządzaj paletami kolorów
+        </template>
+
+        <template #modalBody>
+            <div v-for="cp in ColorPalettes" :key="cp.value" class="list-group-item colorPaletteEntry">
+
+                <div class="descriptionEntry">
+                    <bsTooltip v-if="cp.appOrigin != AppName" title="Ta paleta pochodzi z innej aplikacji!">
+                        <i class="bi bi-exclamation-triangle-fill" :style="{color: 'red'}"></i>
+                    </bsTooltip>
+                    {{ cp.text }}:
                 </div>
-                <div class="modal-body">
 
-                    <div v-for="cp in ColorPalettes" :key="cp.value" class="list-group-item colorPaletteEntry">
-
-                        <div class="descriptionEntry">
-                            <bsTooltip v-if="cp.appOrigin != AppName" title="Ta paleta pochodzi z innej aplikacji!">
-                                <i class="bi bi-exclamation-triangle-fill" :style="{color: 'red'}"></i>
-                            </bsTooltip>
-                            {{ cp.text }}:
-                        </div>
-
-                        <div class="colorEntry">
-                            <div v-for="cl in cp.colorSet.filter(editable)" :key="cl"
-                                class="border border-dark border-2" :style="{ backgroundColor: cl }"></div>
-                        </div>
-
-                        <div class="actionEntry">
-                            <button type="button" class="btn btn-info m-1" :disabled="cp.standard"
-                                data-bs-toggle="collapse" data-bs-target="#editColorPalette" aria-expanded="false"
-                                data-parent="#cpManager" @click="HandleEditPalette(ColorPalettes.indexOf(cp))">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-
-                            <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal"
-                                data-bs-target="#RemovePaletteModal" :disabled="cp.standard"
-                                @click="TriggerPaletteRemoval(cp.value)">
-                                <i class="bi bi-trash3"></i>
-                            </button>
-                        </div>
-                    </div>
-
-
-                    <div class="inputAndOpenCreator mt-2 mb-2">
-                        <div>
-                            <FileUpload />
-                        </div>
-
-                        <div>
-                            <label for="ExportPaletteBtn" class="form-label col-auto">Eksportuj własne palety kolorów:
-                            </label>
-                            <div id="ExportPaletteBtn">
-                                <ExportColorPalettes :UseIcon="true" />
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-column">
-                            <label for="paletteCreatorBtn" class="form-label col-auto">Dodaj własne palety kolorów:
-                            </label>
-                            <button type="button" class="btn btn-primary" id="paletteCreatorBtn"
-                                data-bs-toggle="collapse" data-bs-target="#addCustomPalette" aria-expanded=" false"
-                                aria-controls="addCustomPalette" @click="AddPaletteKey++">
-                                Otwórz kreator palet kolorów <i class="bi bi-palette"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="collapse mt-4" id="addCustomPalette">
-                        <div class="card card-body">
-                            <AddCustomColorPalette :key="AddPaletteKey" />
-                        </div>
-                    </div>
-
-                    <div class="collapse mt-4" id="editColorPalette">
-                        <div class="card card-body">
-                            <EditColorPalette :key="EditColorPaletteKey" :id="PaletteToEdit" />
-                        </div>
-                    </div>
-
+                <div class="colorEntry">
+                    <div v-for="cl in cp.colorSet.filter(editable)" :key="cl" class="border border-dark border-2"
+                        :style="{ backgroundColor: cl }"></div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zamknij</button>
+
+                <div class="actionEntry">
+                    <button type="button" class="btn btn-info m-1" :disabled="cp.standard" data-bs-toggle="collapse"
+                        data-bs-target="#editColorPalette" aria-expanded="false" data-parent="#cpManager"
+                        @click="HandleEditPalette(ColorPalettes.indexOf(cp))">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal"
+                        data-bs-target="#RemovePaletteModal" :disabled="cp.standard"
+                        @click="TriggerPaletteRemoval(cp.value)">
+                        <i class="bi bi-trash3"></i>
+                    </button>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="modal fade" id="RemovePaletteModal" tabindex=" -1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="RemovePaletteModalLabel">Czy na pewno chcesz usunąć paletę:
-                        {{ PaletteToRemove.name }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            <div class="inputAndOpenCreator mt-2 mb-2">
+                <div>
+                    <FileUpload />
                 </div>
-                <div class="modal-body">
-                    <p>Tej akcji <strong>nie będzie</strong> można cofnąć! Aby potwierdzić operację kliknij poniższy
-                        przycisk:</p>
-                </div>
-                <div class="modal-footer">
-                    <div class="d-grid gap-2 col-6 mx-auto">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                            @click="HandleRemovePalette(PaletteToRemove.value)"> <i class="bi bi-trash3"></i>
-                            Tak, usuń</button>
+
+                <div>
+                    <label for="ExportPaletteBtn" class="form-label col-auto">Eksportuj własne palety kolorów:
+                    </label>
+                    <div id="ExportPaletteBtn">
+                        <ExportColorPalettes :UseIcon="true" />
                     </div>
                 </div>
+
+                <div class="d-flex flex-column">
+                    <label for="paletteCreatorBtn" class="form-label col-auto">Dodaj własne palety kolorów:
+                    </label>
+                    <button type="button" class="btn btn-primary" id="paletteCreatorBtn" data-bs-toggle="collapse"
+                        data-bs-target="#addCustomPalette" aria-expanded=" false" aria-controls="addCustomPalette"
+                        @click="AddPaletteKey++">
+                        Otwórz kreator palet kolorów <i class="bi bi-palette"></i>
+                    </button>
+                </div>
             </div>
-        </div>
-    </div>
+
+            <div class="collapse mt-4" id="addCustomPalette">
+                <div class="card card-body">
+                    <AddCustomColorPalette :key="AddPaletteKey" />
+                </div>
+            </div>
+
+            <div class="collapse mt-4" id="editColorPalette">
+                <div class="card card-body">
+                    <EditColorPalette :key="EditColorPaletteKey" :id="PaletteToEdit" />
+                </div>
+            </div>
+        </template>
+
+    </bsModal>
+
+    <bsModal id="RemovePaletteModal">
+
+        <template #modalTitle>
+            Czy na pewno chcesz usunąć paletę: {{ PaletteToRemove.name }}
+        </template>
+
+        <template #modalBody>
+            <p>Tej akcji <strong>nie będzie</strong> można cofnąć! Aby potwierdzić operację kliknij poniższy
+                przycisk:</p>
+
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                    @click="HandleRemovePalette(PaletteToRemove.value)">
+                    <i class="bi bi-trash3"></i> Tak, usuń
+                </button>
+            </div>
+        </template>
+
+    </bsModal>
 
 </template>
 
