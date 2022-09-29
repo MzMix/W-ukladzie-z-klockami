@@ -4,36 +4,30 @@ import { ref } from 'vue';
 
 export const useBoardStore = defineStore('BoardManager', () => {
 
-    const BoardFill = ref(useLocalStorage("WUZK-BoardFill", new Array(100).fill(null)));
-
-    const BoardName = ref(useLocalStorage("WUZK-BoardName", "Nowa Plansza"));
-
-    const BoardDescription = ref(useLocalStorage("WUZK-BoardDescription", "Opis planszy..."));
-
-    const SelectedBoard = ref(useLocalStorage("WUZK-SelectedBoard", 0));
-
     const BoardArray = ref(useLocalStorage("WUZK-BoardArray", [
         {
-            BoardFill: BoardFill.value,
-            BoardName: BoardName.value,
-            BoardDescription: BoardDescription.value
+            BoardFill: new Array(100).fill(null),
+            BoardName: "Nowa Plansza",
+            BoardDescription: "Opis planszy..."
         }
     ]));
+
+    const SelectedBoard = ref(useLocalStorage("WUZK-SelectedBoard", 0));
 
     const UseBoardHighlight = ref(useLocalStorage("WUZK-Highlight", true));
 
     function SaveToBoard(id, value) {
         let i = id - 1;
-        BoardFill.value[i] = value;
+        GetBoardFill()[i] = value;
     }
 
     function ClearBoard() {
-        BoardFill.value.fill(null);
+        GetBoardFill().fill(null);
     }
 
     function GetCellValue(id) {
         let i = id - 1;
-        return BoardFill.value[i];
+        return GetBoardFill()[i];
     }
 
     function ToogleBoardHighlight() {
@@ -47,14 +41,7 @@ export const useBoardStore = defineStore('BoardManager', () => {
             return;
         }
 
-        BoardArray.value[SelectedBoard.value].BoardName = BoardName.value;
-        BoardArray.value[SelectedBoard.value].BoardFill = BoardFill.value;
-        BoardArray.value[SelectedBoard.value].BoardDescription = BoardDescription.value;
-
         SelectedBoard.value = id;
-
-        BoardFill.value = BoardArray.value[SelectedBoard.value].BoardFill;
-        BoardName.value = BoardArray.value[SelectedBoard.value].BoardName;
     }
 
     function NextBoard() {
@@ -80,10 +67,20 @@ export const useBoardStore = defineStore('BoardManager', () => {
         return BoardArray.value[SelectedBoard.value];
     }
 
+    function GetBoardFill() {
+        return SelectCurrentBoard().BoardFill;
+    }
+
+    function GetBoardName() {
+        return SelectCurrentBoard().BoardName;
+    }
+
+    function GetBoardDescription() {
+        return SelectCurrentBoard().BoardDescription;
+
+    }
+
     return {
-        BoardFill,
-        BoardName,
-        BoardDescription,
         BoardArray,
         SelectedBoard,
         UseBoardHighlight,
@@ -95,7 +92,10 @@ export const useBoardStore = defineStore('BoardManager', () => {
         NextBoard,
         PreviousBoard,
         AddEmptyBoard,
-        SelectCurrentBoard
+        SelectCurrentBoard,
+        GetBoardFill,
+        GetBoardDescription,
+        GetBoardName
     };
 
 });

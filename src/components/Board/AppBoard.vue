@@ -27,6 +27,10 @@ onMounted(() => {
   }
 });
 
+//Allow for color indicator only on the board
+
+
+
 </script>
 
 <template>

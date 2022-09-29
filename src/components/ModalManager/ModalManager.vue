@@ -1,6 +1,5 @@
 <script setup>
 import { onBeforeMount } from 'vue';
-import { storeToRefs } from "pinia";
 import Modal from 'bootstrap/js/src/modal';
 
 import bsModal from '@ModalManager/bsModal.vue';
@@ -19,7 +18,7 @@ const { ShowWelcome, DesibleWelcome } = store;
 
 //Board
 const BoardStore = useBoardStore();
-const { BoardName, BoardDescription } = storeToRefs(BoardStore);
+const { GetBoardName, GetBoardDescription } = BoardStore;
 
 function ClearData() {
     localStorage.clear();
@@ -142,7 +141,7 @@ onBeforeMount(() => {
     <bsModal id="EncodeBoardModal" :fullscreen="'fullscreen'" :static="true">
 
         <template #modalTitle>
-            Zakoduj rysunek: {{BoardName}}
+            Zakoduj rysunek: {{GetBoardName()}}
         </template>
 
         <template #modalBody>
@@ -150,7 +149,7 @@ onBeforeMount(() => {
         </template>
 
         <template #modalFooter>
-            <button type="button" class="btn btn-success me-5" @click="SaveEncodedBoard(BoardName)">
+            <button type="button" class="btn btn-success me-5" @click="SaveEncodedBoard(GetBoardName())">
                 Zapis do pliku
             </button>
         </template>
@@ -162,11 +161,11 @@ onBeforeMount(() => {
     <bsModal id="ShowBoardDescriptionModal">
 
         <template #modalTitle>
-            Opis planszy: {{BoardName}}
+            Opis planszy: {{GetBoardName()}}
         </template>
 
         <template #modalBody>
-            {{BoardDescription}}
+            {{GetBoardDescription()}}
         </template>
 
     </bsModal>

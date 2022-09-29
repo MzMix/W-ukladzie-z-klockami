@@ -38,7 +38,7 @@ function PreviewBoard(id) {
         <template #modalBody>
 
             <ul class="pe-4">
-                <li v-for="board, index in BoardArray" :key="BoardArray.indexOf(board)"
+                <li v-for="board, index in BoardArray" :key="index"
                     class="list-group-item border-bottom pb-2 d-flex flex-row gap-4 mb-4">
 
                     <div class="text-center">

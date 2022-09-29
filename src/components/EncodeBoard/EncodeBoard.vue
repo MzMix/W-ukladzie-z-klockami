@@ -18,8 +18,7 @@ const { InterpreteColorValue, GetBoardDefaultColorId } = ColorPaletteStore;
 
 //Board
 const BoardStore = useBoardStore();
-const { GetCellValue } = BoardStore;
-const { BoardFill } = storeToRefs(BoardStore);
+const { GetCellValue, GetBoardFill } = BoardStore;
 
 //Index
 const IndexStore = useIndexStore();
@@ -30,7 +29,7 @@ const EncodedBoard = computed(() => {
 
     let result = {};
 
-    for (let i = 0; i < get(BoardFill).length; i++) {
+    for (let i = 0; i < GetBoardFill().length; i++) {
 
         let cellValue = GetCellValue(i);
 

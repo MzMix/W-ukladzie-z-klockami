@@ -193,6 +193,8 @@ provide('ShowColorIndicator', () => {
 
   if (!UseColorIndicator.value || ModalOpened.value) return;
 
+  
+
   let classList = document.getElementById('Colorindicator').classList;
 
   classList.remove('d-none');

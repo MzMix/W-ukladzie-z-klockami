@@ -1,13 +1,12 @@
 <script setup>
 import ExportColorPalettes from '@ColorManager/ExportColorPalettes.vue';
 
-import { storeToRefs } from "pinia";
 import { useBoardStore } from "@Stores/BoardStore";
 
 import { SaveBoard } from '@Utils/SaveBoard';
 
 const BoardStore = useBoardStore();
-const { BoardName } = storeToRefs(BoardStore);
+const { GetBoardName } = BoardStore;
 
 </script>
 
@@ -28,7 +27,8 @@ const { BoardName } = storeToRefs(BoardStore);
 
         <div class="btn-group">
 
-            <button class="btn btn-outline-primary" type="button" @click="SaveBoard(true, BoardName)">
+            <button class="btn btn-outline-primary" type="button"
+                @click="SaveBoard(true, GetBoardName())">
                 Zapis zdjęcia planszy do pliku
             </button>
 
