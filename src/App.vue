@@ -28,7 +28,7 @@ import { useStoreAxes } from '@Stores/AxesStore';
 //Menu Store
 const MenuStore = useMenuStore();
 const { ToogleColorIndicator } = MenuStore;
-const { ShowLeaveWarn, UseColorIndicator, ModalOpened } = storeToRefs(MenuStore);
+const { ShowLeaveWarn, UseColorIndicator, ModalOpened, CoursorOnBoard } = storeToRefs(MenuStore);
 
 //Palette Store
 const ColorPaletteStore = useColorPaletteStore();
@@ -67,8 +67,7 @@ function LeaveWarn() {
   };
 }
 
-onMounted(() => {
-
+function AssignShortcuts() {
   let Shortcuts = [];
 
   //Create ShortcutManager objects for all shortcuts in array
@@ -167,6 +166,11 @@ onMounted(() => {
     );
 
   });
+}
+
+onMounted(() => {
+
+  AssignShortcuts();
 
   LeaveWarn();
 });
@@ -193,7 +197,7 @@ provide('ShowColorIndicator', () => {
 
   if (!UseColorIndicator.value || ModalOpened.value) return;
 
-  
+  if (!CoursorOnBoard.value) return;
 
   let classList = document.getElementById('Colorindicator').classList;
 

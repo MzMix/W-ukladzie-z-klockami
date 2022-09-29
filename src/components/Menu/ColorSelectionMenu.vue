@@ -16,7 +16,7 @@ const { ColorPalettes, SelectedPalette, SelectedColor } = storeToRefs(ColorPalet
 
 //Menu Store
 const MenuStore = useMenuStore();
-const { UseColorIndicator, ModalOpened } = storeToRefs(MenuStore);
+const { UseColorIndicator, ModalOpened, CoursorOnBoard } = storeToRefs(MenuStore);
 
 //Inject Toast trigger
 const ShowToast = inject('ToastTrigger');
@@ -32,6 +32,8 @@ onMounted(() => {
     document.addEventListener('wheel', (event) => {
 
         if (!UseColorIndicator.value || ModalOpened.value) return;
+
+        if (!CoursorOnBoard.value) return;
 
         if (event.deltaY < 0) {
             //Up

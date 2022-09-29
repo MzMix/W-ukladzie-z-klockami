@@ -6,9 +6,13 @@ import { watch, ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 
 import { useStoreAxes } from '@Stores/AxesStore';
+import { useMenuStore } from '@Stores/MenuStore';
 
 const AxesStore = useStoreAxes();
 const { AxesShown } = storeToRefs(AxesStore);
+
+const MenuStore = useMenuStore();
+const { CoursorOnBoard } = storeToRefs(MenuStore);
 
 const Board = ref(null);
 watch(AxesShown, () => {
@@ -27,17 +31,13 @@ onMounted(() => {
   }
 });
 
-//Allow for color indicator only on the board
-
-
-
 </script>
 
 <template>
 
   <div class="d-grid" style="place-content: center;">
     <div id="BoardOuterContainer">
-      <div id="BoardContainer" class="p-2">
+      <div id="BoardContainer" class="p-2" @mouseover="CoursorOnBoard = true" @mouseleave="CoursorOnBoard = false">
         <div class=" index top-index">
           <BoardIndex v-for="index in 9" :key="index" sector="horizontal" :class="'x'+index"></BoardIndex>
           <BoardIndex :cellId="10" :key="10" sector="horizontal" class="border-dark border-end x10">10</BoardIndex>
