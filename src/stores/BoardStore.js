@@ -80,6 +80,15 @@ export const useBoardStore = defineStore('BoardManager', () => {
 
     }
 
+    function RemoveBoard(id) {
+
+        if (BoardArray.value.length <= 1) return;
+
+        if (SelectedBoard.value === id) SelectedBoard.value = 0;
+
+        BoardArray.value.splice(id, 1);
+    }
+
     return {
         BoardArray,
         SelectedBoard,
@@ -95,7 +104,8 @@ export const useBoardStore = defineStore('BoardManager', () => {
         SelectCurrentBoard,
         GetBoardFill,
         GetBoardDescription,
-        GetBoardName
+        GetBoardName,
+        RemoveBoard
     };
 
 });

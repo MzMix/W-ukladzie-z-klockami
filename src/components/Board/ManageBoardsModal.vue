@@ -11,7 +11,7 @@ import { useColorPaletteStore } from '@Stores/ColorPaletteStore';
 import { ref } from 'vue';
 
 const BoardStore = useBoardStore();
-const { AddEmptyBoard } = BoardStore;
+const { AddEmptyBoard, RemoveBoard } = BoardStore;
 const { BoardArray } = storeToRefs(BoardStore);
 
 const ColorPaletteStore = useColorPaletteStore();
@@ -35,12 +35,6 @@ function HandleDialog(id, value) {
     dialogs.value[id] = false;
 
     if (value) RemoveBoard(id);
-}
-
-// eslint-disable-next-line
-function RemoveBoard(id = 0) {
-    // eslint-disable-next-line
-    console.log("Remove" + id);
 }
 
 </script>
