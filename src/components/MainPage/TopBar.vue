@@ -1,4 +1,7 @@
+<!-- eslint-disable no-console -->
 <script setup>
+import { ref } from 'vue';
+
 import { useMenuStore } from "@Stores/MenuStore";
 import { useBoardStore } from "@Stores/BoardStore";
 
@@ -14,26 +17,44 @@ const BoardStore = useBoardStore();
 const { BoardArray } = storeToRefs(BoardStore);
 const { PreviousBoard, NextBoard, AddEmptyBoard } = BoardStore;
 
-const TopBarElement = "align-self-center fs-4";
-
 const icons = ['palette', 'brush', 'share', 'gear', 'keyboard'];
+
+const fontSize = ref('1.5');
+
+//fs-4 1.5rem
+//fs-5 1.25 rem
+
+window.onresize = () => {
+
+    let size = window.innerWidth;
+
+    if (size > 1200) { fontSize.value = 1.60; return; }
+
+    if (size < 1250) { fontSize.value = 1.25; return; }
+
+    if (size < 1100) { fontSize.value = 1.0; return; }
+
+    if (size < 1000) { fontSize.value = 0.75; return; }
+
+};
 
 </script>
 
 <template>
-    <div class="col-12 d-flex flex-row flex-nowrap justify-content-between bg-purple text-white pt-1 pb-1">
+    <div class="col-12 d-flex flex-row flex-nowrap justify-content-between bg-purple text-white pt-2 pb-2">
 
-        <div :class="TopBarElement" class="d-flex flex-row gap-2">
+        <div :style="{fontSize: fontSize + 'em'}" class="d-flex flex-row gap-2 align-self-center">
             <button v-for="(icon, index) in icons" :key="index" @click="SwitchMenu(index)"
                 aria-label="Przejdź do sekcj w menu" class="btn btn-lg text-white">
                 <i :class="'bi-'+icon" class="fs-4"></i>
             </button>
         </div>
 
-        <div :class="TopBarElement" class="d-flex flex-row gap-4">
+        <div :style="{fontSize: fontSize + 'em'}" class="d-flex flex-row gap-4 align-self-center">
 
             <bsTooltip title="Poprzednia plansza" placement="bottom">
-                <button class="btn text-white fs-3 " @click="PreviousBoard()" :disabled="BoardArray.length === 1" aria-label="Przejdź do poprzedniej planszy">
+                <button class="btn text-white fs-3 " @click="PreviousBoard()" :disabled="BoardArray.length === 1"
+                    aria-label="Przejdź do poprzedniej planszy">
                     <i class="bi bi-box-arrow-left"></i></button>
             </bsTooltip>
 
@@ -59,7 +80,8 @@ const icons = ['palette', 'brush', 'share', 'gear', 'keyboard'];
 
         </div>
 
-        <div :class="TopBarElement" class="me-3">W układzie z klockami <i class="bi bi-bricks"></i></div>
+        <div :style="{fontSize: fontSize + 'em'}" class="me-3 align-self-center">W układzie z klockami <i
+                class="bi bi-bricks"></i></div>
 
     </div>
 </template>
