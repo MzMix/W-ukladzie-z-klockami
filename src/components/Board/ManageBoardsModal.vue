@@ -1,10 +1,14 @@
 <script setup>
 import bsModal from '@ModalManager/bsModal.vue';
+import dialogBox from '@General/dialogBox.vue';
+
 import { storeToRefs } from 'pinia';
+
 import { CreateBoardPreview } from '@Utils/CreateBoardPreview';
 
 import { useBoardStore } from '@Stores/BoardStore';
 import { useColorPaletteStore } from '@Stores/ColorPaletteStore';
+import { ref } from 'vue';
 
 const BoardStore = useBoardStore();
 const { AddEmptyBoard } = BoardStore;
@@ -12,6 +16,8 @@ const { BoardArray } = storeToRefs(BoardStore);
 
 const ColorPaletteStore = useColorPaletteStore();
 const { InterpreteColorValue } = ColorPaletteStore;
+
+const dialogs = ref(new Array(BoardArray.value.length).fill(false));
 
 function PreviewBoard(id) {
     let InterpretedBoard = [];
@@ -23,6 +29,18 @@ function PreviewBoard(id) {
     let canvas = CreateBoardPreview(InterpretedBoard);
 
     document.getElementById('ManageBoardsModal').appendChild(canvas);
+}
+
+function HandleDialog(id, value) {
+    dialogs.value[id] = false;
+
+    if (value) RemoveBoard(id);
+}
+
+// eslint-disable-next-line
+function RemoveBoard(id = 0) {
+    // eslint-disable-next-line
+    console.log("Remove" + id);
 }
 
 </script>
@@ -68,16 +86,23 @@ function PreviewBoard(id) {
                             <i class="bi bi-pencil"></i>
                         </button>
 
-                        <button type="button" class="btn btn-danger m-1" :disabled="BoardArray.length == 1">
+                        <button type="button" class="btn btn-danger m-1" :disabled="BoardArray.length == 1"
+                            @click="dialogs[index] = true">
                             <i class="bi bi-trash3"></i>
                         </button>
+
+                        <Transition>
+                            <dialogBox :show="dialogs[index]" @close="(value)=>{HandleDialog(index,value)}">
+                            </dialogBox>
+                        </Transition>
 
                     </div>
 
                 </li>
             </ul>
 
-            <div class="ps-4">
+
+            <div class=" ps-4">
                 <button class="btn btn-outline-primary m-1" @click="AddEmptyBoard()">
                     <i class="bi bi-plus-square"></i> Dodaj pustą planszę
                 </button>
@@ -94,5 +119,15 @@ function PreviewBoard(id) {
     overflow: hidden !important;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
+}
+
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.4s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
 }
 </style>
