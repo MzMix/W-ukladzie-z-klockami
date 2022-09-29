@@ -19,38 +19,41 @@ const { PreviousBoard, NextBoard, AddEmptyBoard } = BoardStore;
 
 const icons = ['palette', 'brush', 'share', 'gear', 'keyboard'];
 
+const windowWidth = ref(window.innerWidth);
 const fontSize = ref('1.5');
+
 
 //fs-4 1.5rem
 //fs-5 1.25 rem
 
 window.onresize = () => {
 
-    let size = window.innerWidth;
+    windowWidth.value = window.innerWidth;
 
-    if (size > 1200) { fontSize.value = 1.60; return; }
+    if (windowWidth.value > 1200) { fontSize.value = 1.60; return; }
 
-    if (size < 1250) { fontSize.value = 1.25; return; }
+    if (windowWidth.value < 1250) { fontSize.value = 1.25; return; }
 
-    if (size < 1100) { fontSize.value = 1.0; return; }
+    if (windowWidth.value < 1100) { fontSize.value = 1.0; return; }
 
-    if (size < 1000) { fontSize.value = 0.75; return; }
+    if (windowWidth.value < 1000) { fontSize.value = 0.75; return; }
 
 };
 
 </script>
 
 <template>
-    <div class="col-12 d-flex flex-row flex-nowrap justify-content-between bg-purple text-white pt-2 pb-2">
+    <div class="col-12 d-flex flex-row flex-nowrap justify-content-around bg-purple text-white pt-2 pb-2">
 
-        <div :style="{fontSize: fontSize + 'em'}" class="d-flex flex-row gap-2 align-self-center">
+        <div :style="{fontSize: fontSize + 'em'}" class="d-flex flex-row flex-nowrap gap-2 align-self-center">
             <button v-for="(icon, index) in icons" :key="index" @click="SwitchMenu(index)"
                 aria-label="Przejdź do sekcj w menu" class="btn btn-lg text-white">
                 <i :class="'bi-'+icon" class="fs-4"></i>
             </button>
         </div>
 
-        <div :style="{fontSize: fontSize + 'em'}" class="d-flex flex-row gap-4 align-self-center">
+        <div :style="{fontSize: fontSize + 'em'}"
+            class="d-flex flex-row flex-nowrap gap-4 align-self-center text-center">
 
             <bsTooltip title="Poprzednia plansza" placement="bottom">
                 <button class="btn text-white fs-3 " @click="PreviousBoard()" :disabled="BoardArray.length === 1"
@@ -58,7 +61,7 @@ window.onresize = () => {
                     <i class="bi bi-box-arrow-left"></i></button>
             </bsTooltip>
 
-            <div>
+            <div class="d-flex flex-row flex-nowrap">
 
                 <button class="btn text-white fs-4 me-1" @click="AddEmptyBoard()" aria-label="Dodaj pustą planszę">
                     <bsTooltip title="Dodaj pustą planszę" placement="bottom">
@@ -80,8 +83,9 @@ window.onresize = () => {
 
         </div>
 
-        <div :style="{fontSize: fontSize + 'em'}" class="me-3 align-self-center">W układzie z klockami <i
-                class="bi bi-bricks"></i></div>
+        <div v-if="windowWidth > 1100" :style="{fontSize: fontSize + 'em'}"
+            class="me-3 align-self-center d-flex flex-row flex-nowrap gap-2 text-center">W
+            układzie z klockami <i class="bi bi-bricks"></i></div>
 
     </div>
 </template>
