@@ -7,6 +7,8 @@ import { storeToRefs } from 'pinia';
 const MenuStore = useMenuStore();
 const { ModalOpened } = storeToRefs(MenuStore);
 
+const emit = defineEmits(['modalClose']);
+
 const props = defineProps({
     id: {
         required: false,
@@ -83,6 +85,7 @@ onMounted(() => {
     //Modal hidden
     myModalEl.addEventListener('hide.bs.modal', () => {
         ModalOpened.value = false;
+        emit('modalClose');
     });
 
 });

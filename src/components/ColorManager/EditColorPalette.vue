@@ -56,10 +56,10 @@ function editable(element) {
 
             <form @submit.prevent="onSubmit">
                 <div class="formInputs">
-                    <div class="p-1"> <label for="paletteName" class="form-label">Nazwa palety kolorów:
+                    <div class="p-1"> <label for="paletteNameEdit" class="form-label">Nazwa palety kolorów:
                         </label>
                     </div>
-                    <div> <input type="text" class="form-control w-100" id="paletteName"
+                    <div> <input type="text" class="form-control w-100" id="paletteNameEdit"
                             v-model="ColorPalettes[paletteId].text">
                     </div>
                 </div>

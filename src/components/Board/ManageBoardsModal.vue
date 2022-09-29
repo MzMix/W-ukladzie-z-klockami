@@ -37,11 +37,17 @@ function HandleDialog(id, value) {
     if (value) RemoveBoard(id);
 }
 
+function ModalClosed() {
+    // dialogs.value.forEach((val) => {
+    //     val = false;
+    // });
+}
+
 </script>
 
 <template>
 
-    <bsModal id="ManageBoardsModal" size="xl" :static="true">
+    <bsModal id="ManageBoardsModal" size="xl" :static="true" @modalClosed="ModalClosed()">
 
         <template #modalTitle>
             Zarządzaj planszami

@@ -86,6 +86,8 @@ export const useBoardStore = defineStore('BoardManager', () => {
 
         if (SelectedBoard.value === id) SelectedBoard.value = 0;
 
+        if (SelectedBoard.value > id) SelectedBoard.value--;
+
         BoardArray.value.splice(id, 1);
     }
 

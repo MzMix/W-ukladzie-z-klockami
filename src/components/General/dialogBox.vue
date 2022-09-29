@@ -42,5 +42,7 @@ function closeDialog(value) {
     top: 10%;
     left: 50%;
     margin-left: calc(-1 * var(--dialog-width)/2);
+
+    z-index: 10;
 }
 </style>

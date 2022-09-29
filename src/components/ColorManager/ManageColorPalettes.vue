@@ -8,6 +8,7 @@ import EditColorPalette from '@ColorManager/EditColorPalette.vue';
 import FileUpload from "@ColorManager/FileUpload.vue";
 import bsTooltip from '@General/bsTooltip.vue';
 import bsModal from '@ModalManager/bsModal.vue';
+// import dialogBox from '@General/dialogBox.vue';
 
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
@@ -24,6 +25,8 @@ const PaletteToRemove = ref({
     name: '',
     value: 0
 });
+
+// const dialogs = ref(new Array(BoardArray.value.length).fill(false));
 
 function editable(element) {
     return element != BoardDefaultColor.value;
