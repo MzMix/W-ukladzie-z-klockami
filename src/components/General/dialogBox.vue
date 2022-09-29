@@ -18,7 +18,7 @@ function closeDialog(value) {
 
 <template>
 
-    <div v-show="props.show" class="border border-danger rounded-3 bg-white shadow-lg" id="Dialog">
+    <div v-show="props.show" class="border border-danger rounded-3 bg-white shadow-lg animateChange Dialog">
 
         <div class="text-center w-100 bg-danger rounded-top text-white p-1 pt-2">
             <h5 class="">Potwierdź akcję!</h5>
@@ -34,7 +34,7 @@ function closeDialog(value) {
 </template>
 
 <style scoped>
-#Dialog {
+.Dialog {
     --dialog-width: 20em;
 
     width: var(--dialog-width);
@@ -44,5 +44,9 @@ function closeDialog(value) {
     margin-left: calc(-1 * var(--dialog-width)/2);
 
     z-index: 10;
+}
+
+.Dialog:focus {
+    background-color: aqua !important;
 }
 </style>

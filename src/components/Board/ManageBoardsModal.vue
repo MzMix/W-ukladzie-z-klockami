@@ -19,35 +19,47 @@ const { InterpreteColorValue } = ColorPaletteStore;
 
 const dialogs = ref(new Array(BoardArray.value.length).fill(false));
 
-function PreviewBoard(id) {
+async function PreviewBoard(index) {
+    let target = document.getElementById('canvasContainer' + index);
+
+    if (target.hasChildNodes()) return;
+
     let InterpretedBoard = [];
 
-    BoardArray.value[id].BoardFill.forEach((cell) => {
+    BoardArray.value[index].BoardFill.forEach((cell) => {
         InterpretedBoard.push(InterpreteColorValue(cell));
     });
 
-    let canvas = CreateBoardPreview(InterpretedBoard);
-
-    document.getElementById('ManageBoardsModal').appendChild(canvas);
+    const canvas = await CreateBoardPreview(InterpretedBoard);
+    target.innerHTML = '';
+    target.appendChild(canvas);
 }
 
-function HandleDialog(id, value) {
-    dialogs.value[id] = false;
+function OpenDialog(index) {
 
-    if (value) RemoveBoard(id);
+    if (!dialogs.value.every(element => element === false)) return;
+
+    dialogs.value[index] = true;
+
+}
+
+function HandleDialog(index = null, value = 0) {
+
+    if (index === null) return;
+    dialogs.value[index] = false;
+
+    if (value) RemoveBoard(index);
 }
 
 function ModalClosed() {
-    // dialogs.value.forEach((val) => {
-    //     val = false;
-    // });
+    dialogs.value.fill(false);
 }
 
 </script>
 
 <template>
 
-    <bsModal id="ManageBoardsModal" size="xl" :static="true" @modalClosed="ModalClosed()">
+    <bsModal id="ManageBoardsModal" size="xl" :static="true" @modalClose="()=>{ModalClosed()}">
 
         <template #modalTitle>
             Zarządzaj planszami
@@ -57,45 +69,58 @@ function ModalClosed() {
 
             <ul class="pe-4">
                 <li v-for="board, index in BoardArray" :key="index"
-                    class="list-group-item border-bottom pb-2 d-flex flex-row gap-4 mb-4">
+                    class="list-group-item border-bottom pb-2 d-flex flex-column gap-4 mb-4">
 
-                    <div class="text-center">
+                    <div class="d-flex flex-row gap-4">
+                        <div class="text-center">
 
-                        <span class="fw-bold">Nazwa planszy:</span>
-                        <br />
-                        <span class="ms-2">{{board.BoardName}}</span>
+                            <span class="fw-bold">Nazwa planszy:</span>
+                            <br />
+                            <span class="ms-2">{{board.BoardName}}</span>
 
+                        </div>
+
+                        <div class="text-start ps-4 w-50 overflow-hidden DescriptionEntry">
+
+                            <span class="fw-bold">Opis planszy:</span>
+                            <br />
+                            <span class="ms-2 "> {{board.BoardDescription}}
+                            </span>
+
+                        </div>
+
+                        <div class="flex-grow-1 d-flex flex-row align-items-end justify-content-end">
+
+                            <button type="button" class="btn btn-primary m-1" @click="PreviewBoard(index)"
+                                data-bs-toggle="collapse" :data-bs-target="'#collapse'+index" aria-expanded="false"
+                                :aria-controls="'collapse'+index">
+                                <i class="bi bi-image"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-info m-1">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-danger m-1" :disabled="BoardArray.length == 1"
+                                @click="OpenDialog(index)">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+
+                            <Transition>
+                                <dialogBox :show="dialogs[index]" @close="(value)=>{HandleDialog(index,value)}"
+                                    :id="'dialog'+index">
+                                </dialogBox>
+                            </Transition>
+
+                        </div>
                     </div>
 
-                    <div class="text-start ps-4 w-50 overflow-hidden DescriptionEntry">
+                    <div class="collapse card card-body boardPreview text-center mx-auto" :id="'collapse'+index">
+                        Podgląd planszy: {{board.BoardName}}
+                        <div class="pt-3 text-center mx-auto" :id="'canvasContainer'+index"
+                            :style="{minHeight: '210px'}">
 
-                        <span class="fw-bold">Opis planszy:</span>
-                        <br />
-                        <span class="ms-2 "> {{board.BoardDescription}}
-                        </span>
-
-                    </div>
-
-                    <div class="flex-grow-1 d-flex flex-row align-items-end justify-content-end">
-
-                        <button type="button" class="btn btn-primary m-1" @click="PreviewBoard(index)">
-                            <i class="bi bi-image"></i>
-                        </button>
-
-                        <button type="button" class="btn btn-info m-1">
-                            <i class="bi bi-pencil"></i>
-                        </button>
-
-                        <button type="button" class="btn btn-danger m-1" :disabled="BoardArray.length == 1"
-                            @click="dialogs[index] = true">
-                            <i class="bi bi-trash3"></i>
-                        </button>
-
-                        <Transition>
-                            <dialogBox :show="dialogs[index]" @close="(value)=>{HandleDialog(index,value)}">
-                            </dialogBox>
-                        </Transition>
-
+                        </div>
                     </div>
 
                 </li>
