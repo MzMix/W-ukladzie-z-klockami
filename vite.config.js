@@ -5,6 +5,7 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/W-ukladzie-z-klockami/',
   server: {
     open: '/',
     port: 5174

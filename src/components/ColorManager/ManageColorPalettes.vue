@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 import ExportColorPalettes from '@ColorManager/ExportColorPalettes.vue';
 import AddCustomColorPalette from '@ColorManager/AddCustomColorPalette.vue';
 import EditColorPalette from '@ColorManager/EditColorPalette.vue';
-import FileUpload from "@ColorManager/FileUpload.vue";
+import PaletteUpload from "@ColorManager/PaletteUpload.vue";
 import bsTooltip from '@General/bsTooltip.vue';
 import bsModal from '@ModalManager/bsModal.vue';
 import dialogBox from '@General/dialogBox.vue';
@@ -111,7 +111,7 @@ function HandleEditPalette(value) {
 
             <div class="inputAndOpenCreator mt-2 mb-2">
                 <div>
-                    <FileUpload />
+                    <PaletteUpload />
                 </div>
 
                 <div>

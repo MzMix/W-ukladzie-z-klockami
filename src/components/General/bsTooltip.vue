@@ -28,7 +28,8 @@ const props = defineProps({
     
 <template>
 
-    <span data-bs-toggle="tooltip" :data-bs-placement="props.placement" :data-bs-title="props.title">
+    <span data-bs-toggle="tooltip" data-bs-trigger="-" :data-bs-placement="props.placement"
+        :data-bs-title="props.title">
         <slot>Tooltip here</slot>
     </span>
 

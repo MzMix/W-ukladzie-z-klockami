@@ -1,5 +1,6 @@
 <script setup>
 import ExportColorPalettes from '@ColorManager/ExportColorPalettes.vue';
+import ExportBoards from '@Board/ExportBoards.vue';
 
 import { useBoardStore } from "@Stores/BoardStore";
 
@@ -15,7 +16,8 @@ const { GetBoardName } = BoardStore;
 
         <h4 class="mt-2 mb-4">Udostępnianie <i class="bi bi-share"></i></h4>
 
-        <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="modal" data-bs-target="#EncodeBoardModal">
+        <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="modal"
+            data-bs-target="#EncodeBoardModal">
             Zakoduj planszę
         </button>
 
@@ -23,12 +25,15 @@ const { GetBoardName } = BoardStore;
 
         <ExportColorPalettes />
 
+        <hr>
+
+        <ExportBoards />
+
         <hr />
 
         <div class="btn-group">
 
-            <button class="btn btn-outline-primary w-100" type="button"
-                @click="SaveBoard(true, GetBoardName())">
+            <button class="btn btn-outline-primary w-100" type="button" @click="SaveBoard(true, GetBoardName())">
                 Zapis zdjęcia planszy do pliku
             </button>
 

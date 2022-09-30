@@ -104,6 +104,19 @@ const { GetSelectedCellTypeName } = CellStore;
         </div>
     </div>
 
+    <!-- BoardsAdded -->
+    <div aria-live="polite" aria-atomic="true" id="ToastGroup">
+        <div class="toast-container bottom-0 end-0 p-3">
+
+            <bsToast Theme="purple" Name="BoardsAdded">
+                <template #header>Dodano nowe plansze!</template>
+                <template #time>Teraz</template>
+                <template #body>Aby zmienić wybraną planszę użyj strzałek widocznych na górze ekranu</template>
+            </bsToast>
+
+        </div>
+    </div>
+
     <!-- PaletteChanged -->
     <div aria-live="polite" aria-atomic="true" id="ToastGroup">
         <div class="toast-container bottom-0 end-0 p-3">

@@ -4,11 +4,15 @@ import { ref } from 'vue';
 
 export const useBoardStore = defineStore('BoardManager', () => {
 
+    const AppName = ref('WUZK');
+
     const BoardArray = ref(useLocalStorage("WUZK-BoardArray", [
         {
+            value: 0,
             BoardFill: new Array(100).fill(null),
             BoardName: "Nowa Plansza",
-            BoardDescription: "Opis planszy..."
+            BoardDescription: "Opis planszy...",
+            appOrigin: AppName.value
         }
     ]));
 
@@ -55,12 +59,27 @@ export const useBoardStore = defineStore('BoardManager', () => {
     function AddEmptyBoard() {
 
         BoardArray.value.push({
+            value: BoardArray.value.length,
             BoardFill: new Array(100).fill(null),
             BoardName: `Nowa Plansza ${BoardArray.value.length}`,
-            BoardDescription: 'Opis planszy...'
+            BoardDescription: 'Opis planszy...',
+            appOrigin: AppName.value,
         });
 
         SwitchBoard(BoardArray.value.length - 1);
+    }
+
+    function AddBoard(fill, name, description, origin = AppName.value) {
+
+        BoardArray.value.push({
+            value: BoardArray.value.length,
+            BoardFill: fill,
+            BoardName: name,
+            BoardDescription: description,
+            appOrigin: origin,
+        });
+
+        return true;
     }
 
     function SelectCurrentBoard() {
@@ -108,7 +127,8 @@ export const useBoardStore = defineStore('BoardManager', () => {
         GetBoardDescription,
         GetBoardName,
         RemoveBoard,
-        SwitchBoard
+        SwitchBoard,
+        AddBoard
     };
 
 });

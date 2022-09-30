@@ -53,7 +53,7 @@ window.onresize = () => {
         </div>
 
         <div :style="{fontSize: fontSize + 'em'}"
-        class=" d-flex flex-row flex-nowrap gap-4 align-self-center text-center mx-auto">
+            class=" d-flex flex-row flex-nowrap gap-4 align-self-center text-center mx-auto">
 
             <bsTooltip title="Poprzednia plansza" placement="bottom">
                 <button class="btn text-white fs-3 " @click="PreviousBoard()" :disabled="BoardArray.length === 1"
@@ -63,11 +63,11 @@ window.onresize = () => {
 
             <div class="d-flex flex-row flex-nowrap">
 
-                <button class="btn text-white fs-4 me-1" @click="AddEmptyBoard()" aria-label="Dodaj pustą planszę">
-                    <bsTooltip title="Dodaj pustą planszę" placement="bottom">
+                <bsTooltip title="Dodaj pustą planszę" placement="bottom">
+                    <button class="btn text-white fs-4 me-1" @click="AddEmptyBoard()" aria-label="Dodaj pustą planszę">
                         <i class="bi bi-plus-square"></i>
-                    </bsTooltip>
-                </button>
+                    </button>
+                </bsTooltip>
 
                 <BoardName />
 

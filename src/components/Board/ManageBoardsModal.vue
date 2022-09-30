@@ -8,6 +8,8 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import bsModal from '@ModalManager/bsModal.vue';
 import dialogBox from '@General/dialogBox.vue';
 import bsTooltip from '@General/bsTooltip.vue';
+import ExportBoards from '@Board/ExportBoards.vue';
+import BoardUpload from '@Board/BoardUpload.vue';
 
 import { CreateBoardPreview } from '@Utils/CreateBoardPreview';
 
@@ -171,10 +173,31 @@ function ModalClosed() {
                 </li>
             </ul>
 
-            <div class=" ps-4">
-                <button class="btn btn-outline-primary m-1" @click="AddEmptyBoard()">
-                    <i class="bi bi-plus-square"></i> Dodaj pustą planszę
-                </button>
+            <div class="d-flex flex-row flex-wrap justify-content-evenly align-items-center ps-4">
+
+                <div>
+                    <BoardUpload />
+                </div>
+
+                <div>
+                    <label for="ExportBoardsBtn" class="form-label col-auto">Eksportuj własne plansze:
+                    </label>
+                    <div id="ExportBoardsBtn">
+                        <ExportBoards :UseIcon="true" />
+                    </div>
+                </div>
+
+                <div>
+                    <label for="AddNewBoardBtn" class="form-label col-auto">Dodaj nową planszę:
+                    </label>
+                    <div id="AddNewBoardBtn">
+                        <button class="btn btn-outline-primary" @click="AddEmptyBoard()">
+                            Dodaj pustą planszę <i class="bi bi-plus-square"></i>
+                        </button>
+                    </div>
+                </div>
+
+
             </div>
 
         </template>

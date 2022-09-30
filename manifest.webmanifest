@@ -2,7 +2,7 @@
     "prefer_related_applications": true,
     "theme_color": "#7430fa",
     "background_color": "#fff",
-    "display": "standalone",
+    "display": "fullscreen",
     "scope": "/",
     "start_url": "/",
     "name": "W Uk\u0142adzie z Klockami",
