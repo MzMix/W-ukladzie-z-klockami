@@ -43,7 +43,7 @@ window.onresize = () => {
 </script>
 
 <template>
-    <div class="col-12 d-flex flex-row flex-nowrap justify-content-around bg-purple text-white pt-2 pb-2">
+    <div class="col-12 d-flex flex-row flex-nowrap justify-content-between bg-purple text-white pt-2 pb-2">
 
         <div :style="{fontSize: fontSize + 'em'}" class="d-flex flex-row flex-nowrap gap-2 align-self-center">
             <button v-for="(icon, index) in icons" :key="index" @click="SwitchMenu(index)"
@@ -53,7 +53,7 @@ window.onresize = () => {
         </div>
 
         <div :style="{fontSize: fontSize + 'em'}"
-            class="d-flex flex-row flex-nowrap gap-4 align-self-center text-center">
+        class=" d-flex flex-row flex-nowrap gap-4 align-self-center text-center mx-auto">
 
             <bsTooltip title="Poprzednia plansza" placement="bottom">
                 <button class="btn text-white fs-3 " @click="PreviousBoard()" :disabled="BoardArray.length === 1"
