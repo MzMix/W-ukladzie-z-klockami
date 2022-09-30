@@ -75,7 +75,3 @@ body{
     content: url('@assets/A square.svg');
     vertical-align: -0.125em;
 }
-
-/* .descriptionReadOnly .ck-editor__top{
-    display: none !important;
-} */

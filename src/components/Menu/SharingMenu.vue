@@ -15,7 +15,7 @@ const { GetBoardName } = BoardStore;
 
         <h4 class="mt-2 mb-4">Udostępnianie <i class="bi bi-share"></i></h4>
 
-        <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#EncodeBoardModal">
+        <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="modal" data-bs-target="#EncodeBoardModal">
             Zakoduj planszę
         </button>
 
@@ -27,7 +27,7 @@ const { GetBoardName } = BoardStore;
 
         <div class="btn-group">
 
-            <button class="btn btn-outline-primary" type="button"
+            <button class="btn btn-outline-primary w-100" type="button"
                 @click="SaveBoard(true, GetBoardName())">
                 Zapis zdjęcia planszy do pliku
             </button>

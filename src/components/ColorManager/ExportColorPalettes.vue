@@ -36,7 +36,7 @@ function ExportColorPalettes() {
 </script>
 
 <template>
-    <button type="button" class="btn btn-outline-primary" @click="ExportColorPalettes()">Eksportuj palety
+    <button type="button" class="btn btn-outline-primary w-100" @click="ExportColorPalettes()">Eksportuj palety
         kolorów <i class="bi bi-download" v-if="props.UseIcon"></i></button>
 </template>
 

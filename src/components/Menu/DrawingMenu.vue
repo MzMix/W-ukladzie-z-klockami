@@ -57,7 +57,7 @@ function ChangeSymetryType(value) {
         <h4 class="mt-2 mb-4">Rysowanie <i class="bi bi-brush"></i></h4>
 
         <!-- Show axes -->
-        <button class="btn btn-outline-primary" @click="(ToggleAxes())">
+        <button class="btn btn-outline-primary w-100" @click="(ToggleAxes())">
             <span v-if="!AxesShown">Pokaż osie</span>
             <span v-if="AxesShown">Ukryj osie</span>
         </button>
@@ -95,7 +95,7 @@ function ChangeSymetryType(value) {
         </InputSelectArray>
 
         <!-- Clear board -->
-        <button class="btn btn-danger m-auto w-75" @click="ShowToast(`#ClearBoard`, { autohide: false })
+        <button class="btn btn-danger m-auto w-100" @click="ShowToast(`#ClearBoard`, { autohide: false })
         ">Wyczyść planszę <i class="bi bi-trash"></i></button>
     </div>
 

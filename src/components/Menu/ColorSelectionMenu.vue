@@ -64,7 +64,7 @@ onMounted(() => {
         </div>
 
         <!-- Clear board -->
-        <button class="btn btn-danger mt-4 w-75" @click="ShowToast(`#ClearBoard`, { autohide: false })
+        <button class="btn btn-danger mt-4 w-100" @click="ShowToast(`#ClearBoard`, { autohide: false })
         ">Wyczyść planszę <i class="bi bi-trash"></i></button>
 
     </div>
