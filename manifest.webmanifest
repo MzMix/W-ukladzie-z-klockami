@@ -1,0 +1,33 @@
+{
+    "prefer_related_applications": true,
+    "theme_color": "#7430fa",
+    "background_color": "#fff",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "name": "W Uk\u0142adzie z Klockami",
+    "short_name": "W Uk\u0142adzie z Klockami",
+    "description": "W uk\u0142adzie z klockami to wolna i otwarta aplikacja stworzona do pracy z klockami | Autor: Miko\u0142aj Zuziak",
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

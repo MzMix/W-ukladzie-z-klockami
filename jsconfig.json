@@ -1,7 +1,7 @@
 {
     "include": [
       "./src/**/*"
-    ],
+, "sw.js"    ],
     "compilerOptions": {
       "jsx": "preserve",
       "baseUrl": "./",
