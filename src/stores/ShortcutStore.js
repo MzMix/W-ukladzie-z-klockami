@@ -94,9 +94,9 @@ export const useStoreShortcuts = defineStore('ShortcutManager', () => {
     const UseShortcuts = ref(useLocalStorage('WUZK-UseShortcuts', true));
 
 
-    function SetAllshortcuts() {
+    function SetAllshortcuts(value) {
         AvaliableShortcuts.value.forEach((sc) => {
-            sc.active = UseShortcuts.value;
+            sc.active = value;
         });
 
     }
