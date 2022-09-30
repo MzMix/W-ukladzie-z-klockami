@@ -3,10 +3,18 @@
 import { onMounted } from "vue";
 import { Tooltip } from 'bootstrap';
 
+import { useMenuStore } from '@Stores/MenuStore';
+import { storeToRefs } from "pinia";
+
+const MenuStore = useMenuStore();
+const { Tooltips } = storeToRefs(MenuStore);
+
 onMounted(() => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    // eslint-disable-next-line no-unused-vars
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl)); //This could be changed to forEach loop
+    tooltipTriggerList.forEach((tooltipTriggerEl) => {
+        Tooltips.value.push(new Tooltip(tooltipTriggerEl));
+    });
+
 });
 
 const props = defineProps({
@@ -28,8 +36,8 @@ const props = defineProps({
     
 <template>
 
-    <span data-bs-toggle="tooltip" data-bs-trigger="-" :data-bs-placement="props.placement"
-        :data-bs-title="props.title">
+    <span data-bs-toggle="tooltip" data-bs-trigger="hover" :data-bs-placement="props.placement"
+        :data-bs-title="props.title" id="bsTooltips">
         <slot>Tooltip here</slot>
     </span>
 

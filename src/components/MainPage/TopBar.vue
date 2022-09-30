@@ -1,6 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 
 import { useMenuStore } from "@Stores/MenuStore";
 import { useBoardStore } from "@Stores/BoardStore";
@@ -22,6 +22,7 @@ const icons = ['palette', 'brush', 'share', 'gear', 'keyboard'];
 const windowWidth = ref(window.innerWidth);
 const fontSize = ref('1.5');
 
+const HideTooltips = inject('HideTooltips');
 
 //fs-4 1.5rem
 //fs-5 1.25 rem
@@ -58,20 +59,25 @@ window.onresize = () => {
             <bsTooltip title="Poprzednia plansza" placement="bottom">
                 <button class="btn text-white fs-3 " @click="PreviousBoard()" :disabled="BoardArray.length === 1"
                     aria-label="Przejdź do poprzedniej planszy">
-                    <i class="bi bi-box-arrow-left"></i></button>
+                    <i class="bi bi-box-arrow-left"></i>
+                </button>
             </bsTooltip>
 
             <div class="d-flex flex-row flex-nowrap">
 
                 <bsTooltip title="Dodaj pustą planszę" placement="bottom">
-                    <button class="btn text-white fs-4 me-1" @click="AddEmptyBoard()" aria-label="Dodaj pustą planszę">
+                    <button class="btn text-white fs-4 me-1" @click="AddEmptyBoard(); HideTooltips();"
+                        aria-label="Dodaj pustą planszę">
                         <i class="bi bi-plus-square"></i>
                     </button>
                 </bsTooltip>
 
+
+
                 <BoardName />
 
                 <BoardDescription />
+
             </div>
 
             <bsTooltip title="Następna plansza" placement="bottom">

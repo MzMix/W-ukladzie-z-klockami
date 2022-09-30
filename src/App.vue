@@ -28,7 +28,7 @@ import { useStoreAxes } from '@Stores/AxesStore';
 //Menu Store
 const MenuStore = useMenuStore();
 const { ToogleColorIndicator } = MenuStore;
-const { ShowLeaveWarn, UseColorIndicator, ModalOpened, CoursorOnBoard, TouchEnabled } = storeToRefs(MenuStore);
+const { ShowLeaveWarn, UseColorIndicator, ModalOpened, CoursorOnBoard, TouchEnabled, Tooltips } = storeToRefs(MenuStore);
 
 //Palette Store
 const ColorPaletteStore = useColorPaletteStore();
@@ -214,6 +214,13 @@ provide('ShowColorIndicator', () => {
     classList.remove('d-block');
     classList.add('d-none');
   }, 3000);
+
+});
+
+provide('HideTooltips', () => {
+  Tooltips.value.forEach(element => {
+    element.hide();
+  });
 
 });
 

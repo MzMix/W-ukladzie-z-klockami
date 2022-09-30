@@ -16,6 +16,8 @@ export const useMenuStore = defineStore('MenuMenager', () => {
 
     const TouchEnabled = ref(false);
 
+    const Tooltips = ref([]);
+
     function SwitchMenu(value) {
         if (value >= 0 && value <= 4) MenuOpened.value = value;
         else console.warn("Attempt of opening non existing menu!");
@@ -48,7 +50,8 @@ export const useMenuStore = defineStore('MenuMenager', () => {
 
         SwitchMenu,
         ToogleLeaveWarn,
-        ToogleColorIndicator
+        ToogleColorIndicator,
+        Tooltips
     };
 
 });
