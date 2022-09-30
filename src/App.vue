@@ -28,7 +28,7 @@ import { useStoreAxes } from '@Stores/AxesStore';
 //Menu Store
 const MenuStore = useMenuStore();
 const { ToogleColorIndicator } = MenuStore;
-const { ShowLeaveWarn, UseColorIndicator, ModalOpened, CoursorOnBoard } = storeToRefs(MenuStore);
+const { ShowLeaveWarn, UseColorIndicator, ModalOpened, CoursorOnBoard, TouchEnabled } = storeToRefs(MenuStore);
 
 //Palette Store
 const ColorPaletteStore = useColorPaletteStore();
@@ -168,7 +168,13 @@ function AssignShortcuts() {
   });
 }
 
+function CheckTouch() {
+  TouchEnabled.value = ("ontouchstart" in document.documentElement);
+}
+
 onMounted(() => {
+
+  CheckTouch();
 
   AssignShortcuts();
 
@@ -197,7 +203,7 @@ provide('ShowColorIndicator', () => {
 
   if (!UseColorIndicator.value || ModalOpened.value) return;
 
-  if (!CoursorOnBoard.value) return;
+  if (!CoursorOnBoard.value && TouchEnabled.value) return;
 
   let classList = document.getElementById('Colorindicator').classList;
 
