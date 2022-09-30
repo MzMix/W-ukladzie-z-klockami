@@ -10,6 +10,8 @@
     "testBuild": "vite build && vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^35.1.0",
+    "@ckeditor/ckeditor5-vue": "^4.0.1",
     "@popperjs/core": "^2.11.6",
     "@vueuse/core": "^9.0.2",
     "bootstrap": "^5.2.1",

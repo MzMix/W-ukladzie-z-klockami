@@ -158,14 +158,14 @@ onBeforeMount(() => {
 
     <ManageColorPalettesModal />
 
-    <bsModal id="ShowBoardDescriptionModal">
+    <bsModal id="ShowBoardDescriptionModal" size="xl" class="userSelect" :scrollable="true">
 
         <template #modalTitle>
             Opis planszy: {{GetBoardName()}}
         </template>
 
         <template #modalBody>
-            {{GetBoardDescription()}}
+            <div v-html="GetBoardDescription()" class="w-100 p-2"></div>
         </template>
 
     </bsModal>

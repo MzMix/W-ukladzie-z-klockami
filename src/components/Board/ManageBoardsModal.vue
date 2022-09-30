@@ -2,6 +2,9 @@
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
+import CKEditor from '@ckeditor/ckeditor5-vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 import bsModal from '@ModalManager/bsModal.vue';
 import dialogBox from '@General/dialogBox.vue';
 import bsTooltip from '@General/bsTooltip.vue';
@@ -19,6 +22,19 @@ const ColorPaletteStore = useColorPaletteStore();
 const { InterpreteColorValue } = ColorPaletteStore;
 
 const dialogs = ref(new Array(BoardArray.value.length).fill(false));
+
+const editor = ClassicEditor;
+const ckeditor = CKEditor.component;
+const editorConfig = {
+    toolbar: {
+        items: [
+            'heading', '|',
+            'bold', 'italic', '|',
+            'bulletedList', 'numberedList',
+            'undo', 'redo'
+        ],
+    }
+};
 
 async function PreviewBoard(index, refresh = false) {
     let target = document.getElementById('canvasContainer' + index);
@@ -72,21 +88,11 @@ function ModalClosed() {
                 <li v-for="board, index in BoardArray" :key="index"
                     class="list-group-item border-bottom pb-2 d-flex flex-column mb-4">
 
-                    <div class="d-flex flex-row gap-4 pb-4">
-                        <div class="text-center">
+                    <div class="d-flex flex-row gap-4 pb-4 align-items-center justify-content-center">
+                        <div class="text-center pt-2">
 
                             <span class="fw-bold">Nazwa planszy:</span>
-                            <br />
                             <span class="ms-2">{{board.BoardName}}</span>
-
-                        </div>
-
-                        <div class="text-start ps-4 w-50 overflow-hidden DescriptionEntry">
-
-                            <span class="fw-bold">Opis planszy:</span>
-                            <br />
-                            <span class="ms-2 "> {{board.BoardDescription}}
-                            </span>
 
                         </div>
 
@@ -100,14 +106,16 @@ function ModalClosed() {
 
                             <bsTooltip title="Wyświetl podgląd planszy" placement="bottom">
                                 <button type="button" class="btn btn-primary m-1" @click="PreviewBoard(index)"
-                                    data-bs-toggle="collapse" :data-bs-target="'#collapse'+index" aria-expanded="false"
-                                    :aria-controls="'collapse'+index">
+                                    data-bs-toggle="collapse" :data-bs-target="'#boardPreview'+index"
+                                    aria-expanded="false" :aria-controls="'boardPreview'+index">
                                     <i class="bi bi-image"></i>
                                 </button>
                             </bsTooltip>
 
                             <bsTooltip title="Edytuj opis planszy" placement="bottom">
-                                <button type="button" class="btn btn-primary m-1">
+                                <button type="button" class="btn btn-primary m-1" data-bs-toggle="collapse"
+                                    :data-bs-target="'#boardDescription'+index" aria-expanded="false"
+                                    :aria-controls="'boardDescription'+index">
                                     <i class="bi bi-pencil"></i>
                                 </button>
                             </bsTooltip>
@@ -128,7 +136,7 @@ function ModalClosed() {
                         </div>
                     </div>
 
-                    <div class="collapse boardPreview text-center mx-auto" :id="'collapse'+index">
+                    <div class="collapse boardPreview text-center mx-auto" :id="'boardPreview'+index">
                         <div class="card p-2">
 
                             <div class="border-bottom pb-2">Podgląd planszy: {{board.BoardName}}</div>
@@ -141,6 +149,19 @@ function ModalClosed() {
                                     @click="PreviewBoard(index, true)">
                                     <i class="bi bi-arrow-clockwise"></i> Odśwież podgląd planszy
                                 </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="collapse text-center mx-auto w-100" :id="'boardDescription'+index">
+                        <div class="card p-2">
+
+                            <div class="border-bottom p-2 text-start">Edycja opisu planszy: {{board.BoardName}}</div>
+
+                            <div class="pt-3 text-start card-body w-100">
+                                <ckeditor :editor="editor" v-model="board.BoardDescription" :config="editorConfig">
+                                </ckeditor>
                             </div>
 
                         </div>
