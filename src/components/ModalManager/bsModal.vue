@@ -134,5 +134,32 @@ function RemoveBackdrop() {
 </template>
     
 <style scoped>
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: #0b5ed7 #ffffff;
+}
 
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 16px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #0b5ed7;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+}
+
+/* ===== Resize Handle CSS ===== */
+::-webkit-resizer {
+    background-color: #ffffff;
+    background: url("../../assets/grip-vertical.svg") no-repeat;
+    padding-bottom: 10px;
+}
 </style>

@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia';
 
 import bsModal from '@ModalManager/bsModal.vue';
 import dialogBox from '@General/dialogBox.vue';
+import bsTooltip from '@General/bsTooltip.vue';
 
 import { CreateBoardPreview } from '@Utils/CreateBoardPreview';
 
@@ -11,7 +12,7 @@ import { useBoardStore } from '@Stores/BoardStore';
 import { useColorPaletteStore } from '@Stores/ColorPaletteStore';
 
 const BoardStore = useBoardStore();
-const { AddEmptyBoard, RemoveBoard } = BoardStore;
+const { AddEmptyBoard, RemoveBoard, SwitchBoard } = BoardStore;
 const { BoardArray } = storeToRefs(BoardStore);
 
 const ColorPaletteStore = useColorPaletteStore();
@@ -59,7 +60,7 @@ function ModalClosed() {
 
 <template>
 
-    <bsModal id="ManageBoardsModal" size="xl" :static="true" @modalClose="()=>{ModalClosed()}">
+    <bsModal id="ManageBoardsModal" size="xl" :static="true" :scrollable="true" @modalClose="()=>{ModalClosed()}">
 
         <template #modalTitle>
             Zarządzaj planszami
@@ -89,22 +90,34 @@ function ModalClosed() {
 
                         </div>
 
-                        <div class="flex-grow-1 d-flex flex-row align-items-end justify-content-end">
+                        <div class="flex-grow-1 d-flex flex-row align-items-end justify-content-end gap-2">
 
-                            <button type="button" class="btn btn-primary m-1" @click="PreviewBoard(index)"
-                                data-bs-toggle="collapse" :data-bs-target="'#collapse'+index" aria-expanded="false"
-                                :aria-controls="'collapse'+index">
-                                <i class="bi bi-image"></i>
-                            </button>
+                            <bsTooltip title="Wybierz planszę" placement="bottom">
+                                <button type="button" class="btn btn-primary m-1" @click="SwitchBoard(index)">
+                                    <i class="bi bi-grid-3x3"></i>
+                                </button>
+                            </bsTooltip>
 
-                            <button type="button" class="btn btn-info m-1">
-                                <i class="bi bi-pencil"></i>
-                            </button>
+                            <bsTooltip title="Wyświetl podgląd planszy" placement="bottom">
+                                <button type="button" class="btn btn-primary m-1" @click="PreviewBoard(index)"
+                                    data-bs-toggle="collapse" :data-bs-target="'#collapse'+index" aria-expanded="false"
+                                    :aria-controls="'collapse'+index">
+                                    <i class="bi bi-image"></i>
+                                </button>
+                            </bsTooltip>
 
-                            <button type="button" class="btn btn-danger m-1" :disabled="BoardArray.length == 1"
-                                @click="OpenDialog(index)">
-                                <i class="bi bi-trash3"></i>
-                            </button>
+                            <bsTooltip title="Edytuj opis planszy" placement="bottom">
+                                <button type="button" class="btn btn-primary m-1">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                            </bsTooltip>
+
+                            <bsTooltip title="Usuń planszę" placement="bottom">
+                                <button type="button" class="btn btn-danger m-1" :disabled="BoardArray.length == 1"
+                                    @click="OpenDialog(index)">
+                                    <i class="bi bi-trash3"></i>
+                                </button>
+                            </bsTooltip>
 
                             <Transition>
                                 <dialogBox :show="dialogs[index]" @close="(value)=>{HandleDialog(index,value)}"
@@ -125,7 +138,6 @@ function ModalClosed() {
 
                 </li>
             </ul>
-
 
             <div class=" ps-4">
                 <button class="btn btn-outline-primary m-1" @click="AddEmptyBoard()">

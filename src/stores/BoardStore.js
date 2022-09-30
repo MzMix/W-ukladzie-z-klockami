@@ -107,7 +107,8 @@ export const useBoardStore = defineStore('BoardManager', () => {
         GetBoardFill,
         GetBoardDescription,
         GetBoardName,
-        RemoveBoard
+        RemoveBoard,
+        SwitchBoard
     };
 
 });
