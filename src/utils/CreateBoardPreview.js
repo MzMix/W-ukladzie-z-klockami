@@ -1,28 +1,25 @@
-// Skips a cell - missaligment on draw FIX
-
 /**
  * 
  * @param {Number[]} Board 
  */
-export function CreateBoardPreview(Board) {
-    // const size = 300;
-    // const stepSize = Math.floor(size / 10);
+export function CreateBoardPreview(Board, size = 300) {
+    const stepSize = Math.floor(size / 10);
 
     let canvas = document.createElement('canvas');
-    canvas.width = "301";
-    canvas.height = "301";
+    canvas.width = `${size}`;
+    canvas.height = `${size}`;
 
     let ctx = canvas.getContext('2d');
     ctx.strokeStyle = 'black';
 
     let count = 0;
 
-    for (let y = 0; y < canvas.width; y += 30) {
-        for (let x = 0; x < canvas.height; x += 30) {
+    for (let y = 0; y < size; y += stepSize) {
+        for (let x = 0; x < size; x += stepSize) {
 
             ctx.fillStyle = Board[count] != undefined ? Board[count] : 'white';
-            ctx.fillRect(x, y, 30, 30);
-            ctx.strokeRect(x, y, 30, 30);
+            ctx.fillRect(x, y, stepSize, stepSize);
+            ctx.strokeRect(x, y, stepSize, stepSize);
 
             count++;
         }

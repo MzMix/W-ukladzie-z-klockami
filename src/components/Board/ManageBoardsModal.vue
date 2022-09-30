@@ -1,14 +1,14 @@
 <script setup>
+import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+
 import bsModal from '@ModalManager/bsModal.vue';
 import dialogBox from '@General/dialogBox.vue';
-
-import { storeToRefs } from 'pinia';
 
 import { CreateBoardPreview } from '@Utils/CreateBoardPreview';
 
 import { useBoardStore } from '@Stores/BoardStore';
 import { useColorPaletteStore } from '@Stores/ColorPaletteStore';
-import { ref } from 'vue';
 
 const BoardStore = useBoardStore();
 const { AddEmptyBoard, RemoveBoard } = BoardStore;
@@ -19,10 +19,10 @@ const { InterpreteColorValue } = ColorPaletteStore;
 
 const dialogs = ref(new Array(BoardArray.value.length).fill(false));
 
-async function PreviewBoard(index) {
+async function PreviewBoard(index, refresh = false) {
     let target = document.getElementById('canvasContainer' + index);
 
-    if (target.hasChildNodes()) return;
+    if (target.hasChildNodes() && refresh === false) return;
 
     let InterpretedBoard = [];
 
@@ -69,9 +69,9 @@ function ModalClosed() {
 
             <ul class="pe-4">
                 <li v-for="board, index in BoardArray" :key="index"
-                    class="list-group-item border-bottom pb-2 d-flex flex-column gap-4 mb-4">
+                    class="list-group-item border-bottom pb-2 d-flex flex-column mb-4">
 
-                    <div class="d-flex flex-row gap-4">
+                    <div class="d-flex flex-row gap-4 pb-4">
                         <div class="text-center">
 
                             <span class="fw-bold">Nazwa planszy:</span>
@@ -115,11 +115,11 @@ function ModalClosed() {
                         </div>
                     </div>
 
-                    <div class="collapse card card-body boardPreview text-center mx-auto" :id="'collapse'+index">
-                        Podgląd planszy: {{board.BoardName}}
-                        <div class="pt-3 text-center mx-auto" :id="'canvasContainer'+index"
-                            :style="{minHeight: '210px'}">
-
+                    <div class="collapse boardPreview text-center mx-auto" :id="'collapse'+index">
+                        <div class="card p-2">
+                            <div class="border-bottom pb-2">Podgląd planszy: {{board.BoardName}}</div>
+                            <div class="pt-3 text-center mx-auto card-body" :id="'canvasContainer'+index"
+                                :style="{minHeight: '310px'}"></div>
                         </div>
                     </div>
 
