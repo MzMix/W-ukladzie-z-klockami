@@ -36,16 +36,24 @@ function ReadFile(file) {
 //Add color palettes-cp to store
 function ProcessJSON(data) {
 
+    let result;
+
     for (const cp of data) {
         if (cp.appOrigin) {
-            AddPalette(cp.text, cp.colorSet, cp.appOrigin);
+            result = AddPalette(cp.text, cp.colorSet, cp.appOrigin);
         } else {
-            AddPalette(cp.text, cp.colorSet, 'UNKNOWN');
+            result = AddPalette(cp.text, cp.colorSet, 'UNKNOWN');
         }
     }
 
-    ShowToast('#ColorPalettesAdded');
-    document.getElementById('fileInputForm').reset();
+    if (result) {
+        ShowToast('#ColorPalettesAdded');
+        document.getElementById('fileInputForm').reset();
+    }
+    else {
+        ShowToast('#ColorPaletteExists');
+    }
+
 }
 
 </script>

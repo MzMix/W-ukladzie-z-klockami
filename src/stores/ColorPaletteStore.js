@@ -36,16 +36,17 @@ export const useColorPaletteStore = defineStore('ColorPaletteManager', () => {
 
         let available = ColorPalettes.value.filter(el => el.text == name).length <= 0;
 
-        if (available) {
+        if (!available) return false;
 
-            ColorPalettes.value.push({
-                value: ColorPalettes.value.length,
-                text: name,
-                colorSet: colors,
-                standard: false,
-                appOrigin: origin,
-            });
-        }
+        ColorPalettes.value.push({
+            value: ColorPalettes.value.length,
+            text: name,
+            colorSet: colors,
+            standard: false,
+            appOrigin: origin,
+        });
+
+        return true;
     }
 
     function RemovePalette(id) {
