@@ -1,11 +1,11 @@
 <script setup>
 import { onBeforeMount } from 'vue';
-import { storeToRefs } from "pinia";
 import Modal from 'bootstrap/js/src/modal';
 
 import bsModal from '@ModalManager/bsModal.vue';
 import EncodeBoard from '@EncodeBoard/EncodeBoard.vue';
 import ManageColorPalettesModal from "@ColorManager/ManageColorPalettes.vue";
+import ManageBoardsModal from '@Board/ManageBoardsModal.vue';
 
 import { useStoreWelcomeModal } from "@Stores/WelcomeStore";
 import { useBoardStore } from "@Stores/BoardStore";
@@ -18,7 +18,7 @@ const { ShowWelcome, DesibleWelcome } = store;
 
 //Board
 const BoardStore = useBoardStore();
-const { BoardName } = storeToRefs(BoardStore);
+const { GetBoardName, GetBoardDescription } = BoardStore;
 
 function ClearData() {
     localStorage.clear();
@@ -141,7 +141,7 @@ onBeforeMount(() => {
     <bsModal id="EncodeBoardModal" :fullscreen="'fullscreen'" :static="true">
 
         <template #modalTitle>
-            Zakoduj rysunek: {{BoardName}}
+            Zakoduj rysunek: {{GetBoardName()}}
         </template>
 
         <template #modalBody>
@@ -149,7 +149,7 @@ onBeforeMount(() => {
         </template>
 
         <template #modalFooter>
-            <button type="button" class="btn btn-success me-5" @click="SaveEncodedBoard(BoardName)">
+            <button type="button" class="btn btn-success me-5" @click="SaveEncodedBoard(GetBoardName())">
                 Zapis do pliku
             </button>
         </template>
@@ -157,6 +157,20 @@ onBeforeMount(() => {
     </bsModal>
 
     <ManageColorPalettesModal />
+
+    <bsModal id="ShowBoardDescriptionModal" size="xl" class="userSelect" :scrollable="true">
+
+        <template #modalTitle>
+            Opis planszy: {{GetBoardName()}}
+        </template>
+
+        <template #modalBody>
+            <div v-html="GetBoardDescription()" class="w-100 p-2"></div>
+        </template>
+
+    </bsModal>
+
+    <ManageBoardsModal />
 
 </template>
 

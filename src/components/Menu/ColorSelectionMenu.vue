@@ -6,13 +6,17 @@ import { computed, inject, onMounted } from 'vue';
 //Import components
 import ColorSelectButton from '@ColorManager/ColorSelectButton.vue';
 
-//Import Color Palette Store
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
+import { useMenuStore } from '@Stores/MenuStore';
 
 //Color Palette Store
 const ColorPaletteStore = useColorPaletteStore();
 const { SetColorNumber, GetSelectedPaletteLength } = ColorPaletteStore;
 const { ColorPalettes, SelectedPalette, SelectedColor } = storeToRefs(ColorPaletteStore);
+
+//Menu Store
+const MenuStore = useMenuStore();
+const { UseColorIndicator, ModalOpened, CoursorOnBoard } = storeToRefs(MenuStore);
 
 //Inject Toast trigger
 const ShowToast = inject('ToastTrigger');
@@ -26,6 +30,10 @@ const ShowColorIndicator = inject('ShowColorIndicator');
 onMounted(() => {
 
     document.addEventListener('wheel', (event) => {
+
+        if (!UseColorIndicator.value || ModalOpened.value) return;
+
+        if (!CoursorOnBoard.value) return;
 
         if (event.deltaY < 0) {
             //Up
@@ -56,7 +64,7 @@ onMounted(() => {
         </div>
 
         <!-- Clear board -->
-        <button class="btn btn-danger mt-4 w-75" @click="ShowToast(`#ClearBoard`, { autohide: false })
+        <button class="btn btn-danger mt-4 w-100" @click="ShowToast(`#ClearBoard`, { autohide: false })
         ">Wyczyść planszę <i class="bi bi-trash"></i></button>
 
     </div>

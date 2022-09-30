@@ -27,7 +27,8 @@ import { useStoreAxes } from '@Stores/AxesStore';
 
 //Menu Store
 const MenuStore = useMenuStore();
-const { ShowLeaveWarn, UseColorIndicator, ModalOpened } = storeToRefs(MenuStore);
+const { ToogleColorIndicator } = MenuStore;
+const { ShowLeaveWarn, UseColorIndicator, ModalOpened, CoursorOnBoard, TouchEnabled } = storeToRefs(MenuStore);
 
 //Palette Store
 const ColorPaletteStore = useColorPaletteStore();
@@ -47,7 +48,7 @@ const { NextSymetry } = SymetryStore;
 
 //Board Store
 const BoardStore = useBoardStore();
-const { ClearBoard } = BoardStore;
+const { ClearBoard, PreviousBoard, NextBoard, AddEmptyBoard, ToogleBoardHighlight } = BoardStore;
 
 //ShortcutStore
 const ShortcutStore = useStoreShortcuts();
@@ -66,8 +67,7 @@ function LeaveWarn() {
   };
 }
 
-onMounted(() => {
-
+function AssignShortcuts() {
   let Shortcuts = [];
 
   //Create ShortcutManager objects for all shortcuts in array
@@ -123,6 +123,36 @@ onMounted(() => {
         };
         break;
 
+      case 7:
+        fn = () => {
+          PreviousBoard();
+        };
+        break;
+
+      case 8:
+        fn = () => {
+          NextBoard();
+        };
+        break;
+
+      case 9:
+        fn = () => {
+          AddEmptyBoard();
+        };
+        break;
+
+      case 10:
+        fn = () => {
+          ToogleBoardHighlight();
+        };
+        break;
+
+      case 11:
+        fn = () => {
+          ToogleColorIndicator();
+        };
+        break;
+
       default:
         fn = () => { };
         break;
@@ -136,6 +166,17 @@ onMounted(() => {
     );
 
   });
+}
+
+function CheckTouch() {
+  TouchEnabled.value = ("ontouchstart" in document.documentElement);
+}
+
+onMounted(() => {
+
+  CheckTouch();
+
+  AssignShortcuts();
 
   LeaveWarn();
 });
@@ -161,6 +202,8 @@ provide('ToastTrigger', ToastTrigger);
 provide('ShowColorIndicator', () => {
 
   if (!UseColorIndicator.value || ModalOpened.value) return;
+
+  if (!CoursorOnBoard.value && TouchEnabled.value) return;
 
   let classList = document.getElementById('Colorindicator').classList;
 

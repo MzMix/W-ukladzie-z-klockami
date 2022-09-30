@@ -49,17 +49,17 @@ function editable(element) {
 </script>
 
 <template>
-    <div>
+    <div v-if="ColorPalettes[paletteId]">
         <h4>Edycja palety kolorów: </h4>
 
         <div class="paletteForm mt-4">
 
             <form @submit.prevent="onSubmit">
                 <div class="formInputs">
-                    <div class="p-1"> <label for="paletteName" class="form-label">Nazwa palety kolorów:
+                    <div class="p-1"> <label for="paletteNameEdit" class="form-label">Nazwa palety kolorów:
                         </label>
                     </div>
-                    <div> <input type="text" class="form-control w-100" id="paletteName"
+                    <div> <input type="text" class="form-control w-100" id="paletteNameEdit"
                             v-model="ColorPalettes[paletteId].text">
                     </div>
                 </div>
@@ -74,6 +74,14 @@ function editable(element) {
                         </span>
                     </div>
                 </div>
+
+                <div class="d-flex gap-4 w-100 mt-4 justify-content-center">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse"
+                        data-bs-target="#editColorPalette" aria-expanded=" false" aria-controls="editColorPalette">
+                        Zamknij edytor
+                    </button>
+                </div>
+
             </form>
 
             <div>

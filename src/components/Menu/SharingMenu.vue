@@ -1,13 +1,12 @@
 <script setup>
 import ExportColorPalettes from '@ColorManager/ExportColorPalettes.vue';
 
-import { storeToRefs } from "pinia";
 import { useBoardStore } from "@Stores/BoardStore";
 
 import { SaveBoard } from '@Utils/SaveBoard';
 
 const BoardStore = useBoardStore();
-const { BoardName } = storeToRefs(BoardStore);
+const { GetBoardName } = BoardStore;
 
 </script>
 
@@ -16,7 +15,7 @@ const { BoardName } = storeToRefs(BoardStore);
 
         <h4 class="mt-2 mb-4">Udostępnianie <i class="bi bi-share"></i></h4>
 
-        <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#EncodeBoardModal">
+        <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="modal" data-bs-target="#EncodeBoardModal">
             Zakoduj planszę
         </button>
 
@@ -28,7 +27,8 @@ const { BoardName } = storeToRefs(BoardStore);
 
         <div class="btn-group">
 
-            <button class="btn btn-outline-primary" type="button" @click="SaveBoard(true, BoardName)">
+            <button class="btn btn-outline-primary w-100" type="button"
+                @click="SaveBoard(true, GetBoardName())">
                 Zapis zdjęcia planszy do pliku
             </button>
 

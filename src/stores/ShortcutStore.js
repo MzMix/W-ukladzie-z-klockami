@@ -41,6 +41,41 @@ export const useStoreShortcuts = defineStore('ShortcutManager', () => {
             active: true,
         },
         {
+            id: 7,
+            name: 'Poprzednia plansza',
+            modifier: 'Alt',
+            key: '[',
+            active: true,
+        },
+        {
+            id: 8,
+            name: 'Następna plansza',
+            modifier: 'Alt',
+            key: ']',
+            active: true,
+        },
+        {
+            id: 9,
+            name: 'Nowa plansza',
+            modifier: 'Alt',
+            key: 'N',
+            active: true,
+        },
+        {
+            id: 10,
+            name: 'Przełącz podświetlanie komórek',
+            modifier: 'Alt',
+            key: 'H',
+            active: true,
+        },
+        {
+            id: 11,
+            name: 'Przełącz podgląd koloru',
+            modifier: 'Alt',
+            key: 'I',
+            active: true,
+        },
+        {
             id: 4,
             name: 'Wyczysć planszę (z powiadomieniem)',
             modifier: 'Alt',
@@ -59,9 +94,9 @@ export const useStoreShortcuts = defineStore('ShortcutManager', () => {
     const UseShortcuts = ref(useLocalStorage('WUZK-UseShortcuts', true));
 
 
-    function SetAllshortcuts() {
+    function SetAllshortcuts(value) {
         AvaliableShortcuts.value.forEach((sc) => {
-            sc.active = UseShortcuts.value;
+            sc.active = value;
         });
 
     }

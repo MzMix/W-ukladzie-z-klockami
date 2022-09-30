@@ -20,3 +20,4 @@ This app is part of a collection of similar tools created to aid in teaching STE
 - [vue-color-kit](https://github.com/anish2690/vue-color-kit/): MIT
 - [Bootstrap](https://getbootstrap.com/): MIT
 - [Bootstrap Icons](https://icons.getbootstrap.com/): MIT
+- [ckeditor5-vue](https://github.com/ckeditor/ckeditor5-vue): GNU General Public License Version 2 or later

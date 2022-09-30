@@ -12,6 +12,10 @@ export const useMenuStore = defineStore('MenuMenager', () => {
 
     const ModalOpened = ref(false);
 
+    const CoursorOnBoard = ref(false);
+
+    const TouchEnabled = ref(false);
+
     function SwitchMenu(value) {
         if (value >= 0 && value <= 4) MenuOpened.value = value;
         else console.warn("Attempt of opening non existing menu!");
@@ -39,6 +43,8 @@ export const useMenuStore = defineStore('MenuMenager', () => {
         ShowLeaveWarn,
         UseColorIndicator,
         ModalOpened,
+        CoursorOnBoard,
+        TouchEnabled,
 
         SwitchMenu,
         ToogleLeaveWarn,

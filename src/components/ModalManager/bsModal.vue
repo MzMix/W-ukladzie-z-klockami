@@ -7,6 +7,8 @@ import { storeToRefs } from 'pinia';
 const MenuStore = useMenuStore();
 const { ModalOpened } = storeToRefs(MenuStore);
 
+const emit = defineEmits(['modalClose']);
+
 const props = defineProps({
     id: {
         required: false,
@@ -83,6 +85,7 @@ onMounted(() => {
     //Modal hidden
     myModalEl.addEventListener('hide.bs.modal', () => {
         ModalOpened.value = false;
+        emit('modalClose');
     });
 
 });
@@ -131,5 +134,32 @@ function RemoveBackdrop() {
 </template>
     
 <style scoped>
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: #0b5ed7 #ffffff;
+}
 
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 16px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #0b5ed7;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+}
+
+/* ===== Resize Handle CSS ===== */
+::-webkit-resizer {
+    background-color: #ffffff;
+    background: url("../../assets/grip-vertical.svg") no-repeat;
+    padding-bottom: 10px;
+}
 </style>

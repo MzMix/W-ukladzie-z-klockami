@@ -7,8 +7,9 @@ const ShortcutStore = useStoreShortcuts();
 const { SetAllshortcuts } = ShortcutStore;
 const { UseShortcuts, AvaliableShortcuts } = storeToRefs(ShortcutStore);
 
-watch(UseShortcuts, () => {
-    SetAllshortcuts();
+watch(AvaliableShortcuts.value, () => {
+    if (!AvaliableShortcuts.value.every(el => el.active === false)) UseShortcuts.value = true;
+    else UseShortcuts.value = false;
 });
 
 </script>
@@ -23,6 +24,14 @@ watch(UseShortcuts, () => {
             <label class="form-check-label" for="schortcutMainToogle">Używaj skrótów klawiszowych</label>
         </div>
 
+        <button v-if="AvaliableShortcuts.every(el => el.active === false)" class="btn btn-outline-primary mb-4 w-100"
+            @click="SetAllshortcuts(true)">
+            Włącz wszystkie
+        </button>
+
+        <button v-else class="btn btn-outline-primary mb-4 w-100" @click="SetAllshortcuts(false)">
+            Wyłącz wszystkie
+        </button>
 
         <ul class="list-group text-start">
 

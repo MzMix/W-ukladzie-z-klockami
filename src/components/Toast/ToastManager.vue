@@ -57,6 +57,20 @@ const { GetSelectedCellTypeName } = CellStore;
         </div>
     </div>
 
+    <!-- ColorPaletteExists -->
+    <div aria-live="polite" aria-atomic="true" id="ToastGroup">
+        <div class="toast-container bottom-0 end-0 p-3">
+
+            <bsToast Theme="warning" Name="ColorPaletteExists">
+                <template #header>Taka paleta kolorów już istnieje!</template>
+                <template #time>Teraz</template>
+                <template #body>Taka paleta kolorów już istnieje - <strong>nie została</strong> zaimportowana</template>
+            </bsToast>
+
+        </div>
+    </div>
+
+
     <!-- SymetryChanged -->
     <div aria-live="polite" aria-atomic="true" id="ToastGroup">
         <div class="toast-container bottom-0 end-0 p-3">
