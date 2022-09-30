@@ -45,13 +45,14 @@ function ProcessJSON(data) {
     }
 
     ShowToast('#ColorPalettesAdded');
+    document.getElementById('fileInputForm').reset();
 }
 
 </script>
 
 <template>
-    <div>
+    <form id="fileInputForm">
         <label for="formFile" class="form-label">Importuj palety kolorów: </label>
         <input class="form-control" type="file" id="formFile" accept="application/json" @change="onFileChange" />
-    </div>
+    </form>
 </template>

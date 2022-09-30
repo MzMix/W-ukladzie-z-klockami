@@ -8,7 +8,7 @@ import EditColorPalette from '@ColorManager/EditColorPalette.vue';
 import FileUpload from "@ColorManager/FileUpload.vue";
 import bsTooltip from '@General/bsTooltip.vue';
 import bsModal from '@ModalManager/bsModal.vue';
-// import dialogBox from '@General/dialogBox.vue';
+import dialogBox from '@General/dialogBox.vue';
 
 import { useColorPaletteStore } from "@Stores/ColorPaletteStore";
 
@@ -26,25 +26,32 @@ const PaletteToRemove = ref({
     value: 0
 });
 
-// const dialogs = ref(new Array(BoardArray.value.length).fill(false));
+const dialogs = ref(new Array(ColorPalettes.value.length).fill(false));
 
 function editable(element) {
     return element != BoardDefaultColor.value;
 }
 
-function TriggerPaletteRemoval(paletteValue) {
-    PaletteToRemove.value = {
-        name: ColorPalettes.value[paletteValue].text,
-        value: paletteValue
-    };
+function OpenDialog(index) {
+
+    if (!dialogs.value.every(element => element === false)) return;
+
+    dialogs.value[index] = true;
+
 }
 
-function HandleRemovePalette(paletteValue) {
+function HandleDialog(index = null, value = 0) {
 
-    const index = ColorPalettes.value.findIndex(object => {
-        return object.value === paletteValue;
-    });
-    RemovePalette(index);
+    if (index === null) return;
+    dialogs.value[index] = false;
+
+    if (value) {
+        const removeId = ColorPalettes.value.findIndex(object => {
+            return object.value === index;
+        });
+
+        RemovePalette(removeId);
+    }
 }
 
 function HandleEditPalette(value) {
@@ -62,7 +69,7 @@ function HandleEditPalette(value) {
         </template>
 
         <template #modalBody>
-            <div v-for="cp in ColorPalettes" :key="cp.value" class="list-group-item colorPaletteEntry">
+            <div v-for="cp, index in ColorPalettes" :key="cp.value" class="list-group-item colorPaletteEntry">
 
                 <div class="descriptionEntry">
                     <bsTooltip v-if="cp.appOrigin != AppName" title="Ta paleta pochodzi z innej aplikacji!">
@@ -77,17 +84,27 @@ function HandleEditPalette(value) {
                 </div>
 
                 <div class="actionEntry">
-                    <button type="button" class="btn btn-info m-1" :disabled="cp.standard" data-bs-toggle="collapse"
-                        data-bs-target="#editColorPalette" aria-expanded="false" data-parent="#cpManager"
-                        @click="HandleEditPalette(ColorPalettes.indexOf(cp))">
-                        <i class="bi bi-pencil"></i>
-                    </button>
+                    <bsTooltip title="Edytuj paletę" placement="bottom">
+                        <button type="button" class="btn btn-primary m-1" :disabled="cp.standard"
+                            data-bs-toggle="collapse" data-bs-target="#editColorPalette" aria-expanded="false"
+                            data-parent="#cpManager" @click="HandleEditPalette(ColorPalettes.indexOf(cp))">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                    </bsTooltip>
 
-                    <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal"
-                        data-bs-target="#RemovePaletteModal" :disabled="cp.standard"
-                        @click="TriggerPaletteRemoval(cp.value)">
-                        <i class="bi bi-trash3"></i>
-                    </button>
+                    <bsTooltip title="Usuń paletę" placement="bottom">
+                        <button type="button" class="btn btn-danger m-1" :disabled="cp.standard"
+                            @click="OpenDialog(index)">
+                            <i class=" bi bi-trash3"></i>
+                        </button>
+                    </bsTooltip>
+
+                    <Transition>
+                        <dialogBox :show="dialogs[index]" @close="(value)=>{HandleDialog(index,value)}"
+                            :id="'dialog'+index">
+                        </dialogBox>
+                    </Transition>
+
                 </div>
             </div>
 

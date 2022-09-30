@@ -65,9 +65,16 @@ function editable(element) {
                     </div>
                 </div>
 
-                <div class="d-grid gap-2 col-6 mx-auto mt-4">
-                    <button type="submit" class="btn btn-primary " @click="HandleSubmit"><i
-                            class="bi bi-plus-square"></i> Dodaj paletę</button>
+                <div class="d-flex gap-4 w-100 mt-4 justify-content-center">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse"
+                        data-bs-target="#addCustomPalette" aria-expanded=" false" aria-controls="addCustomPalette">
+                        Zamknij kreator
+                    </button>
+
+                    <button type="submit" class="btn btn-primary " @click="HandleSubmit">
+                        <i class="bi bi-plus-square"></i>
+                        Dodaj paletę
+                    </button>
                 </div>
 
             </form>

@@ -76,7 +76,8 @@ function ModalClosed() {
 
 <template>
 
-    <bsModal id="ManageBoardsModal" size="xl" :static="true" :scrollable="true" @modalClose="()=>{ModalClosed()}">
+    <bsModal id="ManageBoardsModal" fullscreen="fullscreen" :static="true" :scrollable="true"
+        @modalClose="()=>{ModalClosed()}">
 
         <template #modalTitle>
             Zarządzaj planszami

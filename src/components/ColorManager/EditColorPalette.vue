@@ -49,7 +49,7 @@ function editable(element) {
 </script>
 
 <template>
-    <div>
+    <div v-if="ColorPalettes[paletteId]">
         <h4>Edycja palety kolorów: </h4>
 
         <div class="paletteForm mt-4">
@@ -74,6 +74,14 @@ function editable(element) {
                         </span>
                     </div>
                 </div>
+
+                <div class="d-flex gap-4 w-100 mt-4 justify-content-center">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse"
+                        data-bs-target="#editColorPalette" aria-expanded=" false" aria-controls="editColorPalette">
+                        Zamknij edytor
+                    </button>
+                </div>
+
             </form>
 
             <div>
