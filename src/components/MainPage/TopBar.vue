@@ -72,8 +72,6 @@ window.onresize = () => {
                     </button>
                 </bsTooltip>
 
-
-
                 <BoardName />
 
                 <BoardDescription />

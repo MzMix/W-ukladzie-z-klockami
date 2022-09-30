@@ -92,11 +92,10 @@ function ModalClosed() {
                     class="list-group-item border-bottom pb-2 d-flex flex-column mb-4">
 
                     <div class="d-flex flex-row gap-4 pb-4 align-items-center justify-content-center">
-                        <div class="text-center pt-2">
-
-                            <span class="fw-bold">Nazwa planszy:</span>
-                            <span class="ms-2">{{board.BoardName}}</span>
-
+                        <div class="mb-3 flex-grow-1">
+                            <label :for="'boardName'+index" class="form-label">Nazwa planszy</label>
+                            <input type="text" v-model="board.BoardName" maxlength="32" minlength="4"
+                                aria-label="Nazwa Planszy" class="form-control ms-2" :id="'boardName'+index" />
                         </div>
 
                         <div class="flex-grow-1 d-flex flex-row align-items-end justify-content-end gap-2">
