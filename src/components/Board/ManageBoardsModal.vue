@@ -130,9 +130,19 @@ function ModalClosed() {
 
                     <div class="collapse boardPreview text-center mx-auto" :id="'collapse'+index">
                         <div class="card p-2">
+
                             <div class="border-bottom pb-2">Podgląd planszy: {{board.BoardName}}</div>
+
                             <div class="pt-3 text-center mx-auto card-body" :id="'canvasContainer'+index"
                                 :style="{minHeight: '310px'}"></div>
+
+                            <div class="card-footer bg-white d-grid">
+                                <button type="button" class="btn btn-primary m-1 w-100"
+                                    @click="PreviewBoard(index, true)">
+                                    <i class="bi bi-arrow-clockwise"></i> Odśwież podgląd planszy
+                                </button>
+                            </div>
+
                         </div>
                     </div>
 
