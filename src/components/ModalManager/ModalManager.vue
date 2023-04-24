@@ -36,7 +36,6 @@ onBeforeMount(() => {
 </script>
 
 <template>
-
     <bsModal id="WelcomeModal" size="lg">
 
         <template #modalTitle>
@@ -44,6 +43,9 @@ onBeforeMount(() => {
         </template>
 
         <template #modalBody>
+
+            <h2 class="text-warning">Wersja beta - pokazowa</h2>
+
             <p>
                 Jest to pierwsza aplikacja z serii "Klockiem w matematykę!".
             </p>
@@ -141,7 +143,7 @@ onBeforeMount(() => {
     <bsModal id="EncodeBoardModal" :fullscreen="'fullscreen'" :static="true">
 
         <template #modalTitle>
-            Zakoduj rysunek: {{GetBoardName()}}
+            Zakoduj rysunek: {{ GetBoardName() }}
         </template>
 
         <template #modalBody>
@@ -161,7 +163,7 @@ onBeforeMount(() => {
     <bsModal id="ShowBoardDescriptionModal" size="xl" class="userSelect" :scrollable="true">
 
         <template #modalTitle>
-            Opis planszy: {{GetBoardName()}}
+            Opis planszy: {{ GetBoardName() }}
         </template>
 
         <template #modalBody>
@@ -171,9 +173,6 @@ onBeforeMount(() => {
     </bsModal>
 
     <ManageBoardsModal />
-
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
