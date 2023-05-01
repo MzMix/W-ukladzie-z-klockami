@@ -3,6 +3,8 @@
 
 This app was created to help with conducting math classes using bricks. It is an interactive board that can be filled with different colors to represent bricks.
 
+[See preview veriosn](https://mzmix.github.io/Preview)
+
 This app is part of a collection of similar tools created to aid in teaching STEAM related subjects.
 
 [All of the apps](https://mzmix.github.io/)
